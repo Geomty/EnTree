@@ -16,5 +16,21 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "tailwindcss": "^4"
-  }
+  },
+  "description": "wip",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Geomty/EnTree.git"
+  },
+  "keywords": [
+    "tree",
+    "learn",
+    "learning"
+  ],
+  "author": "Geomty",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Geomty/EnTree/issues"
+  },
+  "homepage": "https://github.com/Geomty/EnTree#readme"
 }
