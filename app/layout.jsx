@@ -1,3 +1,4 @@
+import { ThemeProvider } from "next-themes";
 import "@/app/global.css";
 
 export const metadata = {
@@ -9,9 +10,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
-        {children}
+        <ThemeProvider attribute="class">
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
