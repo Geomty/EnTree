@@ -1,4 +1,5 @@
 import { ThemeProvider } from "next-themes";
+import "@xyflow/react/dist/style.css";
 import "@/app/global.css";
 
 export const metadata = {
