@@ -13,13 +13,13 @@ const initialNodes = [
     id: "1",
     position: { x: 0, y: 0 },
     type: "node",
-    data: { label: "Hello" }
+    data: { label: "Hello", complete: false }
   },
   {
     id: "2",
     position: { x: 0, y: 100 },
     type: "node",
-    data: { label: "World" }
+    data: { label: "World", complete: false }
   }
 ];
 
