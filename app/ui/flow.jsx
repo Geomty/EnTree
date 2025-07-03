@@ -58,7 +58,7 @@ export default function Flow() {
           edges={edges}
           nodeTypes={nodeTypes}
           edgeTypes={edgeTypes}
-          onNodesChange={onNodesChange}
+          onNodesChange={active[0] ? null : onNodesChange}
           onEdgesChange={onEdgesChange}
           // onConnect={onConnect}
           proOptions={{ hideAttribution: true }}
@@ -68,7 +68,6 @@ export default function Flow() {
           panOnDrag={!active[0]}
           zoomOnScroll={!active[0]}
           zoomOnPinch={!active[0]}
-          // nodesDraggable={!active[0]}
           nodesConnectable={false}
           nodesFocusable={false}
           edgesFocusable={false}
