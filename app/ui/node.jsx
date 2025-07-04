@@ -22,8 +22,9 @@ export default function Node(props) {
         <div className="m-4 w-full flex flex-col justify-between content-center nodrag">
           <p className="text-xl select-text">{props.data.title}</p>
           <p className="text-sm select-text">{props.data.description}</p>
-          <div className="flex justify-end content-center">
-            <button type="button" className="px-[0.4rem] py-[0.2rem] text-[0.6rem] bg-neutral-300 border border-black dark:bg-neutral-700 dark:border-neutral-500 rounded-md hover:cursor-pointer" onClick={onClick}>Mark as complete</button>
+          <div className="flex justify-end content-center gap-4">
+            <Button value="Mark as complete" />
+            <Button value="Back" onClick={onClick} />
           </div>
         </div>
       :
@@ -39,4 +40,8 @@ function Handle(props) {
   const active = useContext(ActiveContext);
 
   return <FlowHandle {...props} className={(active[0] ? "!cursor-default " : "!cursor-grab ") + "!bg-black dark:!bg-neutral-500 !size-6 !border-4 !border-white dark:!border-neutral-950"} />
+}
+
+function Button({ value, onClick = () => {} }) {
+  return <button type="button" className="px-[0.4rem] py-[0.2rem] text-[0.6rem] bg-neutral-300 border border-black dark:bg-neutral-700 dark:border-neutral-500 rounded-md hover:cursor-pointer" onClick={onClick}>{value}</button>
 }
