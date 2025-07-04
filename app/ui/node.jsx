@@ -6,15 +6,13 @@ export default function Node(props) {
   const reactFlow = useReactFlow();
   const active = useContext(ActiveContext);
   const onClick = useCallback(() => {
-    reactFlow.fitView({ duration: 1000, nodes: [{ id: props.id }] });
-    setTimeout(() => {
-      if (active[0]) {
-        reactFlow.setViewport(active[0].pos, { duration: 1000 });
-        active[1](null);
-      } else {
-        active[1]({ id: props.id, pos: reactFlow.getViewport() });
-      }
-    }, 1); // optimal solution!
+    if (active[0]) {
+      reactFlow.setViewport(active[0].pos, { duration: 1000 });
+      active[1](null);
+    } else {
+      reactFlow.fitView({ duration: 1000, nodes: [{ id: props.id }] });
+      setTimeout(() => active[1]({ id: props.id, pos: reactFlow.getViewport() }), 1); // optimal solution!
+    }
     reactFlow.updateNodeData(props.id, { complete: props.data.complete ? false : true });
   }, [active]);
 
