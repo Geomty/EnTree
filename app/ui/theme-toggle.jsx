@@ -24,6 +24,6 @@ export default function ThemeToggle() {
         setTheme("light");
       }
     }}
-    className="absolute top-5 left-5 z-10 px-3 py-1 bg-neutral-100 text-black border-2 border-black dark:bg-neutral-800 dark:text-neutral-200 dark:border-neutral-500 rounded-lg hover:cursor-pointer"
+    className="absolute top-5 left-5 z-10 px-3 py-1 bg-neutral-100 border-2 border-black dark:bg-neutral-800 dark:border-neutral-500 rounded-lg hover:cursor-pointer"
   >Theme</button>
 }

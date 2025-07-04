@@ -14,13 +14,13 @@ const initialNodes = [
     id: "1",
     position: { x: 0, y: 0 },
     type: "node",
-    data: { label: "Hello", complete: false }
+    data: { title: "Hello", description: "This is a description.", complete: false }
   },
   {
     id: "2",
-    position: { x: 0, y: 100 },
+    position: { x: 0, y: 400 },
     type: "node",
-    data: { label: "World", complete: false }
+    data: { title: "World", description: "This is another description.", complete: false }
   }
 ];
 
@@ -52,7 +52,7 @@ export default function Flow() {
 
   return (
     <ActiveContext value={active}>
-      <div className={(active[0] && "brightness-50 ") + "w-screen h-screen bg-white dark:bg-neutral-950"}>
+      <div className="w-screen h-screen bg-white dark:bg-neutral-950">
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -64,7 +64,8 @@ export default function Flow() {
           proOptions={{ hideAttribution: true }}
           fitView={true}
           fitViewOptions={{ padding: 2 }}
-          maxZoom={10}
+          minZoom={0.2}
+          maxZoom={2.5}
           panOnDrag={!active[0]}
           zoomOnScroll={!active[0]}
           zoomOnPinch={!active[0]}
