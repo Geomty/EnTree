@@ -1,5 +1,6 @@
 import { useCallback, useContext } from "react";
 import { Handle as FlowHandle, useReactFlow } from "@xyflow/react";
+import { motion, AnimatePresence } from "motion/react";
 import { ActiveContext } from "@/app/lib/context";
 
 export default function Node(props) {
@@ -18,18 +19,25 @@ export default function Node(props) {
 
   return (
     <div className={(props.data.complete ? "opacity-50 " : "opacity-100 ") + (active[0]?.id == props.id ? "cursor-auto " : "") + "w-96 h-52 flex justify-center content-center text-center bg-neutral-100 border-4 border-black dark:bg-neutral-800 dark:border-neutral-500 rounded-4xl"}>
-      {active[0]?.id == props.id ?
-        <div className="m-4 w-full flex flex-col justify-between content-center nodrag">
-          <p className="text-xl select-text">{props.data.title}</p>
-          <p className="text-sm select-text">{props.data.description}</p>
-          <div className="flex justify-end content-center gap-4">
-            <Button value="Mark as complete" />
-            <Button value="Back" onClick={onClick} />
-          </div>
-        </div>
-      :
-        <p className="m-auto text-6xl text-center hover:cursor-pointer" onClick={onClick}>{props.data.title}</p>
-      }
+      <AnimatePresence>
+        {active[0]?.id == props.id &&
+          <Animated className="m-4 w-full flex flex-col justify-between content-center nodrag">
+            <p className="text-xl select-text">{props.data.title}</p>
+            <p className="text-sm select-text">{props.data.description}</p>
+            <div className="flex justify-end content-center gap-4">
+              <Button value="Mark as complete" />
+              <Button value="Back" onClick={onClick} />
+            </div>
+          </Animated>
+        }
+      </AnimatePresence>
+      <AnimatePresence>
+        {active[0]?.id != props.id &&
+          <Animated className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+            <p className="text-6xl text-center hover:cursor-pointer" onClick={onClick}>{props.data.title}</p>
+          </Animated>
+        }
+      </AnimatePresence>
       <Handle type="source" position="bottom" />
       <Handle type="target" position="top" />
     </div>
@@ -40,6 +48,10 @@ function Handle(props) {
   const active = useContext(ActiveContext);
 
   return <FlowHandle {...props} className={(active[0] ? "!cursor-default " : "!cursor-grab ") + "!bg-black dark:!bg-neutral-500 !size-6 !border-4 !border-white dark:!border-neutral-950"} />
+}
+
+function Animated({ children, className }) {
+  return <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ type: "tween", duration: 0.5, ease: "easeInOut" }} className={className}>{children}</motion.div>
 }
 
 function Button({ value, onClick = () => {} }) {
