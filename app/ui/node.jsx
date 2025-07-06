@@ -33,7 +33,7 @@ export default function Node(props) {
       </AnimatePresence>
       <AnimatePresence>
         {active[0]?.id != props.id &&
-          <Animated className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <Animated className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-nowrap">
             <p className="text-6xl text-center hover:cursor-pointer" onClick={onClick}>{props.data.title}</p>
           </Animated>
         }

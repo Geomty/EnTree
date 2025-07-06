@@ -20,7 +20,7 @@ const initialNodes = [
     id: "2",
     position: { x: 0, y: 400 },
     type: "node",
-    data: { title: "World", description: "This is another description.", complete: false }
+    data: { title: "Hello world this is long text", description: "This is another description.", complete: false }
   }
 ];
 
