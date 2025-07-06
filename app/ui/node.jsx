@@ -1,4 +1,4 @@
-import { useCallback, useContext } from "react";
+import { useCallback, useContext, useEffect, useRef } from "react";
 import { Handle as FlowHandle, useReactFlow } from "@xyflow/react";
 import { motion, AnimatePresence } from "motion/react";
 import { ActiveContext } from "@/app/lib/context";
@@ -17,8 +17,17 @@ export default function Node(props) {
     // reactFlow.updateNodeData(props.id, { complete: props.data.complete ? false : true });
   }, [active]);
 
+  const myRef = useRef(null);
+  useEffect(() => {
+    if (myRef.current.children[0].clientWidth > 384) {
+      const arr = myRef.current.children[0].children[0].className.split(" ");
+      arr[0] = "text-xl";
+      myRef.current.children[0].children[0].className = arr.join(" ");
+    }
+  });
+
   return (
-    <div className={(props.data.complete ? "opacity-50 " : "opacity-100 ") + (active[0]?.id == props.id ? "cursor-auto " : "") + "w-96 h-52 flex justify-center content-center text-center bg-neutral-100 border-4 border-black dark:bg-neutral-800 dark:border-neutral-500 rounded-4xl"}>
+    <div ref={myRef} className={(props.data.complete ? "opacity-50 " : "opacity-100 ") + (active[0]?.id == props.id ? "cursor-auto " : "") + "w-96 h-52 flex justify-center content-center text-center bg-neutral-100 border-4 border-black dark:bg-neutral-800 dark:border-neutral-500 rounded-4xl"}>
       <AnimatePresence>
         {active[0]?.id == props.id &&
           <Animated className="m-4 w-full flex flex-col justify-between content-center nodrag">
