@@ -22,7 +22,7 @@ export default function Node(props) {
       <AnimatePresence>
         {active[0]?.id == props.id &&
           <Animated className="p-4 w-full flex flex-col justify-between content-center nodrag">
-            <p className="text-xl select-text overflow-x-scroll text-nowrap">{props.data.title}</p>
+            <p className="text-xl select-text overflow-x-auto text-nowrap">{props.data.title}</p>
             <p className="text-sm select-text">{props.data.description}</p>
             <div className="flex justify-end content-center gap-4">
               <Button value="Mark as complete" />
