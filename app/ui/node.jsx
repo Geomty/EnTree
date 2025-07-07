@@ -17,21 +17,12 @@ export default function Node(props) {
     // reactFlow.updateNodeData(props.id, { complete: props.data.complete ? false : true });
   }, [active]);
 
-  const myRef = useRef(null);
-  useEffect(() => {
-    if (myRef.current.children[0].clientWidth > 384) {
-      const arr = myRef.current.children[0].children[0].className.split(" ");
-      arr[0] = "text-xl";
-      myRef.current.children[0].children[0].className = arr.join(" ");
-    }
-  });
-
   return (
-    <div ref={myRef} className={(props.data.complete ? "opacity-50 " : "opacity-100 ") + (active[0]?.id == props.id ? "cursor-auto " : "") + "w-96 h-52 flex justify-center content-center text-center bg-neutral-100 border-4 border-black dark:bg-neutral-800 dark:border-neutral-500 rounded-4xl"}>
+    <div className={(props.data.complete ? "opacity-50 " : "opacity-100 ") + (active[0]?.id == props.id ? "cursor-auto " : "") + "w-96 h-52 flex justify-center content-center text-center bg-neutral-100 border-4 border-black dark:bg-neutral-800 dark:border-neutral-500 rounded-4xl"}>
       <AnimatePresence>
         {active[0]?.id == props.id &&
-          <Animated className="m-4 w-full flex flex-col justify-between content-center nodrag">
-            <p className="text-xl select-text">{props.data.title}</p>
+          <Animated className="p-4 w-full flex flex-col justify-between content-center nodrag">
+            <p className="text-xl select-text overflow-x-scroll text-nowrap">{props.data.title}</p>
             <p className="text-sm select-text">{props.data.description}</p>
             <div className="flex justify-end content-center gap-4">
               <Button value="Mark as complete" />
@@ -41,11 +32,7 @@ export default function Node(props) {
         }
       </AnimatePresence>
       <AnimatePresence>
-        {active[0]?.id != props.id &&
-          <Animated className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-nowrap">
-            <p className="text-6xl text-center hover:cursor-pointer" onClick={onClick}>{props.data.title}</p>
-          </Animated>
-        }
+        {active[0]?.id != props.id && <Title onClick={onClick} value={props.data.title} />}
       </AnimatePresence>
       <Handle type="source" position="bottom" />
       <Handle type="target" position="top" />
@@ -59,8 +46,42 @@ function Handle(props) {
   return <FlowHandle {...props} className={(active[0] ? "!cursor-default " : "!cursor-grab ") + "!bg-black dark:!bg-neutral-500 !size-6 !border-4 !border-white dark:!border-neutral-950"} />
 }
 
-function Animated({ children, className }) {
-  return <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ type: "tween", duration: 0.5, ease: "easeInOut" }} className={className}>{children}</motion.div>
+function Animated({ ref, children, className }) {
+  return <motion.div ref={ref} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ type: "tween", duration: 0.5, ease: "easeInOut" }} className={className}>{children}</motion.div>
+}
+
+function Title({ value, onClick }) {
+  const myRef = useRef(null);
+  useEffect(() => {
+    let i = 5;
+    while (myRef.current.clientHeight > 180 && i > 0) {
+      // its the only way :(
+      switch (i) {
+        case 5:
+          myRef.current.children[0].style.fontSize = "var(--text-5xl)";
+          break;
+        case 4:
+          myRef.current.children[0].style.fontSize = "var(--text-4xl)";
+          break;
+        case 3:
+          myRef.current.children[0].style.fontSize = "var(--text-3xl)";
+          break;
+        case 2:
+          myRef.current.children[0].style.fontSize = "var(--text-2xl)";
+          break;
+        case 1:  
+          myRef.current.children[0].style.fontSize = "var(--text-xl)";
+          break;
+      }
+      i--;
+    }
+  }, []);
+
+  return (
+    <Animated ref={myRef} className="w-80 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 wrap-break-word">
+      <p style={{ fontSize: "var(--text-6xl)" }} className="text-center hover:cursor-pointer" onClick={onClick}>{value}</p>
+    </Animated>
+  )
 }
 
 function Button({ value, onClick = () => {} }) {
