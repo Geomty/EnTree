@@ -5,6 +5,7 @@ import { ReactFlow, applyNodeChanges, applyEdgeChanges, addEdge } from "@xyflow/
 import Node from "@/app/ui/node";
 import Edge from "@/app/ui/edge";
 import { ActiveContext } from "@/app/lib/context";
+import { Tree } from "@/app/lib/classes";
 
 const nodeTypes = { node: Node };
 const edgeTypes = { edge: Edge };
@@ -18,9 +19,15 @@ const initialNodes = [
   },
   {
     id: "2",
-    position: { x: 0, y: 400 },
+    position: { x: -300, y: 400 },
     type: "node",
     data: { title: "Hello world this is long text", description: "This is another description.", complete: false }
+  },
+  {
+    id: "3",
+    position: { x: 300, y: 400 },
+    type: "node",
+    data: { title: "Wow a third node", description: "Yet another description.", complete: false }
   }
 ];
 
@@ -30,8 +37,18 @@ const initialEdges = [
     type: "edge",
     source: "1",
     target: "2"
+  },
+  {
+    id: "1-3",
+    type: "edge",
+    source: "1",
+    target: "3"
   }
 ];
+
+const tree = new Tree({ title: "Hello", description: "This is a description." });
+tree.addChildren({ title: "World", description: "This is another description." }, { title: "Wow a third node", description: "Yet another description." });
+console.log(tree);
 
 export default function Flow() {
   const active = useState(null);
