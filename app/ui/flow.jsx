@@ -48,12 +48,12 @@ const initialEdges = [
 
 const tree = new Tree({ title: "Hello", description: "This is a description." });
 tree.addChildren({ title: "World", description: "This is another description." }, { title: "Wow a third node", description: "Yet another description." });
-console.log(tree);
+const result = tree.toFlow();
 
 export default function Flow() {
   const active = useState(null);
-  const [nodes, setNodes] = useState(initialNodes);
-  const [edges, setEdges] = useState(initialEdges);
+  const [nodes, setNodes] = useState(result.nodes);
+  const [edges, setEdges] = useState(result.edges);
   const onNodesChange = useCallback(changes => setNodes(nds => applyNodeChanges(changes, nds)), []);
   const onEdgesChange = useCallback(changes => setEdges(eds => applyEdgeChanges(changes, eds)), []);
   // const onConnect = useCallback(params => setEdges(eds => addEdge(params, eds)), []);
