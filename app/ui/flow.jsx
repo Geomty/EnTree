@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
-import { ReactFlow, applyNodeChanges, applyEdgeChanges, addEdge } from "@xyflow/react";
+import { ReactFlow, applyNodeChanges, applyEdgeChanges } from "@xyflow/react";
 import { Node, StartNode, EndNode } from "@/app/ui/node";
 import Edge from "@/app/ui/edge";
 import { ActiveContext } from "@/app/lib/context";
@@ -21,7 +21,6 @@ export default function Flow() {
   const [edges, setEdges] = useState(result.edges);
   const onNodesChange = useCallback(changes => setNodes(nds => applyNodeChanges(changes, nds)), []);
   const onEdgesChange = useCallback(changes => setEdges(eds => applyEdgeChanges(changes, eds)), []);
-  // const onConnect = useCallback(params => setEdges(eds => addEdge(params, eds)), []);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -42,7 +41,6 @@ export default function Flow() {
           edgeTypes={edgeTypes}
           onNodesChange={active[0] ? null : onNodesChange}
           onEdgesChange={onEdgesChange}
-          // onConnect={onConnect}
           proOptions={{ hideAttribution: true }}
           fitView={true}
           fitViewOptions={{ padding: 2 }}
