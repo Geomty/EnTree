@@ -23,7 +23,7 @@ export class Tree {
         row = node;
         cols = queue.length;
         i = 0;
-        queue.push(row + 1);
+        if (queue.length) queue.push(row + 1);
         continue;
       }
 
