@@ -2,52 +2,17 @@
 
 import { useState, useCallback, useEffect } from "react";
 import { ReactFlow, applyNodeChanges, applyEdgeChanges, addEdge } from "@xyflow/react";
-import Node from "@/app/ui/node";
+import { Node, StartNode, EndNode } from "@/app/ui/node";
 import Edge from "@/app/ui/edge";
 import { ActiveContext } from "@/app/lib/context";
 import { Tree } from "@/app/lib/classes";
 
-const nodeTypes = { node: Node };
+const nodeTypes = { node: Node, start: StartNode, end: EndNode };
 const edgeTypes = { edge: Edge };
-
-const initialNodes = [
-  {
-    id: "1",
-    position: { x: 0, y: 0 },
-    type: "node",
-    data: { title: "Hello", description: "This is a description.", complete: false }
-  },
-  {
-    id: "2",
-    position: { x: -300, y: 400 },
-    type: "node",
-    data: { title: "Hello world this is long text", description: "This is another description.", complete: false }
-  },
-  {
-    id: "3",
-    position: { x: 300, y: 400 },
-    type: "node",
-    data: { title: "Wow a third node", description: "Yet another description.", complete: false }
-  }
-];
-
-const initialEdges = [
-  {
-    id: "1-2",
-    type: "edge",
-    source: "1",
-    target: "2"
-  },
-  {
-    id: "1-3",
-    type: "edge",
-    source: "1",
-    target: "3"
-  }
-];
 
 const tree = new Tree({ title: "Hello", description: "This is a description." });
 tree.addChildren({ title: "World", description: "This is another description." }, { title: "Wow a third node", description: "Yet another description." });
+tree.children[0].addChildren({ title: "Wow a fourth node this time with some really long text", description: "And yet another description." });
 const result = tree.toFlow();
 
 export default function Flow() {

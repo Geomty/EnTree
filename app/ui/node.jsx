@@ -3,7 +3,19 @@ import { Handle as FlowHandle, useReactFlow } from "@xyflow/react";
 import { motion, AnimatePresence } from "motion/react";
 import { ActiveContext } from "@/app/lib/context";
 
-export default function Node(props) {
+export function Node(props) {
+  return <BaseNode props={props} />
+}
+
+export function StartNode(props) {
+  return <BaseNode props={props} pos="top" />
+}
+
+export function EndNode(props) {
+  return <BaseNode props={props} pos="bottom" />
+}
+
+function BaseNode({ props, pos = "middle" }) {
   const reactFlow = useReactFlow();
   const active = useContext(ActiveContext);
   const onClick = useCallback(() => {
@@ -34,8 +46,8 @@ export default function Node(props) {
       <AnimatePresence>
         {active[0]?.id != props.id && <Title onClick={onClick} value={props.data.title} />}
       </AnimatePresence>
-      <Handle type="source" position="bottom" />
-      <Handle type="target" position="top" />
+      {pos != "bottom" && <Handle type="source" position="bottom" />}
+      {pos != "top" && <Handle type="target" position="top" />}
     </div>
   )
 }

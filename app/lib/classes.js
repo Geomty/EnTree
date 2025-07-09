@@ -27,8 +27,10 @@ export class Tree {
         continue;
       }
 
+      let type = "end";
       let id = row.toString() + "_" + i.toString();
       for (const child of node.children) {
+        type = "node";
         queue.push({...child, parent: id });
       }
       delete node.children;
@@ -40,13 +42,13 @@ export class Tree {
           source: node.parent,
           target: id
         });
-      }
+      } else type = "start";
       delete node.parent;
 
       result.nodes.push({
         id,
         position: { x: 600 * (i - (cols / 2 - 0.5)), y: 400 * row },
-        type: "node",
+        type,
         data: node
       });
       i++;
