@@ -1,5 +1,5 @@
 import Flow from "@/app/ui/flow";
-import FlowForm from "@/app/ui/flow-form";
+import CreateTreeForm from "@/app/ui/create-tree-form";
 import ThemeToggle from "@/app/ui/theme-toggle";
 
 export default function Home() {
@@ -7,7 +7,7 @@ export default function Home() {
     <div className="text-black dark:text-neutral-200">
       <div className="absolute top-5 left-5 z-10 flex justify-start items-center gap-8">
         <ThemeToggle />
-        <FlowForm />
+        <CreateTreeForm />
       </div>
       <Flow />
     </div>
