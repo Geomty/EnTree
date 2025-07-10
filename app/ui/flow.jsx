@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { ReactFlow, applyNodeChanges, applyEdgeChanges } from "@xyflow/react";
 import { Node, StartNode, EndNode } from "@/app/ui/node";
 import Edge from "@/app/ui/edge";
@@ -21,6 +21,11 @@ export default function Flow({ treeData, setTreeData }) {
   const [edges, setEdges] = useState(result.edges);
   const onNodesChange = useCallback(changes => setNodes(nds => applyNodeChanges(changes, nds)), []);
   const onEdgesChange = useCallback(changes => setEdges(eds => applyEdgeChanges(changes, eds)), []);
+
+  useEffect(() => {
+    setNodes(result.nodes);
+    setEdges(result.edges);
+  }, [treeData]);
 
   return (
     <ActiveContext value={active}>
