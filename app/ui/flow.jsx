@@ -10,12 +10,12 @@ import { Tree } from "@/app/lib/classes";
 const nodeTypes = { node: Node, start: StartNode, end: EndNode };
 const edgeTypes = { edge: Edge };
 
-const tree = new Tree({ title: "Hello", description: "This is a description." });
-tree.addChildren({ title: "World", description: "This is another description." }, { title: "Wow a third node", description: "Yet another description." });
-tree.children[0].addChildren({ title: "Wow a fourth node this time with some really long text", description: "And yet another description." });
-const result = tree.toFlow();
+export default function Flow({ treeData, setTreeData }) {
+  const tree = new Tree(treeData);
+  tree.addChildren({ title: "World", description: "This is another description." }, { title: "Wow a third node", description: "Yet another description." });
+  tree.children[0].addChildren({ title: "Wow a fourth node this time with some really long text", description: "And yet another description." });
+  const result = tree.toFlow();
 
-export default function Flow() {
   const active = useState(null);
   const [nodes, setNodes] = useState(result.nodes);
   const [edges, setEdges] = useState(result.edges);
