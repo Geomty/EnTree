@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { ReactFlow, applyNodeChanges, applyEdgeChanges } from "@xyflow/react";
 import { Node, StartNode, EndNode } from "@/app/ui/node";
 import Edge from "@/app/ui/edge";
@@ -21,15 +21,6 @@ export default function Flow() {
   const [edges, setEdges] = useState(result.edges);
   const onNodesChange = useCallback(changes => setNodes(nds => applyNodeChanges(changes, nds)), []);
   const onEdgesChange = useCallback(changes => setEdges(eds => applyEdgeChanges(changes, eds)), []);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return null;
-  }
 
   return (
     <ActiveContext value={active}>
