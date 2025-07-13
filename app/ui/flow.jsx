@@ -1,20 +1,18 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useRef } from "react";
 import { ReactFlow, applyNodeChanges, applyEdgeChanges } from "@xyflow/react";
 import { Node, StartNode, EndNode } from "@/app/ui/node";
 import Edge from "@/app/ui/edge";
-import { ActiveContext } from "@/app/lib/context";
+import { MyContext } from "@/app/lib/context";
 import { Tree } from "@/app/lib/classes";
 
 const nodeTypes = { node: Node, start: StartNode, end: EndNode };
 const edgeTypes = { edge: Edge };
 
-export default function Flow({ treeData, setTreeData }) {
-  const tree = new Tree(treeData);
-  tree.addChildren({ title: "World", description: "This is another description." }, { title: "Wow a third node", description: "Yet another description." });
-  tree.children[0].addChildren({ title: "Wow a fourth node this time with some really long text", description: "And yet another description." });
-  const result = tree.toFlow();
+export default function Flow() {
+  const tree = useRef(new Tree({ title: "Hello", description: "This is a description." }));
+  const result = tree.current.toFlow();
 
   const active = useState(null);
   const [nodes, setNodes] = useState(result.nodes);
@@ -22,13 +20,8 @@ export default function Flow({ treeData, setTreeData }) {
   const onNodesChange = useCallback(changes => setNodes(nds => applyNodeChanges(changes, nds)), []);
   const onEdgesChange = useCallback(changes => setEdges(eds => applyEdgeChanges(changes, eds)), []);
 
-  useEffect(() => {
-    setNodes(result.nodes);
-    setEdges(result.edges);
-  }, [treeData]);
-
   return (
-    <ActiveContext value={active}>
+    <MyContext value={[active, tree, setNodes, setEdges]}>
       <div className="w-screen h-screen bg-white dark:bg-neutral-950">
         <ReactFlow
           nodes={nodes}
@@ -59,6 +52,6 @@ export default function Flow({ treeData, setTreeData }) {
           panActivationKeyCode={null}
         />
       </div>
-    </ActiveContext>
+    </MyContext>
   );
 }

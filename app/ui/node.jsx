@@ -1,7 +1,8 @@
-import { useCallback, useContext, useEffect, useRef } from "react";
+import { useActionState, useCallback, useContext, useEffect, useRef } from "react";
 import { Handle as FlowHandle, useReactFlow } from "@xyflow/react";
 import { motion, AnimatePresence } from "motion/react";
-import { ActiveContext } from "@/app/lib/context";
+import { MyContext } from "@/app/lib/context";
+import { createChildren } from "@/app/lib/actions";
 
 export function Node(props) {
   return <BaseNode props={props} />
@@ -16,8 +17,9 @@ export function EndNode(props) {
 }
 
 function BaseNode({ props, pos = "middle" }) {
+  const [active, tree, setNodes, setEdges] = useContext(MyContext);
+
   const reactFlow = useReactFlow();
-  const active = useContext(ActiveContext);
   const onClick = useCallback(() => {
     if (active[0]) {
       reactFlow.setViewport(active[0].pos, { duration: 1000 });
@@ -29,6 +31,16 @@ function BaseNode({ props, pos = "middle" }) {
     // reactFlow.updateNodeData(props.id, { complete: props.data.complete ? false : true });
   }, [active]);
 
+  const [state, formAction, isPending] = useActionState(createChildren, null);
+  useEffect(() => {
+    if (state) {
+      tree.current.addChildren(state);
+      const result = tree.current.toFlow();
+      setNodes(result.nodes);
+      setEdges(result.edges);
+    }
+  }, [state]);
+
   return (
     <div className={(props.data.complete ? "opacity-50 " : "opacity-100 ") + (active[0]?.id == props.id ? "cursor-auto " : "") + "w-96 h-52 flex justify-center content-center text-center bg-neutral-100 border-4 border-black dark:bg-neutral-800 dark:border-neutral-500 rounded-4xl"}>
       <AnimatePresence>
@@ -38,6 +50,10 @@ function BaseNode({ props, pos = "middle" }) {
             <p className="text-sm select-text">{props.data.description}</p>
             <div className="flex justify-end content-center gap-4">
               <Button value="Mark as complete" />
+              <form action={formAction}>
+                <input type="text" name="query" value={props.data.title} readOnly className="hidden" />
+                <Button value="Generate children" onClick={onClick} submit={true} />
+              </form>
               <Button value="Back" onClick={onClick} />
             </div>
           </Animated>
@@ -53,7 +69,7 @@ function BaseNode({ props, pos = "middle" }) {
 }
 
 function Handle(props) {
-  const active = useContext(ActiveContext);
+  const [active] = useContext(MyContext);
 
   return <FlowHandle {...props} className={(active[0] ? "!cursor-default " : "!cursor-grab ") + "!bg-black dark:!bg-neutral-500 !size-6 !border-4 !border-white dark:!border-neutral-950"} />
 }
@@ -96,6 +112,6 @@ function Title({ value, onClick }) {
   )
 }
 
-function Button({ value, onClick = () => {} }) {
-  return <button type="button" className="px-[0.4rem] py-[0.2rem] text-[0.6rem] bg-neutral-300 border border-black dark:bg-neutral-700 dark:border-neutral-500 rounded-md hover:cursor-pointer" onClick={onClick}>{value}</button>
+function Button({ value, onClick = () => {}, submit = false }) {
+  return <button type={submit ? "submit" : "button"} className="px-[0.4rem] py-[0.2rem] text-[0.6rem] bg-neutral-300 border border-black dark:bg-neutral-700 dark:border-neutral-500 rounded-md hover:cursor-pointer" onClick={onClick}>{value}</button>
 }
