@@ -5,14 +5,14 @@ export class Tree {
     this.complete = false;
     this.children = [];
   }
-  addChildren(...children) {
+  addChildren(children) {
     for (const child of children) {
       this.children.push(new Tree(child));
     }
   }
   toFlow() {
     let result = { nodes: [], edges: [] };
-    let queue = [0, this];
+    let queue = [0, JSON.parse(JSON.stringify(this))];
     let row;
     let cols;
     let i;
