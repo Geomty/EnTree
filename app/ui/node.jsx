@@ -50,7 +50,7 @@ function BaseNode({ props, pos = "middle" }) {
             <p className="text-sm select-text">{props.data.description}</p>
             <div className="flex justify-end content-center gap-4">
               <Button value="Mark as complete" />
-              <form action={formAction}>
+              <form action={formAction} className="m-[-0.2rem]">
                 <input type="text" name="query" value={props.data.title} readOnly className="hidden" />
                 <Button value="Generate children" onClick={onClick} submit={true} />
               </form>
