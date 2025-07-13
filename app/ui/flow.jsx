@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useCallback, useRef } from "react";
 import { ReactFlow, applyNodeChanges, applyEdgeChanges } from "@xyflow/react";
 import { Node, StartNode, EndNode } from "@/app/ui/node";
@@ -10,8 +8,8 @@ import { Tree } from "@/app/lib/classes";
 const nodeTypes = { node: Node, start: StartNode, end: EndNode };
 const edgeTypes = { edge: Edge };
 
-export default function Flow() {
-  const tree = useRef(new Tree({ title: "Hello", description: "This is a description." }));
+export default function Flow({ initial }) {
+  const tree = useRef(new Tree({ title: initial, description: "This is a description." }));
   const result = tree.current.toFlow();
 
   const active = useState(null);

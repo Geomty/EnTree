@@ -79,26 +79,26 @@ function Animated({ ref, children, className }) {
 }
 
 function Title({ value, onClick }) {
-  const myRef = useRef(null);
+  const titleRef = useRef(null);
   useEffect(() => {
     let i = 5;
-    while (myRef.current.clientHeight > 180 && i > 0) {
+    while (titleRef.current.clientHeight > 180 && i > 0) {
       // its the only way :(
       switch (i) {
         case 5:
-          myRef.current.children[0].style.fontSize = "var(--text-5xl)";
+          titleRef.current.children[0].style.fontSize = "var(--text-5xl)";
           break;
         case 4:
-          myRef.current.children[0].style.fontSize = "var(--text-4xl)";
+          titleRef.current.children[0].style.fontSize = "var(--text-4xl)";
           break;
         case 3:
-          myRef.current.children[0].style.fontSize = "var(--text-3xl)";
+          titleRef.current.children[0].style.fontSize = "var(--text-3xl)";
           break;
         case 2:
-          myRef.current.children[0].style.fontSize = "var(--text-2xl)";
+          titleRef.current.children[0].style.fontSize = "var(--text-2xl)";
           break;
         case 1:  
-          myRef.current.children[0].style.fontSize = "var(--text-xl)";
+          titleRef.current.children[0].style.fontSize = "var(--text-xl)";
           break;
       }
       i--;
@@ -106,7 +106,7 @@ function Title({ value, onClick }) {
   }, []);
 
   return (
-    <Animated ref={myRef} className="w-80 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 wrap-break-word">
+    <Animated ref={titleRef} className="w-80 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 wrap-break-word">
       <p style={{ fontSize: "var(--text-6xl)" }} className="text-center hover:cursor-pointer" onClick={onClick}>{value}</p>
     </Animated>
   )
