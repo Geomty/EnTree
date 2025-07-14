@@ -34,7 +34,8 @@ function BaseNode({ props, pos = "middle" }) {
   const [state, formAction, isPending] = useActionState(createChildren, null);
   useEffect(() => {
     if (state) {
-      tree.current.addChildren(state);
+      const node = tree.current.findChild(props.id);
+      node.addChildren(state);
       const result = tree.current.toFlow();
       setNodes(result.nodes);
       setEdges(result.edges);
