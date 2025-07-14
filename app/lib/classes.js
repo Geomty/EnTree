@@ -10,6 +10,13 @@ export class Tree {
       this.children.push(new Tree(child));
     }
   }
+  findChild(id) {
+    let arr = id.split("_").map(n => Number(n));
+    arr.shift();
+    let result = this;
+    for (const i of arr) result = result.children[i];
+    return result;
+  }
   toFlow() {
     let result = { nodes: [], edges: [] };
     let queue = [0, JSON.parse(JSON.stringify(this))];
@@ -19,6 +26,9 @@ export class Tree {
 
     while (queue.length) {
       let node = queue.shift();
+      let id;
+      let type = "end";
+
       if (typeof node == "number") {
         row = node;
         cols = queue.length;
@@ -27,23 +37,26 @@ export class Tree {
         continue;
       }
 
-      let type = "end";
-      let id = row.toString() + "_" + i.toString();
-      for (const child of node.children) {
-        type = "node";
-        queue.push({...child, parent: id });
-      }
-      delete node.children;
-
       if (node.parent) {
+        id = node.parent + "_" + node.i;
         result.edges.push({
           id: node.parent + "-" + id,
           type: "edge",
           source: node.parent,
           target: id
         });
-      } else type = "start";
+      } else {
+        type = "start";
+        id = i.toString();
+      }
       delete node.parent;
+      delete node.i;
+
+      for (const child of node.children) {
+        type = "node";
+        queue.push({...child, parent: id, i: node.children.indexOf(child) });
+      }
+      delete node.children;
 
       result.nodes.push({
         id,
@@ -53,7 +66,7 @@ export class Tree {
       });
       i++;
     }
-
+    
     return result;
   }
 }
