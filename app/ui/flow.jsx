@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useMemo, useRef } from "react";
 import { ReactFlow, applyNodeChanges, applyEdgeChanges } from "@xyflow/react";
 import { Node, StartNode, EndNode } from "@/app/ui/node";
 import Edge from "@/app/ui/edge";
@@ -10,7 +10,7 @@ const edgeTypes = { edge: Edge };
 
 export default function Flow({ initial }) {
   const tree = useRef(new Tree({ title: initial, description: "This is a description." }));
-  const result = tree.current.toFlow();
+  const result = useMemo(() => tree.current.toFlow(), [tree]);
 
   const active = useState(null);
   const [nodes, setNodes] = useState(result.nodes);
