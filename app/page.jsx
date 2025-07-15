@@ -12,13 +12,14 @@ export default function Home() {
     <div className="text-black dark:text-neutral-200">
       <div className="absolute top-5 left-5 z-10 flex justify-start items-center gap-20">
         <ThemeToggle />
-        <div className="flex justify-start items-center gap-4">
+        <form onSubmit={e => {
+          e.preventDefault();
+          setInitial(inputRef.current.value);
+          inputRef.current.value = "";
+        }} className="flex justify-start items-center gap-4">
           <input ref={inputRef} type="text" placeholder="Enter anything" title="Enter anything" className="h-9 pl-2 bg-neutral-100 border-2 border-black dark:bg-neutral-800 dark:border-neutral-500 rounded-lg" />
-          <button type="button" onClick={() => {
-            setInitial(inputRef.current.value);
-            inputRef.current.value = "";
-          }} className="px-3 py-1 bg-neutral-100 border-2 border-black dark:bg-neutral-800 dark:border-neutral-500 rounded-lg hover:cursor-pointer">Submit</button>
-        </div>
+          <button type="submit" className="px-3 py-1 bg-neutral-100 border-2 border-black dark:bg-neutral-800 dark:border-neutral-500 rounded-lg hover:cursor-pointer">Submit</button>
+        </form>
       </div>
       {initial && <Flow initial={initial} />}
     </div>
