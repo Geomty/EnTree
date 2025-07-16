@@ -61,9 +61,7 @@ function BaseNode({ props, pos = "middle" }) {
           </Animated>
         }
       </AnimatePresence>
-      <AnimatePresence>
-        {active[0]?.id != props.id && <Title onClick={toggleActive} value={props.data.title} />}
-      </AnimatePresence>
+      <Title onClick={toggleActive} value={props.data.title} />
       {pos != "bottom" && <Handle type="source" position="bottom" />}
       {pos != "top" && <Handle type="target" position="top" />}
     </div>
@@ -81,6 +79,7 @@ function Animated({ ref, children, className }) {
 }
 
 function Title({ value, onClick }) {
+  const [active] = useContext(MyContext);
   const titleRef = useRef(null);
   useEffect(() => {
     let i = 5;
@@ -108,9 +107,9 @@ function Title({ value, onClick }) {
   }, []);
 
   return (
-    <Animated ref={titleRef} className="w-80 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 wrap-break-word">
-      <p style={{ fontSize: "var(--text-6xl)" }} className="text-center hover:cursor-pointer" onClick={onClick}>{value}</p>
-    </Animated>
+    <motion.div ref={titleRef} variants={{ active: { opacity: 0 }, inactive: { opacity: 1 } }} animate={active[0] ? "active" : "inactive"} exit={{ opacity: 0 }} transition={{ type: "tween", duration: 0.5, ease: "easeInOut" }} className="w-80 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 wrap-break-word">
+      <p style={{ fontSize: "var(--text-6xl)" }} className={"text-center" + (active[0] ? "" : " hover:cursor-pointer")} onClick={active[0] ? () => {} : onClick}>{value}</p>
+    </motion.div>
   )
 }
 
