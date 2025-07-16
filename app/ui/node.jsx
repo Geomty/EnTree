@@ -39,6 +39,7 @@ function BaseNode({ props, pos = "middle" }) {
       const result = tree.current.toFlow();
       setNodes(result.nodes);
       setEdges(result.edges);
+      onClick();
     }
   }, [state]);
 
@@ -50,12 +51,12 @@ function BaseNode({ props, pos = "middle" }) {
             <p className="text-xl select-text overflow-x-auto text-nowrap">{props.data.title}</p>
             <p className="text-sm select-text">{props.data.description}</p>
             <div className="flex justify-end content-center gap-4">
-              <Button value="Mark as complete" />
+              <Button value="Mark as complete" disabled={isPending} />
               <form action={formAction} className="m-[-0.2rem]">
                 <input type="text" name="query" value={props.data.title} readOnly className="hidden" />
-                <Button value="Generate children" onClick={onClick} submit={true} />
+                <Button value="Generate children" disabled={isPending} submit={true} />
               </form>
-              <Button value="Back" onClick={onClick} />
+              <Button value="Back" onClick={onClick} disabled={isPending} />
             </div>
           </Animated>
         }
@@ -113,6 +114,6 @@ function Title({ value, onClick }) {
   )
 }
 
-function Button({ value, onClick = () => {}, submit = false }) {
-  return <button type={submit ? "submit" : "button"} className="px-[0.4rem] py-[0.2rem] text-[0.6rem] bg-neutral-300 border border-black dark:bg-neutral-700 dark:border-neutral-500 rounded-md hover:cursor-pointer" onClick={onClick}>{value}</button>
+function Button({ value, onClick = () => {}, disabled = false, submit = false }) {
+  return <button type={submit ? "submit" : "button"} disabled={disabled} className={"px-[0.4rem] py-[0.2rem] text-[0.6rem] bg-neutral-300 border border-black dark:bg-neutral-700 dark:border-neutral-500 rounded-md" + (disabled ? " opacity-50" : " hover:cursor-pointer")} onClick={onClick}>{value}</button>
 }
