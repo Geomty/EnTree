@@ -20,7 +20,7 @@ function BaseNode({ props, pos = "middle" }) {
   const [active, tree, setNodes, setEdges] = useContext(MyContext);
 
   const reactFlow = useReactFlow();
-  const onClick = useCallback(() => {
+  const toggleActive = useCallback(() => {
     if (active[0]) {
       reactFlow.setViewport(active[0].pos, { duration: 1000 });
       active[1](null);
@@ -39,7 +39,7 @@ function BaseNode({ props, pos = "middle" }) {
       const result = tree.current.toFlow();
       setNodes(result.nodes);
       setEdges(result.edges);
-      onClick();
+      toggleActive();
     }
   }, [state]);
 
@@ -56,13 +56,13 @@ function BaseNode({ props, pos = "middle" }) {
                 <input type="text" name="query" value={props.data.title} readOnly className="hidden" />
                 <Button value="Generate children" disabled={isPending} submit={true} />
               </form>
-              <Button value="Back" onClick={onClick} disabled={isPending} />
+              <Button value="Back" onClick={toggleActive} disabled={isPending} />
             </div>
           </Animated>
         }
       </AnimatePresence>
       <AnimatePresence>
-        {active[0]?.id != props.id && <Title onClick={onClick} value={props.data.title} />}
+        {active[0]?.id != props.id && <Title onClick={toggleActive} value={props.data.title} />}
       </AnimatePresence>
       {pos != "bottom" && <Handle type="source" position="bottom" />}
       {pos != "top" && <Handle type="target" position="top" />}
