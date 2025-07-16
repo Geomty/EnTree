@@ -47,9 +47,9 @@ function BaseNode({ props, pos = "middle" }) {
     <div className={(props.data.complete ? "opacity-50 " : "opacity-100 ") + (active[0]?.id == props.id ? "cursor-auto " : "") + "w-96 h-52 flex justify-center content-center text-center bg-neutral-100 border-4 border-black dark:bg-neutral-800 dark:border-neutral-500 rounded-4xl"}>
       <AnimatePresence>
         {active[0]?.id == props.id &&
-          <Animated className="p-4 w-full flex flex-col justify-between content-center nodrag">
+          <Animated initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-4 w-full flex flex-col justify-between content-center nodrag">
             <p className="text-xl select-text overflow-x-auto text-nowrap">{props.data.title}</p>
-            <p className="text-sm select-text">{props.data.description}</p>
+            <p className="text-sm select-text z-10">{props.data.description}</p>
             <div className="flex justify-end content-center gap-4">
               <Button value="Mark as complete" disabled={isPending} />
               <form action={formAction} className="m-[-0.2rem]">
@@ -74,8 +74,8 @@ function Handle(props) {
   return <FlowHandle {...props} className={(active[0] ? "!cursor-default " : "!cursor-grab ") + "!bg-black dark:!bg-neutral-500 !size-6 !border-4 !border-white dark:!border-neutral-950"} />
 }
 
-function Animated({ ref, children, className }) {
-  return <motion.div ref={ref} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ type: "tween", duration: 0.5, ease: "easeInOut" }} className={className}>{children}</motion.div>
+function Animated(props) {
+  return <motion.div {...props} transition={{ type: "tween", duration: 0.5, ease: "easeInOut" }} />
 }
 
 function Title({ value, onClick }) {
@@ -107,9 +107,9 @@ function Title({ value, onClick }) {
   }, []);
 
   return (
-    <motion.div ref={titleRef} variants={{ active: { opacity: 0 }, inactive: { opacity: 1 } }} animate={active[0] ? "active" : "inactive"} exit={{ opacity: 0 }} transition={{ type: "tween", duration: 0.5, ease: "easeInOut" }} className="w-80 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 wrap-break-word">
+    <Animated ref={titleRef} variants={{ active: { opacity: 0 }, inactive: { opacity: 1 } }} animate={active[0] ? "active" : "inactive"} exit={{ opacity: 0 }} className="w-80 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 wrap-break-word">
       <p style={{ fontSize: "var(--text-6xl)" }} className={"text-center" + (active[0] ? "" : " hover:cursor-pointer")} onClick={active[0] ? () => {} : onClick}>{value}</p>
-    </motion.div>
+    </Animated>
   )
 }
 
