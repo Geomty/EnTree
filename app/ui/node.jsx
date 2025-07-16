@@ -28,8 +28,14 @@ function BaseNode({ props, pos = "middle" }) {
       reactFlow.fitView({ duration: 1000, nodes: [{ id: props.id }] });
       setTimeout(() => active[1]({ id: props.id, pos: reactFlow.getViewport() }), 1); // optimal solution!
     }
-    // reactFlow.updateNodeData(props.id, { complete: props.data.complete ? false : true });
   }, [active]);
+  const toggleComplete = useCallback(() => {
+    const node = tree.current.findChild(props.id);
+    node.complete = !node.complete;
+    const result = tree.current.toFlow();
+    setNodes(result.nodes);
+    setEdges(result.edges);
+  }, [tree]);
 
   const [state, formAction, isPending] = useActionState(createChildren, null);
   useEffect(() => {
@@ -51,7 +57,7 @@ function BaseNode({ props, pos = "middle" }) {
             <p className="text-xl select-text overflow-x-auto text-nowrap">{props.data.title}</p>
             <p className="text-sm select-text z-10">{props.data.description}</p>
             <div className="flex justify-end content-center gap-4">
-              <Button value="Mark as complete" disabled={isPending} />
+              <Button value="Mark as complete" onClick={toggleComplete} disabled={isPending} />
               <form action={formAction} className="m-[-0.2rem]">
                 <input type="text" name="query" value={props.data.title} readOnly className="hidden" />
                 <Button value="Generate children" disabled={isPending} submit={true} />
