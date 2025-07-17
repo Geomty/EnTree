@@ -39,8 +39,6 @@ export default function Flow({ initial }) {
           nodesConnectable={false}
           nodesFocusable={false}
           edgesFocusable={false}
-          elementsSelectable={false}
-          selectNodesOnDrag={false}
           autoPanSpeed={5}
           zoomOnDoubleClick={false}
           deleteKeyCode={null}

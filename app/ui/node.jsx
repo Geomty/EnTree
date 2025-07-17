@@ -40,7 +40,7 @@ export function Node(props) {
   }, [state]);
 
   return (
-    <div className={(props.data.complete ? "opacity-50 " : "opacity-100 ") + (active[0]?.id == props.id ? "cursor-auto " : "") + "w-96 h-52 flex justify-center content-center text-center bg-neutral-100 border-4 border-black dark:bg-neutral-800 dark:border-neutral-500 rounded-4xl"}>
+    <div className={(props.data.complete ? "opacity-50 " : "opacity-100 ") + (active[0] ? "cursor-auto " : "") + "w-96 h-52 flex justify-center content-center text-center bg-neutral-100 border-4 border-black dark:bg-neutral-800 dark:border-neutral-500 rounded-4xl"}>
       <AnimatePresence>
         {active[0]?.id == props.id &&
           <Animated initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-4 w-full flex flex-col justify-between content-center nodrag">
@@ -57,7 +57,7 @@ export function Node(props) {
           </Animated>
         }
       </AnimatePresence>
-      <Title onClick={toggleActive} value={props.data.title} />
+      <Title value={props.data.title} onClick={toggleActive} id={props.id} />
       <FlowHandle type="source" position="bottom" className={(active[0] ? "!cursor-default " : "!cursor-grab ") + (props.data.type == "end" ? "opacity-0 " : "") + handleStyle} />
       <FlowHandle type="target" position="top" className={(active[0] ? "!cursor-default " : "!cursor-grab ") + (props.data.type == "start" ? "opacity-0 " : "") + handleStyle} />
     </div>
@@ -68,7 +68,7 @@ function Animated(props) {
   return <motion.div {...props} transition={{ type: "tween", duration: 0.5, ease: "easeInOut" }} />
 }
 
-function Title({ value, onClick }) {
+function Title({ value, onClick, id }) {
   const [active] = useContext(MyContext);
   const titleRef = useRef(null);
   useEffect(() => {
@@ -97,7 +97,7 @@ function Title({ value, onClick }) {
   }, []);
 
   return (
-    <Animated ref={titleRef} variants={{ active: { opacity: 0 }, inactive: { opacity: 1 } }} animate={active[0] ? "active" : "inactive"} exit={{ opacity: 0 }} className="w-80 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 wrap-break-word">
+    <Animated ref={titleRef} variants={{ active: { opacity: 0 }, inactive: { opacity: 1 } }} animate={active[0]?.id == id ? "active" : "inactive"} exit={{ opacity: 0 }} className="w-80 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 wrap-break-word">
       <p style={{ fontSize: "var(--text-6xl)" }} className={"text-center" + (active[0] ? "" : " hover:cursor-pointer")} onClick={active[0] ? () => {} : onClick}>{value}</p>
     </Animated>
   )
