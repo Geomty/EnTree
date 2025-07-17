@@ -1,11 +1,11 @@
 import { useState, useCallback, useMemo, useRef } from "react";
 import { ReactFlow, applyNodeChanges, applyEdgeChanges } from "@xyflow/react";
-import { Node, StartNode, EndNode } from "@/app/ui/node";
+import { Node } from "@/app/ui/node";
 import Edge from "@/app/ui/edge";
 import { MyContext } from "@/app/lib/context";
 import { Tree } from "@/app/lib/classes";
 
-const nodeTypes = { node: Node, start: StartNode, end: EndNode };
+const nodeTypes = { node: Node };
 const edgeTypes = { edge: Edge };
 
 export default function Flow({ initial }) {

@@ -4,19 +4,9 @@ import { motion, AnimatePresence } from "motion/react";
 import { MyContext } from "@/app/lib/context";
 import { createChildren } from "@/app/lib/actions";
 
+const handleStyle = "!bg-black dark:!bg-neutral-500 !size-6 !border-4 !border-white dark:!border-neutral-950";
+
 export function Node(props) {
-  return <BaseNode props={props} />
-}
-
-export function StartNode(props) {
-  return <BaseNode props={props} pos="top" />
-}
-
-export function EndNode(props) {
-  return <BaseNode props={props} pos="bottom" />
-}
-
-function BaseNode({ props, pos = "middle" }) {
   const [active, tree, setNodes, setEdges] = useContext(MyContext);
 
   const reactFlow = useReactFlow();
@@ -68,16 +58,10 @@ function BaseNode({ props, pos = "middle" }) {
         }
       </AnimatePresence>
       <Title onClick={toggleActive} value={props.data.title} />
-      {pos != "bottom" && <Handle type="source" position="bottom" />}
-      {pos != "top" && <Handle type="target" position="top" />}
+      <FlowHandle type="source" position="bottom" className={(active[0] ? "!cursor-default " : "!cursor-grab ") + (props.data.type == "end" ? "opacity-0 " : "") + handleStyle} />
+      <FlowHandle type="target" position="top" className={(active[0] ? "!cursor-default " : "!cursor-grab ") + (props.data.type == "start" ? "opacity-0 " : "") + handleStyle} />
     </div>
   )
-}
-
-function Handle(props) {
-  const [active] = useContext(MyContext);
-
-  return <FlowHandle {...props} className={(active[0] ? "!cursor-default " : "!cursor-grab ") + "!bg-black dark:!bg-neutral-500 !size-6 !border-4 !border-white dark:!border-neutral-950"} />
 }
 
 function Animated(props) {

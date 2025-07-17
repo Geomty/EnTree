@@ -53,7 +53,7 @@ export class Tree {
       delete node.i;
 
       for (const child of node.children) {
-        if (type == "end") type = "node";
+        if (type == "end") type = "middle";
         queue.push({...child, parent: id, i: node.children.indexOf(child) });
       }
       delete node.children;
@@ -61,8 +61,8 @@ export class Tree {
       result.nodes.push({
         id,
         position: { x: 600 * (i - (cols / 2 - 0.5)), y: 400 * row },
-        type,
-        data: node
+        type: "node",
+        data: {...node, type}
       });
       i++;
     }
