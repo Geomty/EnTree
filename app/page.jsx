@@ -23,7 +23,7 @@ export default function Home() {
           <button disabled={initial} type="submit" className={"px-3 py-1 " + formStyle + (initial ? " opacity-50" : " hover:cursor-pointer")}>Submit</button>
         </form>
       </div>
-      {initial && <Flow initial={initial} />}
+      {initial && <Flow initial={initial} formStyle={formStyle} />}
     </div>
   )
 }

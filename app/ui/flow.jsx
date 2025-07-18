@@ -1,5 +1,6 @@
 import { useState, useCallback, useMemo, useRef } from "react";
 import { ReactFlow, applyNodeChanges, applyEdgeChanges } from "@xyflow/react";
+import { motion, AnimatePresence } from "motion/react";
 import { Node } from "@/app/ui/node";
 import Edge from "@/app/ui/edge";
 import { MyContext } from "@/app/lib/context";
@@ -8,7 +9,7 @@ import { Tree } from "@/app/lib/classes";
 const nodeTypes = { node: Node };
 const edgeTypes = { edge: Edge };
 
-export default function Flow({ initial }) {
+export default function Flow({ initial, formStyle }) {
   const tree = useRef(new Tree({ title: initial, description: "This is a description.", position: { x: 0, y: 0 } }));
   const result = useMemo(() => tree.current.toFlow(), [tree]);
 
@@ -17,10 +18,28 @@ export default function Flow({ initial }) {
   const [edges, setEdges] = useState(result.edges);
   const onNodesChange = useCallback(changes => setNodes(nds => applyNodeChanges(changes, nds)), []);
   const onEdgesChange = useCallback(changes => setEdges(eds => applyEdgeChanges(changes, eds)), []);
+  const onNodeDragStart = useCallback(() => reset[1](false));
   const onNodeDragStop = useCallback((_, node) => tree.current.findChild(node.id).position = node.position, []);
+  const reset = useState(true);
 
   return (
-    <MyContext value={[active, tree]}>
+    <MyContext value={[active, tree, reset]}>
+      <AnimatePresence>
+        {!reset[0] && <motion.button
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ type: "tween", duration: 0.5, ease: "easeInOut" }}
+          className={"absolute bottom-5 right-5 z-10 px-3 py-1 hover:cursor-pointer " + formStyle}
+          onClick={() => {
+            tree.current.organize();
+            const result = tree.current.toFlow();
+            setNodes(result.nodes);
+            setEdges(result.edges);
+            reset[1](true);
+          }}
+        >Reset</motion.button>}
+      </AnimatePresence>
       <div className="w-screen h-screen bg-white dark:bg-neutral-950">
         <ReactFlow
           nodes={nodes}
@@ -29,6 +48,7 @@ export default function Flow({ initial }) {
           edgeTypes={edgeTypes}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
+          onNodeDragStart={onNodeDragStart}
           onNodeDragStop={onNodeDragStop}
           proOptions={{ hideAttribution: true }}
           fitView={true}
