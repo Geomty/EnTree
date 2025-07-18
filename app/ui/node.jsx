@@ -15,18 +15,21 @@ export function Node(props) {
     if (active[0]) {
       reactFlow.setViewport(active[0].pos, { duration: 1000 });
       active[1](null);
+      setTimeout(() => {
+        tree.current.organize();
+        const result = tree.current.toFlow();
+        reactFlow.setNodes(result.nodes);
+        reactFlow.setEdges(result.edges);
+      }, 1000);
     } else {
       reactFlow.fitView({ duration: 1000, nodes: [{ id: props.id }] });
       setTimeout(() => active[1]({ id: props.id, pos: reactFlow.getViewport() }), 1); // optimal solution!
     }
   }, [active]);
   const toggleComplete = useCallback(() => {
-    const node = tree.current.findChild(props.id);
-    node.complete = !node.complete;
-    const result = tree.current.toFlow();
-    setNodes(result.nodes);
-    setEdges(result.edges);
-  }, [tree]);
+    reactFlow.updateNodeData(props.id, { complete: !props.data.complete });
+    tree.current.findChild(props.id).complete = !props.data.complete;
+  }, [props.data.complete]);
 
   const [state, formAction, isPending] = useActionState(createChildren, null);
   useEffect(() => {

@@ -1,13 +1,16 @@
 export class Tree {
-  constructor({ title, description }) {
+  constructor({ title, description, position }) {
     this.title = title;
     this.description = description;
+    this.position = position;
     this.complete = false;
     this.children = [];
   }
   addChildren(children) {
+    let i = 0;
     for (const child of children) {
-      this.children.push(new Tree(child));
+      this.children.push(new Tree({...child, position: { x: 600 * (i - (children.length / 2 - 0.5)) + this.position.x, y: 400 + this.position.y }}));
+      i++;
     }
   }
   findChild(id) {
@@ -17,17 +20,14 @@ export class Tree {
     for (const i of arr) result = result.children[i];
     return result;
   }
-  toFlow() {
-    let result = { nodes: [], edges: [] };
-    let queue = [0, JSON.parse(JSON.stringify(this))];
+  organize() {
+    let queue = [0, this];
     let row;
     let cols;
     let i;
 
     while (queue.length) {
       let node = queue.shift();
-      let id;
-      let type = "end";
 
       if (typeof node == "number") {
         row = node;
@@ -36,6 +36,24 @@ export class Tree {
         if (queue.length) queue.push(row + 1);
         continue;
       }
+
+      for (const child of node.children) {
+        queue.push(child);
+      }
+
+      node.position = { x: 600 * (i - (cols / 2 - 0.5)), y: 400 * row };
+
+      i++;
+    }
+  }
+  toFlow() {
+    let result = { nodes: [], edges: [] };
+    let queue = [JSON.parse(JSON.stringify(this))];
+
+    while (queue.length) {
+      let node = queue.shift();
+      let id;
+      let type = "end";
 
       if (node.parent) {
         id = node.parent + "_" + node.i;
@@ -47,7 +65,7 @@ export class Tree {
         });
       } else {
         type = "start";
-        id = i.toString();
+        id = "0";
       }
       delete node.parent;
       delete node.i;
@@ -60,11 +78,10 @@ export class Tree {
 
       result.nodes.push({
         id,
-        position: { x: 600 * (i - (cols / 2 - 0.5)), y: 400 * row },
+        position: node.position,
         type: "node",
         data: {...node, type}
       });
-      i++;
     }
     
     return result;

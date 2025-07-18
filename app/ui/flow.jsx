@@ -9,7 +9,7 @@ const nodeTypes = { node: Node };
 const edgeTypes = { edge: Edge };
 
 export default function Flow({ initial }) {
-  const tree = useRef(new Tree({ title: initial, description: "This is a description." }));
+  const tree = useRef(new Tree({ title: initial, description: "This is a description.", position: { x: 0, y: 0 } }));
   const result = useMemo(() => tree.current.toFlow(), [tree]);
 
   const active = useState(null);
@@ -17,6 +17,7 @@ export default function Flow({ initial }) {
   const [edges, setEdges] = useState(result.edges);
   const onNodesChange = useCallback(changes => setNodes(nds => applyNodeChanges(changes, nds)), []);
   const onEdgesChange = useCallback(changes => setEdges(eds => applyEdgeChanges(changes, eds)), []);
+  const onNodeDragStop = useCallback((_, node) => tree.current.findChild(node.id).position = node.position, []);
 
   return (
     <MyContext value={[active, tree]}>
@@ -28,6 +29,7 @@ export default function Flow({ initial }) {
           edgeTypes={edgeTypes}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
+          onNodeDragStop={onNodeDragStop}
           proOptions={{ hideAttribution: true }}
           fitView={true}
           fitViewOptions={{ padding: 2 }}
