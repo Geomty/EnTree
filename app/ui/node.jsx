@@ -48,7 +48,7 @@ export function Node(props) {
             <div className="flex justify-between content-center gap-2">
               <button onClick={toggleActive} disabled={isPending} className={"p-1" + (isPending ? " opacity-50" : " hover:cursor-pointer")}><HiArrowSmallLeft className="size-5 fill-neutral-700 dark:fill-neutral-400" /></button>
               <p className="text-xl select-text overflow-x-auto text-nowrap">{props.data.title}</p>
-              <div className="size-5 opacity-0"></div>
+              <div className="m-1 size-5 opacity-0"></div>
             </div>
             <p className="text-sm select-text">{props.data.description}</p>
             <div className="flex justify-end content-center gap-4">
