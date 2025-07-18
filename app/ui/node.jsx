@@ -1,6 +1,7 @@
 import { useActionState, useCallback, useContext, useEffect, useRef } from "react";
-import { Handle as FlowHandle, useReactFlow } from "@xyflow/react";
+import { Handle, useReactFlow } from "@xyflow/react";
 import { motion, AnimatePresence } from "motion/react";
+import { HiArrowSmallLeft } from "react-icons/hi2";
 import { MyContext } from "@/app/lib/context";
 import { createChildren } from "@/app/lib/actions";
 
@@ -43,23 +44,26 @@ export function Node(props) {
     <div className={(props.data.complete ? "opacity-50 " : "opacity-100 ") + (active[0] ? "cursor-auto " : "") + "w-96 h-52 flex justify-center content-center text-center bg-neutral-100 border-4 border-black dark:bg-neutral-800 dark:border-neutral-500 rounded-4xl"}>
       <AnimatePresence>
         {active[0]?.id == props.id &&
-          <Animated initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-4 w-full flex flex-col justify-between content-center nodrag">
-            <p className="text-xl select-text overflow-x-auto text-nowrap">{props.data.title}</p>
-            <p className="text-sm select-text z-10">{props.data.description}</p>
+          <Animated initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="w-full z-10 p-4 flex flex-col justify-between content-center nodrag">
+            <div className="flex justify-between content-center gap-2">
+              <button onClick={toggleActive} disabled={isPending} className={"p-1" + (isPending ? " opacity-50" : " hover:cursor-pointer")}><HiArrowSmallLeft className="size-5 fill-neutral-700 dark:fill-neutral-400" /></button>
+              <p className="text-xl select-text overflow-x-auto text-nowrap">{props.data.title}</p>
+              <div className="size-5 opacity-0"></div>
+            </div>
+            <p className="text-sm select-text">{props.data.description}</p>
             <div className="flex justify-end content-center gap-4">
-              <Button value="Mark as complete" onClick={toggleComplete} disabled={isPending} />
+              <Button onClick={toggleComplete} disabled={isPending}>Mark as complete</Button>
               <form action={formAction} className="m-[-0.2rem]">
                 <input type="text" name="query" value={props.data.title} readOnly className="hidden" />
-                <Button value="Generate children" disabled={isPending} submit={true} />
+                <Button disabled={isPending} submit={true}>Generate children</Button>
               </form>
-              <Button value="Back" onClick={toggleActive} disabled={isPending} />
             </div>
           </Animated>
         }
       </AnimatePresence>
-      <Title value={props.data.title} onClick={toggleActive} id={props.id} />
-      <FlowHandle type="source" position="bottom" className={(active[0] ? "!cursor-default " : "!cursor-grab ") + (props.data.type == "end" ? "opacity-0 " : "") + handleStyle} />
-      <FlowHandle type="target" position="top" className={(active[0] ? "!cursor-default " : "!cursor-grab ") + (props.data.type == "start" ? "opacity-0 " : "") + handleStyle} />
+      <Title onClick={toggleActive} id={props.id}>{props.data.title}</Title>
+      <Handle type="source" position="bottom" className={(active[0] ? "!cursor-default " : "!cursor-grab ") + (props.data.type == "end" ? "opacity-0 " : "") + handleStyle} />
+      <Handle type="target" position="top" className={(active[0] ? "!cursor-default " : "!cursor-grab ") + (props.data.type == "start" ? "opacity-0 " : "") + handleStyle} />
     </div>
   )
 }
@@ -68,7 +72,7 @@ function Animated(props) {
   return <motion.div {...props} transition={{ type: "tween", duration: 0.5, ease: "easeInOut" }} />
 }
 
-function Title({ value, onClick, id }) {
+function Title({ children, onClick, id }) {
   const [active] = useContext(MyContext);
   const titleRef = useRef(null);
   useEffect(() => {
@@ -98,11 +102,11 @@ function Title({ value, onClick, id }) {
 
   return (
     <Animated ref={titleRef} variants={{ active: { opacity: 0 }, inactive: { opacity: 1 } }} animate={active[0]?.id == id ? "active" : "inactive"} exit={{ opacity: 0 }} className="w-80 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 wrap-break-word">
-      <p style={{ fontSize: "var(--text-6xl)" }} className={"text-center" + (active[0] ? "" : " hover:cursor-pointer")} onClick={active[0] ? () => {} : onClick}>{value}</p>
+      <p style={{ fontSize: "var(--text-6xl)" }} className={"text-center" + (active[0] ? "" : " hover:cursor-pointer")} onClick={active[0] ? () => {} : onClick}>{children}</p>
     </Animated>
   )
 }
 
-function Button({ value, onClick = () => {}, disabled = false, submit = false }) {
-  return <button type={submit ? "submit" : "button"} disabled={disabled} className={"px-[0.4rem] py-[0.2rem] text-[0.6rem] bg-neutral-300 border border-black dark:bg-neutral-700 dark:border-neutral-500 rounded-md" + (disabled ? " opacity-50" : " hover:cursor-pointer")} onClick={onClick}>{value}</button>
+function Button({ children, onClick = () => {}, disabled = false, submit = false }) {
+  return <button type={submit ? "submit" : "button"} disabled={disabled} className={"px-[0.4rem] py-[0.2rem] text-[0.6rem] bg-neutral-300 border border-black dark:bg-neutral-700 dark:border-neutral-500 rounded-md" + (disabled ? " opacity-50" : " hover:cursor-pointer")} onClick={onClick}>{children}</button>
 }
