@@ -8,7 +8,7 @@ import { createChildren } from "@/app/lib/actions";
 const handleStyle = "!bg-black dark:!bg-neutral-500 !size-6 !border-4 !border-white dark:!border-neutral-950";
 
 export function Node(props) {
-  const [active, tree, setNodes, setEdges] = useContext(MyContext);
+  const [active, tree] = useContext(MyContext);
 
   const reactFlow = useReactFlow();
   const toggleActive = useCallback(() => {
@@ -34,8 +34,8 @@ export function Node(props) {
       const node = tree.current.findChild(props.id);
       node.addChildren(state);
       const result = tree.current.toFlow();
-      setNodes(result.nodes);
-      setEdges(result.edges);
+      reactFlow.setNodes(result.nodes);
+      reactFlow.setEdges(result.edges);
       toggleActive();
     }
   }, [state]);
@@ -44,7 +44,7 @@ export function Node(props) {
     <div className={(props.data.complete ? "opacity-50 " : "opacity-100 ") + (active[0] ? "cursor-auto " : "") + "w-96 h-52 flex justify-center content-center text-center bg-neutral-100 border-4 border-black dark:bg-neutral-800 dark:border-neutral-500 rounded-4xl"}>
       <AnimatePresence>
         {active[0]?.id == props.id &&
-          <Animated initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="w-full z-10 p-4 flex flex-col justify-between content-center nodrag">
+          <Animated initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="w-full z-10 p-4 flex flex-col justify-between content-center">
             <div className="flex justify-between content-center gap-2">
               <button onClick={toggleActive} disabled={isPending} className={"p-1" + (isPending ? " opacity-50" : " hover:cursor-pointer")}><HiArrowSmallLeft className="size-5 fill-neutral-700 dark:fill-neutral-400" /></button>
               <p className="text-xl select-text overflow-x-auto text-nowrap">{props.data.title}</p>

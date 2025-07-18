@@ -19,14 +19,14 @@ export default function Flow({ initial }) {
   const onEdgesChange = useCallback(changes => setEdges(eds => applyEdgeChanges(changes, eds)), []);
 
   return (
-    <MyContext value={[active, tree, setNodes, setEdges]}>
+    <MyContext value={[active, tree]}>
       <div className="w-screen h-screen bg-white dark:bg-neutral-950">
         <ReactFlow
           nodes={nodes}
           edges={edges}
           nodeTypes={nodeTypes}
           edgeTypes={edgeTypes}
-          onNodesChange={active[0] ? null : onNodesChange}
+          onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           proOptions={{ hideAttribution: true }}
           fitView={true}
@@ -36,6 +36,7 @@ export default function Flow({ initial }) {
           panOnDrag={!active[0]}
           zoomOnScroll={!active[0]}
           zoomOnPinch={!active[0]}
+          nodesDraggable={!active[0]}
           nodesConnectable={false}
           nodesFocusable={false}
           edgesFocusable={false}
