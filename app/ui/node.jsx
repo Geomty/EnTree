@@ -29,12 +29,16 @@ export function Node(props) {
   useEffect(() => {
     if (state) {
       const node = tree.current.findChild(props.id);
-      node.addChildren(state);
-      if (reset[0]) tree.current.organize();
-      const result = tree.current.toFlow();
-      reactFlow.setNodes(result.nodes);
-      reactFlow.setEdges(result.edges);
-      toggleActive();
+      if (state.error) {
+        alert(`A ${state.error.name} has occurred. Please try again.`);
+      } else {
+        node.addChildren(state);
+        if (reset[0]) tree.current.organize();
+        const result = tree.current.toFlow();
+        reactFlow.setNodes(result.nodes);
+        reactFlow.setEdges(result.edges);
+        toggleActive();
+      }
     }
   }, [state]);
 
