@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo, useRef } from "react";
 import { ReactFlow, applyNodeChanges, applyEdgeChanges } from "@xyflow/react";
 import { motion, AnimatePresence } from "motion/react";
+import { RiResetLeftFill } from "react-icons/ri";
 import { Node } from "@/app/ui/node";
 import Edge from "@/app/ui/edge";
 import { MyContext } from "@/app/lib/context";
@@ -25,12 +26,12 @@ export default function Flow({ initial, formStyle }) {
   return (
     <MyContext value={[active, tree, reset]}>
       <AnimatePresence>
-        {!reset[0] && <motion.button
+        {(!reset[0] && !active[0]) && <motion.button
           type="button"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ type: "tween", duration: 0.5, ease: "easeInOut" }}
+          transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
           title="Reset"
           onClick={() => {
             tree.current.organize();
@@ -39,8 +40,8 @@ export default function Flow({ initial, formStyle }) {
             setEdges(result.edges);
             reset[1](true);
           }}
-          className={"absolute bottom-5 right-5 z-10 px-3 py-1 hover:cursor-pointer " + formStyle}
-        >Reset</motion.button>}
+          className={"absolute bottom-5 right-5 z-10 p-2 hover:cursor-pointer " + formStyle}
+        ><RiResetLeftFill className="size-7 fill-neutral-700 dark:fill-neutral-400" /></motion.button>}
       </AnimatePresence>
       <div className="w-screen h-screen bg-white dark:bg-neutral-950">
         <ReactFlow
