@@ -19,8 +19,8 @@ export default function Home() {
           setInitial(inputRef.current.value);
           inputRef.current.value = "";
         }} className="flex justify-start items-center gap-4">
-          <input disabled={initial} ref={inputRef} type="text" placeholder="Enter anything" title="Enter anything" className={"h-9 pl-2 " + formStyle + (initial ? " opacity-50" : "")} />
-          <button disabled={initial} type="submit" className={"px-3 py-1 " + formStyle + (initial ? " opacity-50" : " hover:cursor-pointer")}>Submit</button>
+          <input required disabled={initial} ref={inputRef} type="text" placeholder="Enter anything" title="Enter anything" className={"h-9 pl-2 " + formStyle + (initial ? " opacity-50" : "")} />
+          <button disabled={initial} type="submit" title="Submit" className={"px-3 py-1 " + formStyle + (initial ? " opacity-50" : " hover:cursor-pointer")}>Submit</button>
         </form>
       </div>
       {initial && <Flow initial={initial} formStyle={formStyle} />}

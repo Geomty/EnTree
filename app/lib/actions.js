@@ -29,7 +29,7 @@ export async function createChildren(prevState, formData) {
   await new Promise(res => setTimeout(res, 1000));
   let result;
   try {
-    result = JSON.parse(`[
+    result = [
       {
         title: formData.get("query") + "1",
         description: "This is another description."
@@ -38,7 +38,7 @@ export async function createChildren(prevState, formData) {
         title: formData.get("query") + "2",
         description: "This is yet another description."
       }
-    ]`);
+    ];
   } catch (error) {
     result = { error };
     console.log(error);

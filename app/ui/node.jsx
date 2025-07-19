@@ -48,7 +48,7 @@ export function Node(props) {
         {active[0]?.id == props.id &&
           <Animated initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="w-full z-10 p-4 flex flex-col justify-between content-center nowheel">
             <div className="flex justify-between content-center gap-2">
-              <button onClick={toggleActive} disabled={isPending} className={"p-1" + (isPending ? " opacity-50" : " hover:cursor-pointer")}><HiArrowSmallLeft className="size-5 fill-neutral-700 dark:fill-neutral-400" /></button>
+              <button onClick={toggleActive} disabled={isPending} title="Back" className={"p-1" + (isPending ? " opacity-50" : " hover:cursor-pointer")}><HiArrowSmallLeft className="size-5 fill-neutral-700 dark:fill-neutral-400" /></button>
               <p className="text-lg select-text overflow-x-auto text-nowrap">{props.data.title}</p>
               <div className="m-1 size-5 opacity-0"></div>
             </div>
@@ -127,5 +127,5 @@ function Description({ children }) {
 }
 
 function Button({ children, onClick = () => {}, disabled = false, submit = false }) {
-  return <button type={submit ? "submit" : "button"} disabled={disabled} className={"px-[0.3rem] py-[0.2rem] text-[0.5rem] bg-neutral-300 border border-black dark:bg-neutral-700 dark:border-neutral-500 rounded-md" + (disabled ? " opacity-50" : " hover:cursor-pointer")} onClick={onClick}>{children}</button>
+  return <button type={submit ? "submit" : "button"} disabled={disabled} title={children} className={"px-[0.3rem] py-[0.2rem] text-[0.5rem] bg-neutral-300 border border-black dark:bg-neutral-700 dark:border-neutral-500 rounded-md" + (disabled ? " opacity-50" : " hover:cursor-pointer")} onClick={onClick}>{children}</button>
 }

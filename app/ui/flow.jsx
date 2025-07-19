@@ -26,11 +26,12 @@ export default function Flow({ initial, formStyle }) {
     <MyContext value={[active, tree, reset]}>
       <AnimatePresence>
         {!reset[0] && <motion.button
+          type="button"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ type: "tween", duration: 0.5, ease: "easeInOut" }}
-          className={"absolute bottom-5 right-5 z-10 px-3 py-1 hover:cursor-pointer " + formStyle}
+          title="Reset"
           onClick={() => {
             tree.current.organize();
             const result = tree.current.toFlow();
@@ -38,6 +39,7 @@ export default function Flow({ initial, formStyle }) {
             setEdges(result.edges);
             reset[1](true);
           }}
+          className={"absolute bottom-5 right-5 z-10 px-3 py-1 hover:cursor-pointer " + formStyle}
         >Reset</motion.button>}
       </AnimatePresence>
       <div className="w-screen h-screen bg-white dark:bg-neutral-950">
