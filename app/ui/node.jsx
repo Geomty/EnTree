@@ -47,7 +47,7 @@ export function Node(props) {
               <p className="text-lg select-text overflow-x-auto text-nowrap">{props.data.title}</p>
               <div className="m-1 size-5 opacity-0"></div>
             </div>
-            <p className="text-xs select-text">{props.data.description}</p>
+            <Description>{props.data.description}</Description>
             <div className="flex justify-end content-center gap-4">
               <Button onClick={toggleComplete} disabled={isPending}>Mark as complete</Button>
               <form action={formAction} className="m-[-0.3rem]">
@@ -102,6 +102,23 @@ function Title({ children, onClick, id }) {
       <p style={{ fontSize: "var(--text-6xl)" }} className={"text-center" + (active[0] ? "" : " hover:cursor-pointer")} onClick={active[0] ? () => {} : onClick}>{children}</p>
     </Animated>
   )
+}
+
+function Description({ children }) {
+  const descRef = useRef(null);
+  useEffect(() => {
+    let i = 1;
+    while (descRef.current.clientHeight > 90 && i > 0) {
+      switch (i) {
+        case 1:
+          descRef.current.style.fontSize = "0.5rem";
+          break;
+      }
+      i--;
+    }
+  }, []);
+
+  return <p ref={descRef} style={{ fontSize: "var(--text-xs)" }} className="select-text wrap-break-word overflow-auto max-h-[95px]">{children}</p>
 }
 
 function Button({ children, onClick = () => {}, disabled = false, submit = false }) {
