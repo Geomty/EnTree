@@ -15,12 +15,6 @@ export function Node(props) {
     if (active[0]) {
       reactFlow.setViewport(active[0].pos, { duration: 1000 });
       active[1](null);
-      setTimeout(() => {
-        tree.current.organize();
-        const result = tree.current.toFlow();
-        reactFlow.setNodes(result.nodes);
-        reactFlow.setEdges(result.edges);
-      }, 1000);
     } else {
       reactFlow.fitView({ duration: 1000, nodes: [{ id: props.id }] });
       setTimeout(() => active[1]({ id: props.id, pos: reactFlow.getViewport() }), 1); // optimal solution!
@@ -47,16 +41,16 @@ export function Node(props) {
     <div className={(props.data.complete ? "opacity-50 " : "opacity-100 ") + (active[0] ? "cursor-auto " : "") + "w-96 h-52 flex justify-center content-center text-center bg-neutral-100 border-4 border-black dark:bg-neutral-800 dark:border-neutral-500 rounded-4xl"}>
       <AnimatePresence>
         {active[0]?.id == props.id &&
-          <Animated initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="w-full z-10 p-4 flex flex-col justify-between content-center">
+          <Animated initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="w-full z-10 p-4 flex flex-col justify-between content-center nowheel">
             <div className="flex justify-between content-center gap-2">
               <button onClick={toggleActive} disabled={isPending} className={"p-1" + (isPending ? " opacity-50" : " hover:cursor-pointer")}><HiArrowSmallLeft className="size-5 fill-neutral-700 dark:fill-neutral-400" /></button>
-              <p className="text-xl select-text overflow-x-auto text-nowrap">{props.data.title}</p>
+              <p className="text-lg select-text overflow-x-auto text-nowrap">{props.data.title}</p>
               <div className="m-1 size-5 opacity-0"></div>
             </div>
-            <p className="text-sm select-text">{props.data.description}</p>
+            <p className="text-xs select-text">{props.data.description}</p>
             <div className="flex justify-end content-center gap-4">
               <Button onClick={toggleComplete} disabled={isPending}>Mark as complete</Button>
-              <form action={formAction} className="m-[-0.2rem]">
+              <form action={formAction} className="m-[-0.3rem]">
                 <input type="text" name="query" value={props.data.title} readOnly className="hidden" />
                 <Button disabled={isPending} submit={true}>Generate children</Button>
               </form>
@@ -111,5 +105,5 @@ function Title({ children, onClick, id }) {
 }
 
 function Button({ children, onClick = () => {}, disabled = false, submit = false }) {
-  return <button type={submit ? "submit" : "button"} disabled={disabled} className={"px-[0.4rem] py-[0.2rem] text-[0.6rem] bg-neutral-300 border border-black dark:bg-neutral-700 dark:border-neutral-500 rounded-md" + (disabled ? " opacity-50" : " hover:cursor-pointer")} onClick={onClick}>{children}</button>
+  return <button type={submit ? "submit" : "button"} disabled={disabled} className={"px-[0.3rem] py-[0.2rem] text-[0.5rem] bg-neutral-300 border border-black dark:bg-neutral-700 dark:border-neutral-500 rounded-md" + (disabled ? " opacity-50" : " hover:cursor-pointer")} onClick={onClick}>{children}</button>
 }
