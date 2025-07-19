@@ -8,7 +8,7 @@ import { createChildren } from "@/app/lib/actions";
 const handleStyle = "!bg-black dark:!bg-neutral-500 !size-6 !border-4 !border-white dark:!border-neutral-950";
 
 export function Node(props) {
-  const [active, tree] = useContext(MyContext);
+  const [active, tree, reset] = useContext(MyContext);
 
   const reactFlow = useReactFlow();
   const toggleActive = useCallback(() => {
@@ -30,6 +30,7 @@ export function Node(props) {
     if (state) {
       const node = tree.current.findChild(props.id);
       node.addChildren(state);
+      if (reset[0]) tree.current.organize();
       const result = tree.current.toFlow();
       reactFlow.setNodes(result.nodes);
       reactFlow.setEdges(result.edges);
