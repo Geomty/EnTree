@@ -22,7 +22,7 @@
     "@tailwindcss/postcss": "^4",
     "tailwindcss": "^4"
   },
-  "description": "wip",
+  "description": "Your entry into AI-guided learning. Generate a visual learning plan about any topic.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Geomty/EnTree.git"
@@ -30,7 +30,8 @@
   "keywords": [
     "tree",
     "learn",
-    "learning"
+    "learning",
+    "ai"
   ],
   "author": "Geomty",
   "license": "ISC",

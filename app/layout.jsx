@@ -4,9 +4,9 @@ import "@/app/global.css";
 
 export const metadata = {
   title: "EnTree",
-  description: "wip",
+  description: "Your entry into AI-guided learning. Generate a visual learning plan about any topic.",
   author: "Geomty",
-  keywords: ["tree", "learn", "learning"]
+  keywords: ["tree", "learn", "learning", "ai"]
 };
 
 export default function RootLayout({ children }) {
