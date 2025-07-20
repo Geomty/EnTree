@@ -1,4 +1,5 @@
 import { ThemeProvider } from "next-themes";
+import { dm_sans } from "@/app/lib/fonts";
 import "@xyflow/react/dist/style.css";
 import "@/app/global.css";
 
@@ -12,7 +13,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>
+      <body className={dm_sans.className}>
         <ThemeProvider attribute="class">
           {children}
         </ThemeProvider>
