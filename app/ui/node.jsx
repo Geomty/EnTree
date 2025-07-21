@@ -9,8 +9,8 @@ const handleStyle = "!bg-black dark:!bg-neutral-500 !size-6 !border-4 !border-wh
 
 export function Node(props) {
   const [active, tree, reset] = useContext(MyContext);
-
   const reactFlow = useReactFlow();
+
   const toggleActive = useCallback(() => {
     if (active[0]) {
       reactFlow.setViewport(active[0].pos, { duration: 1000 });
@@ -20,20 +20,26 @@ export function Node(props) {
       setTimeout(() => active[1]({ id: props.id, pos: reactFlow.getViewport() }), 1); // optimal solution!
     }
   }, [active]);
-  const toggleComplete = useCallback(() => {
-    reactFlow.updateNodeData(props.id, { complete: !props.data.complete });
-    tree.current.findChild(props.id).complete = !props.data.complete;
-  }, [props.data.complete]);
-  const deleteNode = useCallback(() => {
-    let arr = props.id.split("_");
-    let i = arr.pop();
-    tree.current.findChild(arr.join("_")).children.splice(i, 1);
+
+  const updateFlow = useCallback(() => {
     toggleActive();
     if (reset[0]) tree.current.organize();
     const result = tree.current.toFlow();
     reactFlow.setNodes(result.nodes);
     reactFlow.setEdges(result.edges);
-  });
+  }, [tree, reset, toggleActive]);
+
+  const toggleComplete = useCallback(() => {
+    reactFlow.updateNodeData(props.id, { complete: !props.data.complete });
+    tree.current.findChild(props.id).complete = !props.data.complete;
+  }, [tree, props.data.complete]);
+
+  const deleteNode = useCallback(() => {
+    let arr = props.id.split("_");
+    let i = arr.pop();
+    tree.current.findChild(arr.join("_")).children.splice(i, 1);
+    updateFlow();
+  }, [tree, updateFlow]);
 
   const [state, formAction, isPending] = useActionState(createChildren, null);
   useEffect(() => {
@@ -43,11 +49,7 @@ export function Node(props) {
       } else {
         const node = tree.current.findChild(props.id);
         node.addChildren(state.response);
-        if (reset[0]) tree.current.organize();
-        const result = tree.current.toFlow();
-        reactFlow.setNodes(result.nodes);
-        reactFlow.setEdges(result.edges);
-        toggleActive();
+        updateFlow();
       }
     }
   }, [state]);

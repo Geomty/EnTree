@@ -23,6 +23,14 @@ export default function Flow({ initial, formStyle }) {
   const onNodeDragStop = useCallback((_, node) => tree.current.findChild(node.id).position = node.position, []);
   const reset = useState(true);
 
+  const resetView = useCallback(() => {
+    tree.current.organize();
+    const result = tree.current.toFlow();
+    setNodes(result.nodes);
+    setEdges(result.edges);
+    reset[1](true);
+  }, [tree, reset]);
+
   return (
     <MyContext value={[active, tree, reset]}>
       <AnimatePresence>
@@ -33,15 +41,9 @@ export default function Flow({ initial, formStyle }) {
           exit={{ opacity: 0 }}
           transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
           title="Reset"
-          onClick={() => {
-            tree.current.organize();
-            const result = tree.current.toFlow();
-            setNodes(result.nodes);
-            setEdges(result.edges);
-            reset[1](true);
-          }}
+          onClick={resetView}
           className={"absolute bottom-5 right-5 z-10 p-2 hover:cursor-pointer " + formStyle}
-        ><RiResetLeftFill className="size-7 fill-neutral-700 dark:fill-neutral-400" /></motion.button>}
+        ><RiResetLeftFill className="size-6 fill-neutral-700 dark:fill-neutral-400" /></motion.button>}
       </AnimatePresence>
       <div className="w-screen h-screen bg-white dark:bg-neutral-950">
         <ReactFlow
