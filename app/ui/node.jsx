@@ -1,7 +1,7 @@
 import { useActionState, useCallback, useContext, useEffect, useRef } from "react";
 import { Handle, useReactFlow } from "@xyflow/react";
 import { motion, AnimatePresence } from "motion/react";
-import { HiArrowSmallLeft } from "react-icons/hi2";
+import { HiArrowSmallLeft, HiOutlineTrash } from "react-icons/hi2";
 import { MyContext } from "@/app/lib/context";
 import { createChildren } from "@/app/lib/actions";
 
@@ -24,6 +24,16 @@ export function Node(props) {
     reactFlow.updateNodeData(props.id, { complete: !props.data.complete });
     tree.current.findChild(props.id).complete = !props.data.complete;
   }, [props.data.complete]);
+  const deleteNode = useCallback(() => {
+    let arr = props.id.split("_");
+    let i = arr.pop();
+    tree.current.findChild(arr.join("_")).children.splice(i, 1);
+    toggleActive();
+    if (reset[0]) tree.current.organize();
+    const result = tree.current.toFlow();
+    reactFlow.setNodes(result.nodes);
+    reactFlow.setEdges(result.edges);
+  });
 
   const [state, formAction, isPending] = useActionState(createChildren, null);
   useEffect(() => {
@@ -50,7 +60,11 @@ export function Node(props) {
             <div className="flex justify-between content-center gap-2">
               <button onClick={toggleActive} disabled={isPending} title="Back" className={"p-1" + (isPending ? " opacity-50" : " hover:cursor-pointer")}><HiArrowSmallLeft className="size-5 fill-neutral-700 dark:fill-neutral-400" /></button>
               <p className="text-lg select-text overflow-x-auto text-nowrap">{props.data.title}</p>
-              <div className="m-1 size-5 opacity-0"></div>
+              {props.id == "0" ?
+                <div className="m-1 size-5 opacity-0"></div>
+              :
+                <button onClick={deleteNode} disabled={isPending} title="Delete" className={"p-1" + (isPending ? " opacity-50" : " hover:cursor-pointer")}><HiOutlineTrash className="size-5 stroke-neutral-700 dark:stroke-neutral-400" /></button>
+              }
             </div>
             <Description>{props.data.description}</Description>
             <div className="flex justify-end content-center gap-4">
