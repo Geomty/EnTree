@@ -28,11 +28,11 @@ export function Node(props) {
   const [state, formAction, isPending] = useActionState(createChildren, null);
   useEffect(() => {
     if (state) {
-      const node = tree.current.findChild(props.id);
       if (state.error) {
         alert(`A ${state.error.name} has occurred. Please try again.`);
       } else {
-        node.addChildren(state);
+        const node = tree.current.findChild(props.id);
+        node.addChildren(state.response);
         if (reset[0]) tree.current.organize();
         const result = tree.current.toFlow();
         reactFlow.setNodes(result.nodes);
