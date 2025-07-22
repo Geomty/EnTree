@@ -88,7 +88,7 @@ export function Node(props) {
           </Animated>
         }
       </AnimatePresence>
-      <Title onClick={toggleActive} id={props.id}>{props.data.title}</Title>
+      <Title onClick={toggleActive} id={props.id} complete={props.data.complete}>{props.data.title}</Title>
       <Handle type="source" position="bottom" className={(active[0] ? "!cursor-default " : "!cursor-grab ") + (props.data.type == "end" ? "opacity-0 " : "") + handleStyle} />
       <Handle type="target" position="top" className={(active[0] ? "!cursor-default " : "!cursor-grab ") + (props.data.type == "start" ? "opacity-0 " : "") + handleStyle} />
     </div>
@@ -99,7 +99,7 @@ function Animated(props) {
   return <motion.div {...props} transition={{ type: "tween", duration: 0.5, ease: "easeInOut" }} />
 }
 
-function Title({ children, onClick, id }) {
+function Title({ children, onClick, id, complete }) {
   const [active] = useContext(MyContext);
   const titleRef = useRef(null);
   useEffect(() => {
@@ -129,7 +129,7 @@ function Title({ children, onClick, id }) {
 
   return (
     <Animated ref={titleRef} variants={{ active: { opacity: 0 }, inactive: { opacity: 1 } }} animate={active[0]?.id == id ? "active" : "inactive"} exit={{ opacity: 0 }} className="w-80 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 wrap-break-word">
-      <p style={{ fontSize: "var(--text-6xl)" }} className={active[0] ? "" : " hover:cursor-pointer"} onClick={active[0] ? () => {} : onClick}>{children}</p>
+      <p style={{ fontSize: "var(--text-6xl)" }} className={(active[0] ? "" : "hover:cursor-pointer ") + (complete ? "line-through" : "")} onClick={active[0] ? () => {} : onClick}>{children}</p>
     </Animated>
   )
 }
