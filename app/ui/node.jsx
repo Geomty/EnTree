@@ -2,6 +2,7 @@ import { useActionState, useCallback, useContext, useEffect, useRef } from "reac
 import { Handle, useReactFlow } from "@xyflow/react";
 import { motion, AnimatePresence } from "motion/react";
 import { HiArrowSmallLeft, HiOutlineTrash } from "react-icons/hi2";
+import { GiCheckMark } from "react-icons/gi";
 import { MyContext } from "@/app/lib/context";
 import { createChildren } from "@/app/lib/actions";
 
@@ -69,12 +70,20 @@ export function Node(props) {
               }
             </div>
             <Description>{props.data.description}</Description>
-            <div className="flex justify-end content-center gap-4">
-              <Button onClick={toggleComplete} disabled={isPending}>Mark as complete</Button>
-              <form action={formAction} className="m-[-0.3rem]">
+            <div className="flex justify-between content-center">
+              <form action={formAction} style={{ all: "inherit" }}>
                 <input type="text" name="query" value={props.data.title} readOnly className="hidden" />
-                <Button disabled={isPending} submit={true}>Generate children</Button>
+                <button
+                  type="submit"
+                  title="Generate children"
+                  disabled={isPending}
+                  className={"px-[0.3rem] py-[0.2rem] text-[0.5rem] bg-neutral-300 border border-black dark:bg-neutral-700 dark:border-neutral-500 rounded-md" + (isPending ? " opacity-50" : " hover:cursor-pointer")}
+                >Generate children</button>
               </form>
+              <div onClick={toggleComplete} disabled={isPending} className={"flex content-center gap-2 mt-auto mb-auto" + (isPending ? " opacity-50" : " hover:cursor-pointer")}>
+                <div className="size-4 flex justify-center content-center border border-black dark:border-neutral-400 rounded-sm">{props.data.complete && <GiCheckMark className="size-3 m-auto stroke-1 stroke-neutral-700 dark:stroke-neutral-300" />}</div>
+                <p className="text-[0.5rem] mt-auto mb-auto">Mark as complete</p>
+              </div>
             </div>
           </Animated>
         }
@@ -120,7 +129,7 @@ function Title({ children, onClick, id }) {
 
   return (
     <Animated ref={titleRef} variants={{ active: { opacity: 0 }, inactive: { opacity: 1 } }} animate={active[0]?.id == id ? "active" : "inactive"} exit={{ opacity: 0 }} className="w-80 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 wrap-break-word">
-      <p style={{ fontSize: "var(--text-6xl)" }} className={"text-center" + (active[0] ? "" : " hover:cursor-pointer")} onClick={active[0] ? () => {} : onClick}>{children}</p>
+      <p style={{ fontSize: "var(--text-6xl)" }} className={active[0] ? "" : " hover:cursor-pointer"} onClick={active[0] ? () => {} : onClick}>{children}</p>
     </Animated>
   )
 }
@@ -140,8 +149,4 @@ function Description({ children }) {
   }, []);
 
   return <p ref={descRef} style={{ fontSize: "var(--text-xs)" }} className="select-text wrap-break-word overflow-auto max-h-[95px]">{children}</p>
-}
-
-function Button({ children, onClick = () => {}, disabled = false, submit = false }) {
-  return <button type={submit ? "submit" : "button"} disabled={disabled} title={children} className={"px-[0.3rem] py-[0.2rem] text-[0.5rem] bg-neutral-300 border border-black dark:bg-neutral-700 dark:border-neutral-500 rounded-md" + (disabled ? " opacity-50" : " hover:cursor-pointer")} onClick={onClick}>{children}</button>
 }
