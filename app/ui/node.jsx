@@ -103,13 +103,13 @@ function Title({ children, onClick, id, complete }) {
   const [active] = useContext(MyContext);
   const titleRef = useRef(null);
   useEffect(() => {
-    let i = 5;
-    while (titleRef.current.clientHeight > 180 && i > 0) {
+    let i = 4;
+    while (titleRef.current.clientHeight > 144 && i > 0) {
       // its the only way :(
       switch (i) {
-        case 5:
-          titleRef.current.children[0].style.fontSize = "var(--text-5xl)";
-          break;
+        // case 5:
+        //   titleRef.current.children[0].style.fontSize = "var(--text-5xl)";
+        //   break;
         case 4:
           titleRef.current.children[0].style.fontSize = "var(--text-4xl)";
           break;
@@ -129,7 +129,7 @@ function Title({ children, onClick, id, complete }) {
 
   return (
     <Animated ref={titleRef} variants={{ active: { opacity: 0 }, inactive: { opacity: 1 } }} animate={active[0]?.id == id ? "active" : "inactive"} exit={{ opacity: 0 }} className="w-80 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 wrap-break-word">
-      <p style={{ fontSize: "var(--text-6xl)" }} className={(active[0] ? "" : "hover:cursor-pointer ") + (complete ? "line-through" : "")} onClick={active[0] ? () => {} : onClick}>{children}</p>
+      <p style={{ fontSize: "var(--text-5xl)" }} className={(active[0] ? "" : "hover:cursor-pointer ") + (complete ? "line-through" : "")} onClick={active[0] ? () => {} : onClick}>{children}</p>
     </Animated>
   )
 }
