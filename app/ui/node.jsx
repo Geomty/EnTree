@@ -80,7 +80,7 @@ export function Node(props) {
                   className={"px-[0.3rem] py-[0.2rem] text-[0.5rem] bg-neutral-300 border border-black dark:bg-neutral-700 dark:border-neutral-500 rounded-md" + (isPending ? " opacity-50" : " hover:cursor-pointer")}
                 >Generate children</button>
               </form>
-              <div onClick={toggleComplete} disabled={isPending} className={"flex content-center gap-2 mt-auto mb-auto" + (isPending ? " opacity-50" : " hover:cursor-pointer")}>
+              <div onClick={isPending ? () => {} : toggleComplete} className={"flex content-center gap-2 mt-auto mb-auto" + (isPending ? " opacity-50" : " hover:cursor-pointer")}>
                 <div className="size-4 flex justify-center content-center border border-black dark:border-neutral-400 rounded-sm">{props.data.complete && <GiCheckMark className="size-3 m-auto stroke-1 stroke-neutral-700 dark:stroke-neutral-300" />}</div>
                 <p className="text-[0.5rem] mt-auto mb-auto">Mark as complete</p>
               </div>
