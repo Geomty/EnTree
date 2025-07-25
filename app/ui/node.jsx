@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { HiArrowSmallLeft, HiOutlineTrash } from "react-icons/hi2";
 import { GiCheckMark } from "react-icons/gi";
 import { MyContext } from "@/app/lib/context";
-import { createChildren } from "@/app/lib/actions";
+import { generateChildren } from "@/app/lib/actions";
 
 const handleStyle = "!bg-black dark:!bg-neutral-500 !size-6 !border-4 !border-white dark:!border-neutral-950";
 
@@ -42,7 +42,7 @@ export function Node(props) {
     updateFlow();
   }, [tree, updateFlow]);
 
-  const [state, formAction, isPending] = useActionState(createChildren, null);
+  const [state, formAction, isPending] = useActionState(generateChildren, null);
   useEffect(() => {
     if (state) {
       if (state.error) {

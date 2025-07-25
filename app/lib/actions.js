@@ -4,7 +4,7 @@ import { GoogleGenAI } from "@google/genai";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
-export async function createChildren(prevState, formData) {
+export async function generateChildren(prevState, formData) {
   /* let result;
   try {
     const response = await ai.models.generateContent({
