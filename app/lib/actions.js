@@ -1,8 +1,17 @@
 "use server";
 
 import { GoogleGenAI } from "@google/genai";
+import { MongoClient } from "mongodb";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const mongo = new MongoClient(process.env.MONGO_CONNECTION_URI);
+const database = mongo.db("main");
+const trees = database.collection("trees");
+
+export async function getTree(prevState, formData) {
+  await new Promise(res => setTimeout(res, 1000));
+  return formData.get("query");
+}
 
 export async function generateChildren(prevState, formData) {
   /* let result;
