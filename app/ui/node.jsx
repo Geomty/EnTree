@@ -48,8 +48,7 @@ export function Node(props) {
       if (state.error) {
         alert(`A ${state.error.name} has occurred. Please try again.`);
       } else {
-        const node = tree.current.findChild(props.id);
-        node.addChildren(state.response);
+        tree.current.addChildren(props.id, state.response);
         updateFlow();
       }
     }

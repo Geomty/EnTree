@@ -1,15 +1,16 @@
 export class Tree {
-  constructor({ title, description, position }) {
+  constructor({ title, description, position, complete, children }) {
     this.title = title;
     this.description = description;
     this.position = position;
-    this.complete = false;
-    this.children = [];
+    this.complete = complete;
+    this.children = children;
   }
-  addChildren(children) {
+  addChildren(id, children) {
+    const node = this.findChild(id);
     let i = 0;
     for (const child of children) {
-      this.children.push(new Tree({...child, position: { x: 600 * (i - (children.length / 2 - 0.5)) + this.position.x, y: 400 + this.position.y }}));
+      node.children.push({ ...child, position: { x: 600 * (i - (children.length / 2 - 0.5)) + node.position.x, y: 400 + node.position.y }, complete: false, children: [] });
       i++;
     }
   }
