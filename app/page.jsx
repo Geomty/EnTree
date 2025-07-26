@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <div className="text-black dark:text-neutral-200">
       <div className="absolute top-5 left-5 z-10 flex justify-start items-center gap-20 select-none">
-        <ThemeToggle />
+        <ThemeToggle formStyle={formStyle} />
         <form action={formAction} className={"flex justify-start items-center gap-4" + (isPending || state ? " opacity-50" : "")}>
           <input required disabled={isPending || state} ref={inputRef} name="query" type="text" placeholder="Enter anything" title="Enter anything" className={"h-9 pl-2 " + formStyle} />
           <button disabled={isPending || state} type="submit" title="Submit" className={"px-3 py-1 " + formStyle + (isPending || state ? "" : " hover:cursor-pointer")}>Submit</button>

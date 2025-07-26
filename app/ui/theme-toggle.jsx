@@ -1,7 +1,7 @@
 import { useTheme } from "next-themes";
 import { montserrat } from "@/app/lib/fonts";
 
-export default function ThemeToggle() {
+export default function ThemeToggle({ formStyle }) {
   const { resolvedTheme, setTheme } = useTheme();
 
   return <button
@@ -14,6 +14,6 @@ export default function ThemeToggle() {
         setTheme("light");
       }
     }}
-    className={"px-3 py-1 bg-neutral-100 border-2 border-black dark:bg-neutral-800 dark:border-neutral-500 rounded-lg hover:cursor-pointer font-black " + montserrat.className}
+    className={"px-3 py-1 rounded-lg hover:cursor-pointer select-none font-black " + montserrat.className + " " + formStyle}
   >Theme</button>
 }
