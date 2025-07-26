@@ -14,6 +14,6 @@ export default function ThemeToggle({ formStyle }) {
         setTheme("light");
       }
     }}
-    className={"px-3 py-1 rounded-lg hover:cursor-pointer select-none font-black " + montserrat.className + " " + formStyle}
+    className={"px-3 py-1 rounded-lg hover:cursor-pointer font-black " + montserrat.className + " " + formStyle}
   >Theme</button>
 }
