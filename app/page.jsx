@@ -4,13 +4,13 @@ import { useRef, useActionState } from "react";
 import { HiOutlineTrash } from "react-icons/hi2";
 import Flow from "@/app/ui/flow";
 import ThemeToggle from "@/app/ui/theme-toggle";
-import { getTree } from "@/app/lib/actions";
+import { createTree } from "@/app/lib/actions";
 
 const formStyle = "bg-neutral-100 border-2 border-black dark:bg-neutral-800 dark:border-neutral-500 rounded-lg";
 
 export default function Home() {
   const inputRef = useRef(null);
-  const [state, formAction, isPending] = useActionState(getTree, null);
+  const [state, formAction, isPending] = useActionState(createTree, null);
 
   return (
     <div className="text-black dark:text-neutral-200">

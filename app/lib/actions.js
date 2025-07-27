@@ -8,7 +8,7 @@ const mongo = new MongoClient(process.env.MONGO_CONNECTION_URI);
 const database = mongo.db("main");
 const trees = database.collection("trees");
 
-export async function getTree(prevState, formData) {
+export async function createTree(prevState, formData) {
   await new Promise(res => setTimeout(res, 1000));
   return formData.get("query");
 }
