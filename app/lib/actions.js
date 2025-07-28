@@ -10,8 +10,15 @@ const trees = database.collection("trees");
 const users = database.collection("users");
 
 export async function getTrees(userId) {
-  const result = await users.findOne({ userId });
-  return result.trees;
+  let result;
+  try {
+    const response = await users.findOne({ userId });
+    result = { response: response.trees };
+  } catch (error) {
+    result = { error };
+    console.log(error);
+  }
+  return result;
 }
 
 export async function createTree(prevState, formData) {

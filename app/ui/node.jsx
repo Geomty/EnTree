@@ -42,17 +42,17 @@ export function Node(props) {
     updateFlow();
   }, [tree, updateFlow]);
 
-  const [state, generateChildrenAction, isPending] = useActionState(generateChildren, null);
+  const [result, generateChildrenAction, isPending] = useActionState(generateChildren, null);
   useEffect(() => {
-    if (state) {
-      if (state.error) {
-        alert(`A ${state.error.name} has occurred. Please try again.`);
+    if (result) {
+      if (result.error) {
+        alert(`A ${result.error.name} has occurred. Please try again.`);
       } else {
-        tree.current.addChildren(props.id, state.response);
+        tree.current.addChildren(props.id, result.response);
         updateFlow();
       }
     }
-  }, [state]);
+  }, [result]);
 
   return (
     <div className={(props.data.complete ? "opacity-50 " : "opacity-100 ") + (active[0] ? "cursor-auto " : "") + "w-96 h-52 flex justify-center content-center text-center bg-neutral-100 border-4 border-black dark:bg-neutral-800 dark:border-neutral-500 rounded-4xl"}>

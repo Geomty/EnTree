@@ -14,7 +14,16 @@ export default function Home() {
 
   useEffect(() => {
     let ignore = false;
-    if (!ignore) (async () => setTitles(await getTrees("1")))();
+    if (!ignore) {
+      (async () => {
+        const result = await getTrees("1");
+        if (result.error) {
+          alert(`A ${result.error.name} has occurred. Please try again.`);
+        } else {
+          setTitles(result.response);
+        }
+      })();
+    }
     return () => ignore = true;
   }, []);
 
