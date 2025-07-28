@@ -4,28 +4,31 @@ import { useActionState, useEffect, useState } from "react";
 import { HiOutlineTrash } from "react-icons/hi2";
 import Flow from "@/app/ui/flow";
 import ThemeToggle from "@/app/ui/theme-toggle";
-import { getTrees, createTree } from "@/app/lib/actions";
+import { getTrees, getTree, createTree } from "@/app/lib/actions";
 
 const formStyle = "bg-neutral-100 border-2 border-black dark:bg-neutral-800 dark:border-neutral-500 rounded-lg";
 
 export default function Home() {
-  const [initial, createTreeAction, isPending] = useActionState(createTree, null);
+  const [createTreeResult, createTreeAction] = useActionState(createTree, null);
   const [titles, setTitles] = useState(["hello", "world", "this is", "a test", "this is some longer text", "this is some very very very long text"]);
+  const [initial, setInitial] = useState(null);
 
   useEffect(() => {
     let ignore = false;
     if (!ignore) {
       (async () => {
-        const result = await getTrees("1");
-        if (result.error) {
-          alert(`A ${result.error.name} has occurred. Please try again.`);
+        const getTreesResult = await getTrees("1");
+        if (getTreesResult.error) {
+          alert(`A ${getTreesResult.error.name} has occurred. Please try again.`);
         } else {
-          setTitles(result.response);
+          setTitles(getTreesResult.response);
         }
       })();
     }
     return () => ignore = true;
   }, []);
+
+  useEffect(() => setInitial(createTreeResult), [createTreeResult]);
 
   return (
     <div className="text-black dark:text-neutral-200">
@@ -35,15 +38,22 @@ export default function Home() {
           {titles.map(value => {
             return (
               <div key={value} className="flex justify-between items-center gap-4">
-                <p className="text-lg hover:cursor-pointer">{value}</p>
+                <button onClick={async () => {
+                  const getTreeResult = await getTree("1", value);
+                  if (getTreeResult.error) {
+                    alert(`A ${getTreeResult.error.name} has occurred. Please try again.`);
+                  } else {
+                    setInitial(getTreeResult.response);
+                  }
+                }} className="text-lg hover:cursor-pointer">{value}</button>
                 <HiOutlineTrash className="size-6 shrink-0 stroke-neutral-700 dark:stroke-neutral-400 hover:cursor-pointer" />
               </div>
             )
           })}
         </div>
-        <form action={createTreeAction} className={"flex items-center gap-4" + (isPending || initial ? " opacity-50" : "")}>
-          <input required disabled={isPending || initial} name="query" type="text" placeholder="Enter anything" title="Enter anything" className={"h-9 pl-2 " + formStyle} />
-          <button disabled={isPending || initial} type="submit" title="Submit" className={"px-3 py-1 " + formStyle + (isPending || initial ? "" : " hover:cursor-pointer")}>Submit</button>
+        <form action={createTreeAction} className="flex items-center gap-4">
+          <input required name="query" type="text" placeholder="Enter anything" title="Enter anything" className={"h-9 pl-2 " + formStyle} />
+          <button type="submit" title="Submit" className={"px-3 py-1 " + formStyle}>Submit</button>
         </form>
       </div>
       {initial && <Flow initial={initial} formStyle={formStyle} />}

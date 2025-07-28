@@ -21,6 +21,18 @@ export async function getTrees(userId) {
   return result;
 }
 
+export async function getTree(userId, title) {
+  let result;
+  try {
+    const response = await trees.findOne({ userId, "tree.title": title });
+    result = { response: response.tree };
+  } catch (error) {
+    result = { error };
+    console.log(error);
+  }
+  return result;
+}
+
 export async function createTree(prevState, formData) {
   await new Promise(res => setTimeout(res, 1000));
   return formData.get("query");
