@@ -10,20 +10,21 @@ const formStyle = "bg-neutral-100 border-2 border-black dark:bg-neutral-800 dark
 
 export default function Home() {
   const inputRef = useRef(null);
-  const [state, createTreeAction, isPending] = useActionState(createTree, null);
+  const [initial, createTreeAction, isPending] = useActionState(createTree, null);
+  const [titles, getTreesAction] = useActionState(getTrees, ["hello", "world", "this is", "a test", "this is some longer text", "this is some very very very long text"]);
 
   return (
     <div className="text-black dark:text-neutral-200">
       <div className="absolute top-5 right-5 w-84 z-10 p-6 flex flex-col items-center gap-8 bg-neutral-300 border-2 border-black dark:bg-neutral-700 dark:border-neutral-500 rounded-2xl select-none">
         <div className="w-full flex justify-around items-center">
           <ThemeToggle formStyle={formStyle} />
-          <button onClick={async () => {
-            const result = await getTrees("1");
-            console.log(result);
-          }}>Fetch trees</button>
+          <form action={getTreesAction}>
+            <input type="text" name="userId" value="1" readOnly className="hidden" />
+            <button type="submit">Fetch trees</button>
+          </form>
         </div>
         <div className="w-full max-h-48 overflow-auto flex flex-col gap-4">
-          {["hello", "world", "this is", "a test", "this is some longer text", "this is some very very very long text"].map(value => {
+          {titles.map(value => {
             return (
               <div key={value} className="flex justify-between items-center gap-4">
                 <p className="text-lg hover:cursor-pointer">{value}</p>
@@ -32,12 +33,12 @@ export default function Home() {
             )
           })}
         </div>
-        <form action={createTreeAction} className={"flex items-center gap-4" + (isPending || state ? " opacity-50" : "")}>
-          <input required disabled={isPending || state} ref={inputRef} name="query" type="text" placeholder="Enter anything" title="Enter anything" className={"h-9 pl-2 " + formStyle} />
-          <button disabled={isPending || state} type="submit" title="Submit" className={"px-3 py-1 " + formStyle + (isPending || state ? "" : " hover:cursor-pointer")}>Submit</button>
+        <form action={createTreeAction} className={"flex items-center gap-4" + (isPending || initial ? " opacity-50" : "")}>
+          <input required disabled={isPending || initial} ref={inputRef} name="query" type="text" placeholder="Enter anything" title="Enter anything" className={"h-9 pl-2 " + formStyle} />
+          <button disabled={isPending || initial} type="submit" title="Submit" className={"px-3 py-1 " + formStyle + (isPending || initial ? "" : " hover:cursor-pointer")}>Submit</button>
         </form>
       </div>
-      {state && <Flow initial={state} formStyle={formStyle} />}
+      {initial && <Flow initial={initial} formStyle={formStyle} />}
     </div>
   )
 }
