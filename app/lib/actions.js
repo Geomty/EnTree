@@ -9,8 +9,8 @@ const database = mongo.db("main");
 const trees = database.collection("trees");
 const users = database.collection("users");
 
-export async function getTrees(prevState, formData) {
-  const result = await users.findOne({ userId: formData.get("userId") });
+export async function getTrees(userId) {
+  const result = await users.findOne({ userId });
   return result.trees;
 }
 
