@@ -4,7 +4,7 @@ import { useRef, useActionState } from "react";
 import { HiOutlineTrash } from "react-icons/hi2";
 import Flow from "@/app/ui/flow";
 import ThemeToggle from "@/app/ui/theme-toggle";
-import { createTree } from "@/app/lib/actions";
+import { getTrees, createTree } from "@/app/lib/actions";
 
 const formStyle = "bg-neutral-100 border-2 border-black dark:bg-neutral-800 dark:border-neutral-500 rounded-lg";
 
@@ -15,7 +15,13 @@ export default function Home() {
   return (
     <div className="text-black dark:text-neutral-200">
       <div className="absolute top-5 right-5 w-84 z-10 p-6 flex flex-col items-center gap-8 bg-neutral-300 border-2 border-black dark:bg-neutral-700 dark:border-neutral-500 rounded-2xl select-none">
-        <ThemeToggle formStyle={formStyle} />
+        <div className="w-full flex justify-around items-center">
+          <ThemeToggle formStyle={formStyle} />
+          <button onClick={async () => {
+            const result = await getTrees("1");
+            console.log(result);
+          }}>Fetch trees</button>
+        </div>
         <div className="w-full max-h-48 overflow-auto flex flex-col gap-4">
           {["hello", "world", "this is", "a test", "this is some longer text", "this is some very very very long text"].map(value => {
             return (

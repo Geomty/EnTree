@@ -7,6 +7,13 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 const mongo = new MongoClient(process.env.MONGO_CONNECTION_URI);
 const database = mongo.db("main");
 const trees = database.collection("trees");
+const users = database.collection("users");
+
+export async function getTrees(userId) {
+  const result = await users.findOne({ userId });
+  delete result._id;
+  return result;
+}
 
 export async function createTree(prevState, formData) {
   await new Promise(res => setTimeout(res, 1000));
