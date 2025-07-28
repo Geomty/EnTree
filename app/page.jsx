@@ -10,7 +10,7 @@ const formStyle = "bg-neutral-100 border-2 border-black dark:bg-neutral-800 dark
 
 export default function Home() {
   const inputRef = useRef(null);
-  const [state, formAction, isPending] = useActionState(createTree, null);
+  const [state, createTreeAction, isPending] = useActionState(createTree, null);
 
   return (
     <div className="text-black dark:text-neutral-200">
@@ -32,7 +32,7 @@ export default function Home() {
             )
           })}
         </div>
-        <form action={formAction} className={"flex items-center gap-4" + (isPending || state ? " opacity-50" : "")}>
+        <form action={createTreeAction} className={"flex items-center gap-4" + (isPending || state ? " opacity-50" : "")}>
           <input required disabled={isPending || state} ref={inputRef} name="query" type="text" placeholder="Enter anything" title="Enter anything" className={"h-9 pl-2 " + formStyle} />
           <button disabled={isPending || state} type="submit" title="Submit" className={"px-3 py-1 " + formStyle + (isPending || state ? "" : " hover:cursor-pointer")}>Submit</button>
         </form>

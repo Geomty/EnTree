@@ -42,7 +42,7 @@ export function Node(props) {
     updateFlow();
   }, [tree, updateFlow]);
 
-  const [state, formAction, isPending] = useActionState(generateChildren, null);
+  const [state, generateChildrenAction, isPending] = useActionState(generateChildren, null);
   useEffect(() => {
     if (state) {
       if (state.error) {
@@ -70,7 +70,7 @@ export function Node(props) {
             </div>
             <Description>{props.data.description}</Description>
             <div className="flex justify-between content-center">
-              <form action={formAction} style={{ all: "inherit" }}>
+              <form action={generateChildrenAction} style={{ all: "inherit" }}>
                 <input type="text" name="query" value={props.data.title} readOnly className="hidden" />
                 <button
                   type="submit"
