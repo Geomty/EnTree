@@ -9,11 +9,10 @@ const database = mongo.db("main");
 const trees = database.collection("trees");
 const users = database.collection("users");
 
-export async function getTrees(userId) {
+async function handleError(func) {
   let result;
   try {
-    const response = await users.findOne({ userId });
-    result = { response: response.trees };
+    result = { response: await func() }
   } catch (error) {
     result = { error };
     console.log(error);
@@ -21,16 +20,16 @@ export async function getTrees(userId) {
   return result;
 }
 
+export async function getTrees(userId) {
+  return await handleError(async () => {
+    return (await users.findOne({ userId })).trees;
+  });
+}
+
 export async function getTree(userId, title) {
-  let result;
-  try {
-    const response = await trees.findOne({ userId, "tree.title": title });
-    result = { response: response.tree };
-  } catch (error) {
-    result = { error };
-    console.log(error);
-  }
-  return result;
+  return await handleError(async () => {
+    return (await trees.findOne({ userId, "tree.title": title })).tree;
+  });
 }
 
 export async function createTree(prevState, formData) {
@@ -39,8 +38,8 @@ export async function createTree(prevState, formData) {
 }
 
 export async function generateChildren(prevState, formData) {
-  /* let result;
-  try {
+  /* return await handleError(async () => {
+    let result = [];
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
       contents: formData.get("query"),
@@ -60,33 +59,22 @@ If the user enters a topic you believe is invalid, simply return "invalid" in al
     });
     const text = response.text;
     if (text == "invalid") throw new Error("Invalid topic entered.");
-    result = { response: [] };
     const arr = text.split("~");
     for (let i = 0; i < arr.length; i += 2) {
-      result.response.push({ title: arr[i], description: arr[i+1] });
+      result.push({ title: arr[i], description: arr[i+1] });
     }
-  } catch (error) {
-    result = { error };
-    console.log(error);
-  }
-  return result; */
+    return result;
+  }); */
 
   await new Promise(res => setTimeout(res, 1000));
-  let result;
-  try {
-    result = { response: [
-      {
-        title: formData.get("query") + "1",
-        description: "This is another description."
-      },
-      {
-        title: formData.get("query") + "2",
-        description: "This is yet another description."
-      }
-    ] };
-  } catch (error) {
-    result = { error };
-    console.log(error);
-  };
-  return result;
+  return await handleError(() => [
+    {
+      title: formData.get("query") + "1",
+      description: "This is another description."
+    },
+    {
+      title: formData.get("query") + "2",
+      description: "This is yet another description."
+    }
+  ]);
 }

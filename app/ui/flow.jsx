@@ -11,7 +11,7 @@ const nodeTypes = { node: Node };
 const edgeTypes = { edge: Edge };
 
 export default function Flow({ initial, formStyle }) {
-  const tree = useRef(new Tree(initial));
+  const tree = useRef(new Tree(typeof initial == "object" ? initial : { title: initial, description: "This is a description.", position: { x: 0, y: 0 }, complete: false, children: [] }));
   const result = useMemo(() => tree.current.toFlow(), [tree]);
 
   const active = useState(null);

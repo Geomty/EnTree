@@ -53,7 +53,7 @@ export default function Home() {
         </div>
         <form action={createTreeAction} className="flex items-center gap-4">
           <input required name="query" type="text" placeholder="Enter anything" title="Enter anything" className={"h-9 pl-2 " + formStyle} />
-          <button type="submit" title="Submit" className={"px-3 py-1 " + formStyle}>Submit</button>
+          <button type="submit" title="Submit" className={"px-3 py-1 hover:cursor-pointer " + formStyle}>Submit</button>
         </form>
       </div>
       {initial && <Flow initial={initial} formStyle={formStyle} />}
