@@ -20,6 +20,11 @@ async function handleError(func) {
   return result;
 }
 
+export async function createTree(prevState, formData) {
+  await new Promise(res => setTimeout(res, 1000));
+  return formData.get("query");
+}
+
 export async function getTrees(userId) {
   return await handleError(async () => {
     return (await users.findOne({ userId })).trees;
@@ -32,9 +37,11 @@ export async function getTree(userId, title) {
   });
 }
 
-export async function createTree(prevState, formData) {
-  await new Promise(res => setTimeout(res, 1000));
-  return formData.get("query");
+export async function updateTree(userId, treeString) {
+  const tree = JSON.parse(treeString);
+  return await handleError(async () => {
+    return (await trees.updateOne({ userId, "tree.title": tree.title }, { $set: { tree } })).acknowledged;
+  });
 }
 
 export async function generateChildren(prevState, formData) {

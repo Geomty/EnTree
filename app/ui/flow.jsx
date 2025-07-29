@@ -6,6 +6,7 @@ import { Node } from "@/app/ui/node";
 import Edge from "@/app/ui/edge";
 import { MyContext } from "@/app/lib/context";
 import { Tree } from "@/app/lib/classes";
+import { updateTree } from "@/app/lib/actions";
 
 const nodeTypes = { node: Node };
 const edgeTypes = { edge: Edge };
@@ -21,13 +22,18 @@ export default function Flow({ initial, formStyle }) {
     setEdges(result.edges);
   }, [initial]);
 
+  let timeout;
   const active = useState(null);
   const [nodes, setNodes] = useState(result.nodes);
   const [edges, setEdges] = useState(result.edges);
   const onNodesChange = useCallback(changes => setNodes(nds => applyNodeChanges(changes, nds)), []);
   const onEdgesChange = useCallback(changes => setEdges(eds => applyEdgeChanges(changes, eds)), []);
   const onNodeDragStart = useCallback(() => reset[1](false));
-  const onNodeDragStop = useCallback((_, node) => tree.current.findChild(node.id).position = node.position, []);
+  const onNodeDragStop = useCallback((_, node) => {
+    tree.current.findChild(node.id).position = node.position;
+    if (timeout) clearTimeout(timeout);
+    timeout = setTimeout(() => updateTree("1", JSON.stringify(tree.current)), 3000);
+  }, []);
   const reset = useState(true);
 
   const resetView = useCallback(() => {
@@ -39,7 +45,7 @@ export default function Flow({ initial, formStyle }) {
   }, [tree, reset]);
 
   return (
-    <MyContext value={[active, tree, reset]}>
+    <MyContext value={[active, tree, reset, timeout]}>
       <AnimatePresence>
         {(!reset[0] && !active[0]) && <motion.button
           type="button"
