@@ -42,6 +42,8 @@ export default function Flow({ initial, formStyle }) {
     setNodes(result.nodes);
     setEdges(result.edges);
     reset[1](true);
+    if (timeout) clearTimeout(timeout);
+    timeout = setTimeout(() => updateTree("1", JSON.stringify(tree.current)), 3000);
   }, [tree, reset]);
 
   return (
