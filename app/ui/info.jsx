@@ -21,7 +21,7 @@ export default function Info({ titles, formStyle }) {
           }, 300);
           setMenu(!menu);
         }
-      }} className="absolute top-11 right-11 size-10 z-20 bg-red-500 rounded-full hover:cursor-pointer"></div>
+      }} className="absolute top-9 right-9 size-12 z-20 bg-red-500 rounded-full hover:cursor-pointer"></div>
       <AnimatePresence>
         {menu && <motion.div
           initial={{ transform: "scale(0)", opacity: 0 }}
@@ -29,7 +29,7 @@ export default function Info({ titles, formStyle }) {
           exit={{ transform: "scale(0)", opacity: 0 }}
           transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
           style={{ transformOrigin: "18.25rem 2.75rem" }}
-          className="absolute top-5 right-5 w-84 z-10 p-6 flex flex-col items-center gap-8 bg-neutral-300 border-2 border-black dark:bg-neutral-700 dark:border-neutral-500 rounded-2xl select-none"
+          className="absolute top-5 right-5 w-84 z-10 p-4 flex flex-col items-center gap-8 bg-neutral-300 border-2 border-black dark:bg-neutral-700 dark:border-neutral-500 rounded-2xl select-none"
         >
           <div className="w-full flex justify-start items-center"><ThemeToggle formStyle={formStyle} /></div>
           <div className="w-full max-h-48 overflow-auto flex flex-col gap-4">
@@ -42,7 +42,7 @@ export default function Info({ titles, formStyle }) {
               )
             })}
           </div>
-          <form action={formAction} className="flex items-center gap-4">
+          <form action={formAction} className="flex items-center gap-10">
             <input required disabled={isPending} name="query" type="text" placeholder="Enter anything" title="Enter anything" className={"h-9 pl-2 " + formStyle + (isPending ? " opacity-50 hover:cursor-default" : "")} />
             <button type="submit" title="Submit" className={"px-3 py-1 hover:cursor-pointer " + formStyle + (isPending ? " opacity-50 hover:!cursor-default" : "")}>Submit</button>
           </form>

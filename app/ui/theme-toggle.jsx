@@ -9,7 +9,7 @@ export default function ThemeToggle({ formStyle }) {
     <div suppressHydrationWarning onClick={() => {
       if (resolvedTheme == "light") setTheme("dark");
       else if (resolvedTheme == "dark") setTheme("light");
-    }} className={"w-18 h-10 p-1 flex items-center !rounded-full hover:cursor-pointer " + formStyle + (resolvedTheme == "light" ? " justify-start" : " justify-end")}>
+    }} className={"w-20 h-12 p-1 flex items-center !rounded-full hover:cursor-pointer " + formStyle + (resolvedTheme == "light" ? " justify-start" : " justify-end")}>
       <motion.div layout transition={{ type: "tween", duration: 0.2, ease: "easeInOut" }} className="size-7">
         <ThemeIcon MyIcon={HiOutlineSun} bool={resolvedTheme == "light"} />
         <ThemeIcon MyIcon={HiOutlineMoon} bool={resolvedTheme != "light"} />
