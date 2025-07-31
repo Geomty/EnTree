@@ -28,7 +28,7 @@ export default function Info({ titles, formStyle }) {
           animate={{ transform: "scale(1)", opacity: 1 }}
           exit={{ transform: "scale(0)", opacity: 0 }}
           transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
-          style={{ transformOrigin: "18.25rem 2.75rem" }}
+          style={{ transformOrigin: "18.5rem 2.5rem" }}
           className="absolute top-5 right-5 w-84 z-10 p-4 flex flex-col items-center gap-8 bg-neutral-300 border-2 border-black dark:bg-neutral-700 dark:border-neutral-500 rounded-2xl select-none"
         >
           <div className="w-full flex justify-start items-center"><ThemeToggle formStyle={formStyle} /></div>
