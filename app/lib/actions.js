@@ -33,7 +33,9 @@ export async function getTrees(userId) {
 
 export async function getTree(userId, title) {
   return await handleError(async () => {
-    return (await trees.findOne({ userId, "tree.title": title })).tree;
+    const result = await trees.findOne({ userId, "tree.title": title });
+    if (result) return result.tree;
+    else return result;
   });
 }
 
