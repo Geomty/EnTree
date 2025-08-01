@@ -14,15 +14,8 @@ const nodeTypes = { node: Node };
 const edgeTypes = { edge: Edge };
 
 export default function Flow({ initial, slug, formStyle }) {
-  const tree = useRef(null);
-  let result = { nodes: [], edges: [] };
-
-  useEffect(() => {
-    tree.current = new Tree(typeof initial == "object" ? initial : { title: initial, description: "This is a description.", position: { x: 0, y: 0 }, complete: false, children: [] });
-    result = tree.current.toFlow();
-    setNodes(result.nodes);
-    setEdges(result.edges);
-  }, [initial]);
+  const tree = useRef(new Tree(initial));
+  let result = tree.current.toFlow();
 
   let timeout;
   const active = useState(null);
