@@ -2,7 +2,6 @@
 
 import { GoogleGenAI } from "@google/genai";
 import { MongoClient } from "mongodb";
-import { redirect } from "next/navigation";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 const mongo = new MongoClient(process.env.MONGO_CONNECTION_URI);
@@ -22,8 +21,42 @@ async function handleError(func) {
 }
 
 export async function createTree(prevState, formData) {
-  await new Promise(res => setTimeout(res, 1000));
-  redirect("/tree/" + formData.get("query"));
+  return await handleError(async () => {
+    const description = (await ai.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: formData.get("query"),
+      config: {
+        systemInstruction: `
+Provide a concise description for the inputted topic that is between 2 to 4 sentences long.
+If the user enters a topic you believe is invalid, simply return "invalid" in all lowercase and with no extra characters.`,
+        thinkingConfig: {
+          thinkingBudget: 0
+        }
+      }
+    })).text;
+    if (description == "invalid") throw new Error("Invalid topic entered.");
+    const id = crypto.randomUUID();
+    await trees.insertOne({
+      userId: formData.get("userId"),
+      tree: {
+        title: formData.get("query"),
+        description,
+        position: { x: 0, y: 0 },
+        complete: false,
+        children: []
+      },
+      treeId: id
+    });
+    await users.updateOne({ userId: formData.get("userId") }, {
+      $push: {
+        trees: {
+          title: formData.get("query"),
+          treeId: id
+        }
+      }
+    });
+    return id;
+  });
 }
 
 export async function getTrees(userId) {

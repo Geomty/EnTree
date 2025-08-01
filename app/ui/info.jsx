@@ -1,16 +1,27 @@
 "use client";
 
-import { useActionState, useRef, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { HiOutlineTrash } from "react-icons/hi2";
 import ThemeToggle from "@/app/ui/theme-toggle";
 import { createTree } from "@/app/lib/actions";
 
 export default function Info({ titles, formStyle }) {
-  const [result, formAction, isPending] = useActionState(createTree, null);
   const [menu, setMenu] = useState(false);
   let menuTimeout = useRef(false);
+
+  const [createTreeResult, formAction, isPending] = useActionState(createTree, null);
+  useEffect(() => {
+    if (createTreeResult) {
+      if (createTreeResult.error) {
+        alert(`A ${createTreeResult.error.name} has occurred. Please try again.`);
+      } else {
+        redirect(createTreeResult.response);
+      }
+    }
+  }, [createTreeResult]);
 
   return (
     <>
@@ -43,6 +54,7 @@ export default function Info({ titles, formStyle }) {
             })}
           </div>
           <form action={formAction} className="flex items-center gap-10">
+            <input type="text" name="userId" value="1" readOnly className="hidden" />
             <input required disabled={isPending} name="query" type="text" placeholder="Enter anything" title="Enter anything" className={"h-9 pl-2 " + formStyle + (isPending ? " opacity-50 hover:cursor-default" : "")} />
             <button type="submit" title="Submit" className={"px-3 py-1 hover:cursor-pointer " + formStyle + (isPending ? " opacity-50 hover:!cursor-default" : "")}>Submit</button>
           </form>
