@@ -13,7 +13,7 @@ import { updateTree } from "@/app/lib/actions";
 const nodeTypes = { node: Node };
 const edgeTypes = { edge: Edge };
 
-export default function Flow({ initial, formStyle }) {
+export default function Flow({ initial, slug, formStyle }) {
   const tree = useRef(null);
   let result = { nodes: [], edges: [] };
 
@@ -34,7 +34,7 @@ export default function Flow({ initial, formStyle }) {
   const onNodeDragStop = useCallback((_, node) => {
     tree.current.findChild(node.id).position = node.position;
     if (timeout) clearTimeout(timeout);
-    timeout = setTimeout(() => updateTree("1", JSON.stringify(tree.current)), 3000);
+    timeout = setTimeout(() => updateTree("1", slug, JSON.stringify(tree.current)), 3000);
   }, []);
   const reset = useState(true);
 
@@ -45,11 +45,11 @@ export default function Flow({ initial, formStyle }) {
     setEdges(result.edges);
     reset[1](true);
     if (timeout) clearTimeout(timeout);
-    timeout = setTimeout(() => updateTree("1", JSON.stringify(tree.current)), 3000);
+    timeout = setTimeout(() => updateTree("1", slug, JSON.stringify(tree.current)), 3000);
   }, [tree, reset]);
 
   return (
-    <MyContext value={[active, tree, reset, timeout]}>
+    <MyContext value={[active, tree, slug, reset, timeout]}>
       <AnimatePresence>
         {(!reset[0] && !active[0]) && <motion.button
           type="button"

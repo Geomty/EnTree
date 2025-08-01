@@ -14,7 +14,7 @@ export default async function Page({ params }) {
   return (
     <div className="text-black dark:text-neutral-200">
       <Info titles={titles} formStyle={formStyle} />
-      <Flow initial={initial} formStyle={formStyle} />
+      <Flow initial={initial} slug={slug} formStyle={formStyle} />
     </div>
   )
 }

@@ -32,18 +32,18 @@ export async function getTrees(userId) {
   });
 }
 
-export async function getTree(userId, title) {
+export async function getTree(userId, treeId) {
   return await handleError(async () => {
-    const result = await trees.findOne({ userId, "tree.title": title });
+    const result = await trees.findOne({ userId, treeId });
     if (result) return result.tree;
     else return result;
   });
 }
 
-export async function updateTree(userId, treeString) {
+export async function updateTree(userId, treeId, treeString) {
   const tree = JSON.parse(treeString);
   return await handleError(async () => {
-    return (await trees.updateOne({ userId, "tree.title": tree.title }, { $set: { tree } })).acknowledged;
+    return (await trees.updateOne({ userId, treeId }, { $set: { tree } })).acknowledged;
   });
 }
 

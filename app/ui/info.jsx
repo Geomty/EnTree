@@ -35,8 +35,8 @@ export default function Info({ titles, formStyle }) {
           <div className="w-full max-h-48 overflow-auto flex flex-col gap-4">
             {titles.map(value => {
               return (
-                <div key={value} className="flex justify-between items-center gap-4">
-                  <Link href={value} className="text-lg hover:cursor-pointer">{value}</Link>
+                <div key={value.treeId} className="flex justify-between items-center gap-4">
+                  <Link href={value.treeId} className="text-lg hover:cursor-pointer">{value.title}</Link>
                   <HiOutlineTrash className="size-6 shrink-0 stroke-neutral-700 dark:stroke-neutral-400 hover:cursor-pointer" />
                 </div>
               )

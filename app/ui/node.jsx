@@ -9,7 +9,7 @@ import { updateTree, generateChildren } from "@/app/lib/actions";
 const handleStyle = "!bg-black dark:!bg-neutral-500 !size-6 !border-4 !border-white dark:!border-neutral-950";
 
 export function Node(props) {
-  let [active, tree, reset, timeout] = useContext(MyContext);
+  let [active, tree, slug, reset, timeout] = useContext(MyContext);
   const reactFlow = useReactFlow();
 
   const toggleActive = useCallback(() => {
@@ -28,14 +28,14 @@ export function Node(props) {
     const result = tree.current.toFlow();
     reactFlow.setNodes(result.nodes);
     reactFlow.setEdges(result.edges);
-    updateTree("1", JSON.stringify(tree.current));
+    updateTree("1", slug, JSON.stringify(tree.current));
   }, [tree, reset, toggleActive]);
 
   const toggleComplete = useCallback(() => {
     reactFlow.updateNodeData(props.id, { complete: !props.data.complete });
     tree.current.findChild(props.id).complete = !props.data.complete;
     if (timeout) clearTimeout(timeout);
-    timeout = setTimeout(() => updateTree("1", JSON.stringify(tree.current)), 3000);
+    timeout = setTimeout(() => updateTree("1", slug, JSON.stringify(tree.current)), 3000);
   }, [tree, props.data.complete]);
 
   const deleteNode = useCallback(() => {
