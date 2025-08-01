@@ -80,6 +80,21 @@ export async function updateTree(userId, treeId, treeString) {
   });
 }
 
+export async function deleteTree(prevState, formData) {
+  return await handleError(async () => {
+    const [userId, treeId] = formData.get("ids").split("_");
+    await trees.deleteOne({ userId, treeId });
+    await users.updateOne({ userId }, {
+      $pull: {
+        trees: {
+          treeId
+        }
+      }
+    });
+    return treeId;
+  });
+}
+
 export async function generateChildren(prevState, formData) {
   /* return await handleError(async () => {
     let result = [];

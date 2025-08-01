@@ -6,13 +6,13 @@ import { redirect } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { HiOutlineTrash } from "react-icons/hi2";
 import ThemeToggle from "@/app/ui/theme-toggle";
-import { createTree } from "@/app/lib/actions";
+import { createTree, deleteTree } from "@/app/lib/actions";
 
-export default function Info({ titles, formStyle }) {
+export default function Info({ titles, slug, formStyle }) {
   const [menu, setMenu] = useState(false);
   let menuTimeout = useRef(false);
 
-  const [createTreeResult, formAction, isPending] = useActionState(createTree, null);
+  const [createTreeResult, createTreeAction, isPending] = useActionState(createTree, null);
   useEffect(() => {
     if (createTreeResult) {
       if (createTreeResult.error) {
@@ -22,6 +22,17 @@ export default function Info({ titles, formStyle }) {
       }
     }
   }, [createTreeResult]);
+
+  const [deleteTreeResult, deleteTreeAction, isPending2] = useActionState(deleteTree, null);
+  useEffect(() => {
+    if (deleteTreeResult) {
+      if (deleteTreeResult.error) {
+        alert(`A ${deleteTreeResult.error.name} has occurred. Please try again.`);
+      } else {
+        if (deleteTreeResult.response == slug) redirect("/tree");
+      }
+    }
+  }, [deleteTreeResult]);
 
   return (
     <>
@@ -47,16 +58,19 @@ export default function Info({ titles, formStyle }) {
             {titles.map(value => {
               return (
                 <div key={value.treeId} className="flex justify-between items-center gap-4">
-                  <Link href={value.treeId} className="text-lg hover:cursor-pointer">{value.title}</Link>
-                  <HiOutlineTrash className="size-6 shrink-0 stroke-neutral-700 dark:stroke-neutral-400 hover:cursor-pointer" />
+                  <Link href={value.treeId} className={"text-lg hover:cursor-pointer" + (value.treeId == slug ? " font-bold" : "")}>{value.title}</Link>
+                  <form action={deleteTreeAction}>
+                    <input type="text" name="ids" value={"1_" + value.treeId} readOnly className="hidden" />
+                    <button type="submit" disabled={isPending2} title="Delete" className={"size-6" + (isPending2 ? " opacity-50" : " hover:cursor-pointer")}><HiOutlineTrash className="size-full stroke-neutral-700 dark:stroke-neutral-400" /></button>
+                  </form>
                 </div>
               )
             })}
           </div>
-          <form action={formAction} className="flex items-center gap-10">
+          <form action={createTreeAction} className="flex items-center gap-10">
             <input type="text" name="userId" value="1" readOnly className="hidden" />
             <input required disabled={isPending} name="query" type="text" placeholder="Enter anything" title="Enter anything" className={"h-9 pl-2 " + formStyle + (isPending ? " opacity-50 hover:cursor-default" : "")} />
-            <button type="submit" title="Submit" className={"px-3 py-1 hover:cursor-pointer " + formStyle + (isPending ? " opacity-50 hover:!cursor-default" : "")}>Submit</button>
+            <button type="submit" disabled={isPending} title="Submit" className={"px-3 py-1 hover:cursor-pointer " + formStyle + (isPending ? " opacity-50 hover:!cursor-default" : "")}>Submit</button>
           </form>
         </motion.div>}
       </AnimatePresence>
