@@ -9,6 +9,7 @@ import ThemeToggle from "@/app/ui/theme-toggle";
 import { createTree, deleteTree } from "@/app/lib/actions";
 
 export default function Info({ titles, slug, formStyle }) {
+  const [titlesArr, setTitlesArr] = useState(titles);
   const [menu, setMenu] = useState(false);
   let menuTimeout = useRef(false);
 
@@ -28,8 +29,10 @@ export default function Info({ titles, slug, formStyle }) {
     if (deleteTreeResult) {
       if (deleteTreeResult.error) {
         alert(`A ${deleteTreeResult.error.name} has occurred. Please try again.`);
+      } else if (deleteTreeResult.response == slug) {
+        redirect("/tree");
       } else {
-        if (deleteTreeResult.response == slug) redirect("/tree");
+        setTitlesArr(titlesArr.filter(value => deleteTreeResult.response != value.treeId));
       }
     }
   }, [deleteTreeResult]);
@@ -55,7 +58,7 @@ export default function Info({ titles, slug, formStyle }) {
         >
           <div className="w-full flex justify-start items-center"><ThemeToggle formStyle={formStyle} /></div>
           <div className="w-full max-h-48 overflow-auto flex flex-col gap-4">
-            {titles.map(value => {
+            {titlesArr.map(value => {
               return (
                 <div key={value.treeId} className="flex justify-between items-center gap-4">
                   <Link href={value.treeId} className={"text-lg hover:cursor-pointer" + (value.treeId == slug ? " font-bold" : "")}>{value.title}</Link>
