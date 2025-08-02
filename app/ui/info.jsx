@@ -18,7 +18,8 @@ export default function Info({ titles, slug, formStyle }) {
       if (createTreeResult.error) {
         alert(`A ${createTreeResult.error.name} has occurred. Please try again.`);
       } else {
-        redirect(createTreeResult.response);
+        setMenu(false);
+        setTimeout(() => redirect(createTreeResult.response), 100);
       }
     }
   }, [createTreeResult]);
@@ -29,7 +30,8 @@ export default function Info({ titles, slug, formStyle }) {
       if (deleteTreeResult.error) {
         alert(`A ${deleteTreeResult.error.name} has occurred. Please try again.`);
       } else if (deleteTreeResult.response == slug) {
-        redirect("/tree");
+        setMenu(false);
+        setTimeout(() => redirect("/tree"), 100);
       } else {
         setTitlesArr(titlesArr.filter(value => deleteTreeResult.response != value.treeId));
       }
@@ -60,7 +62,10 @@ export default function Info({ titles, slug, formStyle }) {
             {titlesArr.map(value => {
               return (
                 <div key={value.treeId} className="flex justify-between items-center gap-4">
-                  <button onClick={() => redirect(value.treeId)} className={"text-lg hover:cursor-pointer" + (value.treeId == slug ? " font-bold" : "")}>{value.title}</button>
+                  <button onClick={() => {
+                    setMenu(false);
+                    setTimeout(() => redirect(value.treeId), 100);
+                  }} className={"w-full text-lg text-left hover:cursor-pointer" + (value.treeId == slug ? " font-bold" : "")}>{value.title}</button>
                   <form action={deleteTreeAction}>
                     <input type="text" name="ids" value={"1_" + value.treeId} readOnly className="hidden" />
                     <button type="submit" disabled={isPending2} title="Delete" className={"size-6" + (isPending2 ? " opacity-50" : " hover:cursor-pointer")}><HiOutlineTrash className="size-full stroke-neutral-700 dark:stroke-neutral-400" /></button>
