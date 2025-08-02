@@ -55,7 +55,7 @@ export default function Flow({ initial, slug, formStyle }) {
           className={"absolute bottom-5 right-5 z-10 p-2 hover:cursor-pointer " + formStyle}
         ><RiResetLeftFill className="size-6 fill-neutral-700 dark:fill-neutral-400" /></motion.button>}
       </AnimatePresence>
-      <div className="w-screen h-screen bg-white dark:bg-neutral-950">
+      <motion.div className="w-screen h-screen" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}>
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -85,7 +85,7 @@ export default function Flow({ initial, slug, formStyle }) {
           zoomActivationKeyCode={null}
           panActivationKeyCode={null}
         />
-      </div>
+      </motion.div>
     </MyContext>
   );
 }
