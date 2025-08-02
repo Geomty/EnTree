@@ -64,7 +64,7 @@ export function Node(props) {
           <Animated initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="w-full z-10 p-4 flex flex-col justify-between content-center nowheel">
             <div className="flex justify-between content-center gap-2">
               <button onClick={toggleActive} disabled={isPending} title="Back" className={"p-1" + (isPending ? " opacity-50" : " hover:cursor-pointer")}><HiArrowSmallLeft className="size-5 fill-neutral-700 dark:fill-neutral-400" /></button>
-              <p className="text-lg select-text overflow-x-auto text-nowrap">{props.data.title}</p>
+              <p className="animColor text-lg select-text overflow-x-auto text-nowrap">{props.data.title}</p>
               {props.id == "0" ?
                 <div className="m-1 size-5 opacity-0"></div>
               :
@@ -79,12 +79,12 @@ export function Node(props) {
                   type="submit"
                   title="Generate children"
                   disabled={isPending}
-                  className={"px-[0.2rem] py-[0.1rem] text-[0.5rem] bg-neutral-300 border border-black dark:bg-neutral-700 dark:border-neutral-500 rounded-md" + (isPending ? " opacity-50" : " hover:cursor-pointer")}
+                  className={"animColor px-[0.2rem] py-[0.1rem] text-[0.5rem] bg-neutral-300 border border-black dark:bg-neutral-700 dark:border-neutral-500 rounded-md" + (isPending ? " opacity-50" : " hover:cursor-pointer")}
                 >Generate children</button>
               </form>
               <div onClick={isPending ? () => {} : toggleComplete} className={"flex content-center gap-1 mt-auto mb-auto" + (isPending ? " opacity-50" : " hover:cursor-pointer")}>
                 <div className="size-3 flex justify-center content-center border border-black dark:border-neutral-400 rounded-sm">{props.data.complete && <GiCheckMark className="size-2 m-auto stroke-1 stroke-neutral-700 dark:stroke-neutral-300" />}</div>
-                <p className="text-[0.5rem]">Mark as complete</p>
+                <p className="animColor text-[0.5rem]">Mark as complete</p>
               </div>
             </div>
           </Animated>
@@ -131,7 +131,7 @@ function Title({ children, onClick, id, complete }) {
 
   return (
     <Animated ref={titleRef} variants={{ active: { opacity: 0 }, inactive: { opacity: 1 } }} animate={active[0]?.id == id ? "active" : "inactive"} exit={{ opacity: 0 }} className="w-80 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 wrap-break-word">
-      <p style={{ fontSize: "var(--text-5xl)" }} className={(active[0] ? "" : "hover:cursor-pointer ") + (complete ? "line-through" : "")} onClick={active[0] ? () => {} : onClick}>{children}</p>
+      <p style={{ fontSize: "var(--text-5xl)" }} className={"animColor " + (active[0] ? "" : "hover:cursor-pointer ") + (complete ? "line-through" : "")} onClick={active[0] ? () => {} : onClick}>{children}</p>
     </Animated>
   )
 }
@@ -150,5 +150,5 @@ function Description({ children }) {
     }
   }, []);
 
-  return <p ref={descRef} style={{ fontSize: "var(--text-xs)" }} className="select-text wrap-break-word overflow-auto max-h-[95px]">{children}</p>
+  return <p ref={descRef} style={{ fontSize: "var(--text-xs)" }} className="animColor select-text wrap-break-word overflow-auto max-h-[95px]">{children}</p>
 }

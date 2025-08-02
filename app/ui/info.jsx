@@ -65,7 +65,7 @@ export default function Info({ titles, slug, formStyle }) {
                   <button onClick={() => {
                     setMenu(false);
                     setTimeout(() => redirect(value.treeId), 100);
-                  }} className={"w-full text-lg text-left hover:cursor-pointer" + (value.treeId == slug ? " font-bold" : "")}>{value.title}</button>
+                  }} className={"animColor w-full text-lg text-left hover:cursor-pointer" + (value.treeId == slug ? " font-bold" : "")}>{value.title}</button>
                   <form action={deleteTreeAction}>
                     <input type="text" name="ids" value={"1_" + value.treeId} readOnly className="hidden" />
                     <button type="submit" disabled={isPending2} title="Delete" className={"size-6" + (isPending2 ? " opacity-50" : " hover:cursor-pointer")}><HiOutlineTrash className="size-full stroke-neutral-700 dark:stroke-neutral-400" /></button>
@@ -76,7 +76,7 @@ export default function Info({ titles, slug, formStyle }) {
           </div>
           <form action={createTreeAction} className="w-full flex items-center gap-4">
             <input type="text" name="userId" value="1" readOnly className="hidden" />
-            <input required disabled={isPending} name="query" type="text" placeholder="Enter a topic" title="Enter a topic" className={"w-full h-9 pl-2 " + formStyle + (isPending ? " opacity-50 hover:cursor-default" : "")} />
+            <input required disabled={isPending} name="query" type="text" placeholder="Enter a topic" title="Enter a topic" className={"animColor w-full h-9 pl-2 " + formStyle + (isPending ? " opacity-50 hover:cursor-default" : "")} />
             <button type="submit" disabled={isPending} title="Create tree" className={"size-8 shrink-0" + (isPending ? " opacity-50" : " hover:cursor-pointer")}><HiPlus className="size-full fill-neutral-700 dark:fill-neutral-400" /></button>
           </form>
         </motion.div>}
