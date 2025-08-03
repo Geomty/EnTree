@@ -57,7 +57,7 @@ export default function Info({ titles, slug, formStyle }) {
           initial={{ transform: "scale(0)", opacity: 0 }}
           animate={{ transform: "scale(1)", opacity: 1 }}
           exit={{ transform: "scale(0)", opacity: 0 }}
-          transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
+          transition={{ type: "tween", duration: 0.5, ease: "backOut" }}
           style={{ transformOrigin: "18.5rem 2.5rem" }}
           className="absolute top-5 right-5 w-84 z-10 p-4 flex flex-col items-center gap-12 bg-neutral-300 border-2 border-black dark:bg-neutral-700 dark:border-neutral-500 rounded-2xl select-none"
         >
