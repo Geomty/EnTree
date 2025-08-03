@@ -70,7 +70,7 @@ export default function Info({ titles, slug, formStyle }) {
                     setMenu(false);
                     setTimeout(() => redirect(value.treeId), 100);
                   }} className={"animColor w-full text-lg text-left hover:cursor-pointer" + (value.treeId == slug ? " font-bold" : "")}>{value.title}</button>
-                  <form action={deleteTreeAction}>
+                  <form action={deleteTreeAction} style={{ all: "inherit" }}>
                     <input type="text" name="ids" value={"1_" + value.treeId} readOnly className="hidden" />
                     <button type="submit" disabled={isPending2} title="Delete" className={"size-6" + (isPending2 ? " opacity-50" : " hover:cursor-pointer")}><HiOutlineTrash className="size-full stroke-neutral-700 dark:stroke-neutral-400" /></button>
                   </form>
