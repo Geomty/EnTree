@@ -8,8 +8,8 @@ import { updateTree, generateChildren } from "@/app/lib/actions";
 
 const handleStyle = "!bg-black dark:!bg-neutral-500 !size-6 !border-4 !border-white dark:!border-neutral-950";
 
-export function Node(props) {
-  let [active, tree, slug, reset, timeout] = useContext(MyContext);
+export default function Node(props) {
+  let [active, tree, slug, reset, timeout, showError] = useContext(MyContext);
   const reactFlow = useReactFlow();
 
   const toggleActive = useCallback(() => {
@@ -49,7 +49,7 @@ export function Node(props) {
   useEffect(() => {
     if (result) {
       if (result.error) {
-        alert(`A ${result.error.name} has occurred. Please try again.`);
+        showError();
       } else {
         tree.current.addChildren(props.id, result.response);
         updateFlow();

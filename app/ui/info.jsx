@@ -1,10 +1,11 @@
 "use client";
 
-import { useActionState, useEffect, useRef, useState } from "react";
+import { useActionState, useCallback, useEffect, useRef, useState } from "react";
 import { redirect } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { HiOutlineTrash, HiPlus } from "react-icons/hi2";
 import ThemeToggle from "@/app/ui/theme-toggle";
+import Error from "@/app/ui/error-toast";
 import { createTree, deleteTree } from "@/app/lib/actions";
 
 export default function Info({ titles, slug, formStyle }) {
@@ -12,11 +13,14 @@ export default function Info({ titles, slug, formStyle }) {
   const [menu, setMenu] = useState(false);
   let menuTimeout = useRef(false);
 
+  const [error, setError] = useState(false);
+  const showError = useCallback(() => setError(setTimeout(() => setError(false), 5000)), []);
+
   const [createTreeResult, createTreeAction, isPending] = useActionState(createTree, null);
   useEffect(() => {
     if (createTreeResult) {
       if (createTreeResult.error) {
-        alert(`A ${createTreeResult.error.name} has occurred. Please try again.`);
+        showError();
       } else {
         setMenu(false);
         setTimeout(() => redirect(createTreeResult.response), 100);
@@ -28,7 +32,7 @@ export default function Info({ titles, slug, formStyle }) {
   useEffect(() => {
     if (deleteTreeResult) {
       if (deleteTreeResult.error) {
-        alert(`A ${deleteTreeResult.error.name} has occurred. Please try again.`);
+        showError();
       } else if (deleteTreeResult.response == slug) {
         setMenu(false);
         setTimeout(() => redirect("/tree"), 100);
@@ -81,6 +85,7 @@ export default function Info({ titles, slug, formStyle }) {
           </form>
         </motion.div>}
       </AnimatePresence>
+      <AnimatePresence>{error && <Error />}</AnimatePresence>
     </>
   )
 }

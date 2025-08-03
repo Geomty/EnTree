@@ -4,8 +4,9 @@ import { useState, useCallback, useRef } from "react";
 import { ReactFlow, applyNodeChanges, applyEdgeChanges } from "@xyflow/react";
 import { motion, AnimatePresence } from "motion/react";
 import { RiResetLeftFill } from "react-icons/ri";
-import { Node } from "@/app/ui/node";
+import Node from "@/app/ui/node";
 import Edge from "@/app/ui/edge";
+import Error from "@/app/ui/error-toast";
 import { MyContext } from "@/app/lib/context";
 import { Tree } from "@/app/lib/classes";
 import { updateTree } from "@/app/lib/actions";
@@ -41,8 +42,11 @@ export default function Flow({ initial, slug, formStyle }) {
     timeout = setTimeout(() => updateTree("1", slug, JSON.stringify(tree.current)), 3000);
   }, [tree, reset]);
 
+  const [error, setError] = useState(false);
+  const showError = useCallback(() => setError(setTimeout(() => setError(false), 5000)), []);
+
   return (
-    <MyContext value={[active, tree, slug, reset, timeout]}>
+    <MyContext value={[active, tree, slug, reset, timeout, showError]}>
       <AnimatePresence>
         {(!reset[0] && !active[0]) && <motion.button
           type="button"
@@ -55,6 +59,7 @@ export default function Flow({ initial, slug, formStyle }) {
           className={"absolute bottom-5 right-5 z-10 p-2 hover:cursor-pointer " + formStyle}
         ><RiResetLeftFill className="size-6 fill-neutral-700 dark:fill-neutral-400" /></motion.button>}
       </AnimatePresence>
+      <AnimatePresence>{error && <Error />}</AnimatePresence>
       <motion.div className="w-screen h-screen" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}>
         <ReactFlow
           nodes={nodes}
