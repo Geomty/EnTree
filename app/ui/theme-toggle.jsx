@@ -10,7 +10,12 @@ export default function ThemeToggle({ formStyle }) {
       if (resolvedTheme == "light") setTheme("dark");
       else if (resolvedTheme == "dark") setTheme("light");
     }} className={"w-20 h-12 p-1 flex items-center !rounded-full hover:cursor-pointer " + formStyle}>
-      <motion.div animate={{ marginLeft: resolvedTheme == "light" ? 0 : "2.5rem" }} transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }} className="size-7">
+      <motion.div
+        initial={{ marginLeft: resolvedTheme == "light" ? 0 : "2.5rem" }}
+        animate={{ marginLeft: resolvedTheme == "light" ? 0 : "2.5rem" }}
+        transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
+        className="size-7"
+      >
         <ThemeIcon MyIcon={HiOutlineSun} bool={resolvedTheme == "light"} />
         <ThemeIcon MyIcon={HiOutlineMoon} bool={resolvedTheme != "light"} />
       </motion.div>
