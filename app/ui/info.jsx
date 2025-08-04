@@ -8,7 +8,7 @@ import ThemeToggle from "@/app/ui/theme-toggle";
 import Error from "@/app/ui/error-toast";
 import { createTree, deleteTree } from "@/app/lib/actions";
 
-export default function Info({ titles, slug, formStyle }) {
+export default function Info({ titles, slug }) {
   const [titlesArr, setTitlesArr] = useState(titles);
   const [menu, setMenu] = useState(false);
   let menuTimeout = useRef(false);
@@ -57,11 +57,11 @@ export default function Info({ titles, slug, formStyle }) {
           initial={{ transform: "scale(0)", opacity: 0 }}
           animate={{ transform: "scale(1)", opacity: 1 }}
           exit={{ transform: "scale(0)", opacity: 0 }}
-          transition={{ type: "tween", duration: 0.5, ease: "backOut" }}
+          transition={{ type: "tween", duration: 0.4, ease: "backOut" }}
           style={{ transformOrigin: "18.5rem 2.5rem" }}
-          className="absolute top-5 right-5 w-84 z-10 p-4 flex flex-col items-center gap-12 bg-neutral-300 border-2 border-black dark:bg-neutral-700 dark:border-neutral-500 rounded-2xl select-none"
+          className="absolute top-5 right-5 w-84 z-10 p-4 flex flex-col items-center gap-12 bg-olive-200 dark:bg-olive-800 rounded-2xl select-none"
         >
-          <div className="w-full flex justify-start items-center"><ThemeToggle formStyle={formStyle} /></div>
+          <div className="w-full flex justify-start items-center"><ThemeToggle /></div>
           <div className="w-full max-h-48 overflow-auto flex flex-col gap-4">
             {titlesArr.map(value => {
               return (
@@ -72,7 +72,7 @@ export default function Info({ titles, slug, formStyle }) {
                   }} className={"animColor w-full text-lg text-left hover:cursor-pointer" + (value.treeId == slug ? " font-bold" : "")}>{value.title}</button>
                   <form action={deleteTreeAction} style={{ all: "inherit" }}>
                     <input type="text" name="ids" value={"1_" + value.treeId} readOnly className="hidden" />
-                    <button type="submit" disabled={isPending2} title="Delete" className={"size-6" + (isPending2 ? " opacity-50" : " hover:cursor-pointer")}><HiOutlineTrash className="size-full stroke-neutral-700 dark:stroke-neutral-400" /></button>
+                    <button type="submit" disabled={isPending2} title="Delete" className={"size-6" + (isPending2 ? " opacity-50" : " hover:cursor-pointer")}><HiOutlineTrash className="size-full stroke-banana-900 dark:stroke-banana-500" /></button>
                   </form>
                 </div>
               )
@@ -80,8 +80,8 @@ export default function Info({ titles, slug, formStyle }) {
           </div>
           <form action={createTreeAction} className="w-full flex items-center gap-4">
             <input type="text" name="userId" value="1" readOnly className="hidden" />
-            <input required disabled={isPending} name="query" type="text" placeholder="Enter a topic" title="Enter a topic" className={"animColor w-full h-9 pl-2 " + formStyle + (isPending ? " opacity-50 hover:cursor-default" : "")} />
-            <button type="submit" disabled={isPending} title="Create tree" className={"size-8 shrink-0" + (isPending ? " opacity-50" : " hover:cursor-pointer")}><HiPlus className="size-full fill-neutral-700 dark:fill-neutral-400" /></button>
+            <input required disabled={isPending} name="query" type="text" placeholder="Enter a topic" title="Enter a topic" className={"animColor w-full h-9 pl-2 bg-neutral-100 dark:bg-neutral-800 rounded-lg" + (isPending ? " opacity-50 hover:cursor-default" : "")} />
+            <button type="submit" disabled={isPending} title="Create tree" className={"size-8 shrink-0" + (isPending ? " opacity-50" : " hover:cursor-pointer")}><HiPlus className="size-full fill-banana-900 dark:fill-banana-500" /></button>
           </form>
         </motion.div>}
       </AnimatePresence>

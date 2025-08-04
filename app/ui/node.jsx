@@ -6,7 +6,7 @@ import { GiCheckMark } from "react-icons/gi";
 import { MyContext } from "@/app/lib/context";
 import { updateTree, generateChildren } from "@/app/lib/actions";
 
-const handleStyle = "!bg-black dark:!bg-neutral-500 !size-6 !border-4 !border-white dark:!border-neutral-950";
+const handleStyle = "!bg-olive-900 dark:!bg-olive-700 !size-6 !border-4 !border-white dark:!border-neutral-950";
 
 export default function Node(props) {
   let [active, tree, slug, reset, timeout, showError] = useContext(MyContext);
@@ -58,17 +58,17 @@ export default function Node(props) {
   }, [result]);
 
   return (
-    <div className={(props.data.complete ? "opacity-50 " : "opacity-100 ") + (active[0] ? "cursor-auto " : "") + "w-96 h-52 flex justify-center content-center text-center bg-neutral-100 border-4 border-black dark:bg-neutral-800 dark:border-neutral-500 rounded-4xl"}>
+    <div className={(props.data.complete ? "opacity-50 " : "opacity-100 ") + (active[0] ? "cursor-auto " : "") + "w-96 h-52 flex justify-center content-center text-center bg-neutral-100 border-4 border-olive-900 dark:bg-neutral-800 dark:border-olive-700 rounded-4xl"}>
       <AnimatePresence>
         {active[0]?.id == props.id &&
           <Animated initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="w-full z-10 p-4 flex flex-col justify-between content-center nowheel">
             <div className="flex justify-between content-center gap-2">
-              <button onClick={toggleActive} disabled={isPending} title="Back" className={"p-1" + (isPending ? " opacity-50" : " hover:cursor-pointer")}><HiArrowSmallLeft className="size-5 fill-neutral-700 dark:fill-neutral-400" /></button>
+              <button onClick={toggleActive} disabled={isPending} title="Back" className={"p-1" + (isPending ? " opacity-50" : " hover:cursor-pointer")}><HiArrowSmallLeft className="size-5 fill-banana-900 dark:fill-banana-700" /></button>
               <p className="animColor text-lg select-text overflow-x-auto text-nowrap">{props.data.title}</p>
               {props.id == "0" ?
                 <div className="m-1 size-5 opacity-0"></div>
               :
-                <button onClick={deleteNode} disabled={isPending} title="Delete" className={"p-1" + (isPending ? " opacity-50" : " hover:cursor-pointer")}><HiOutlineTrash className="size-5 stroke-neutral-700 dark:stroke-neutral-400" /></button>
+                <button onClick={deleteNode} disabled={isPending} title="Delete" className={"p-1" + (isPending ? " opacity-50" : " hover:cursor-pointer")}><HiOutlineTrash className="size-5 stroke-banana-900 dark:stroke-banana-700" /></button>
               }
             </div>
             <Description>{props.data.description}</Description>
@@ -79,11 +79,11 @@ export default function Node(props) {
                   type="submit"
                   title="Generate children"
                   disabled={isPending}
-                  className={"animColor px-[0.2rem] py-[0.1rem] text-[0.5rem] bg-neutral-300 border border-black dark:bg-neutral-700 dark:border-neutral-500 rounded-md" + (isPending ? " opacity-50" : " hover:cursor-pointer")}
+                  className={"animColor px-[0.3rem] py-[0.2rem] text-[0.5rem] bg-olive-800 !text-white dark:bg-olive-600 dark:!text-black rounded-md" + (isPending ? " opacity-50" : " hover:cursor-pointer")}
                 >Generate children</button>
               </form>
               <div onClick={isPending ? () => {} : toggleComplete} className={"flex content-center gap-1 mt-auto mb-auto" + (isPending ? " opacity-50" : " hover:cursor-pointer")}>
-                <div className="size-3 flex justify-center content-center border border-black dark:border-neutral-400 rounded-sm">{props.data.complete && <GiCheckMark className="size-2 m-auto stroke-1 stroke-neutral-700 dark:stroke-neutral-300" />}</div>
+                <div className="size-3 flex justify-center content-center border border-banana-900 dark:border-banana-700 rounded-sm">{props.data.complete && <GiCheckMark className="size-2 m-auto fill-banana-900 dark:fill-banana-700" />}</div>
                 <p className="animColor text-[0.5rem]">Mark as complete</p>
               </div>
             </div>

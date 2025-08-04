@@ -14,7 +14,7 @@ import { updateTree } from "@/app/lib/actions";
 const nodeTypes = { node: Node };
 const edgeTypes = { edge: Edge };
 
-export default function Flow({ initial, slug, formStyle }) {
+export default function Flow({ initial, slug }) {
   const tree = useRef(new Tree(initial));
   let result = tree.current.toFlow();
 
@@ -56,8 +56,8 @@ export default function Flow({ initial, slug, formStyle }) {
           transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
           title="Reset"
           onClick={resetView}
-          className={"absolute bottom-5 right-5 z-10 p-2 hover:cursor-pointer " + formStyle}
-        ><RiResetLeftFill className="size-6 fill-neutral-700 dark:fill-neutral-400" /></motion.button>}
+          className="absolute bottom-5 right-5 z-10 p-2 hover:cursor-pointer bg-olive-200 dark:bg-olive-800 rounded-lg"
+        ><RiResetLeftFill className="size-6 fill-banana-900 dark:fill-banana-500" /></motion.button>}
       </AnimatePresence>
       <AnimatePresence>{error && <Error />}</AnimatePresence>
       <motion.div className="w-screen h-screen" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}>
