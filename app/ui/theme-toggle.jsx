@@ -26,7 +26,7 @@ export default function ThemeToggle() {
 function ThemeIcon({ MyIcon, bool }) {
   return (
     <motion.div animate={{ opacity: bool ? 1 : 0 }} transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }} className="absolute size-7" >
-      <MyIcon className="size-full transform-[scaleX(-1)] stroke-banana-900 dark:stroke-banana-500" />
+      <MyIcon className="size-full transform-[scaleX(-1)] stroke-banana-800 dark:stroke-banana-500" />
     </motion.div>
   )
 }

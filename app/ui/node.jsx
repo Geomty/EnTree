@@ -63,12 +63,12 @@ export default function Node(props) {
         {active[0]?.id == props.id &&
           <Animated initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="w-full z-10 p-4 flex flex-col justify-between content-center nowheel">
             <div className="flex justify-between content-center gap-2">
-              <button onClick={toggleActive} disabled={isPending} title="Back" className={"p-1" + (isPending ? " opacity-50" : " hover:cursor-pointer")}><HiArrowSmallLeft className="size-5 fill-banana-900 dark:fill-banana-700" /></button>
+              <button onClick={toggleActive} disabled={isPending} title="Back" className={"p-1" + (isPending ? " opacity-50" : " hover:cursor-pointer")}><HiArrowSmallLeft className="size-5 fill-banana-800 dark:fill-banana-500" /></button>
               <p className="animColor text-lg select-text overflow-x-auto text-nowrap">{props.data.title}</p>
               {props.id == "0" ?
                 <div className="m-1 size-5 opacity-0"></div>
               :
-                <button onClick={deleteNode} disabled={isPending} title="Delete" className={"p-1" + (isPending ? " opacity-50" : " hover:cursor-pointer")}><HiOutlineTrash className="size-5 stroke-banana-900 dark:stroke-banana-700" /></button>
+                <button onClick={deleteNode} disabled={isPending} title="Delete" className={"p-1" + (isPending ? " opacity-50" : " hover:cursor-pointer")}><HiOutlineTrash className="size-5 stroke-banana-800 dark:stroke-banana-500" /></button>
               }
             </div>
             <Description>{props.data.description}</Description>
@@ -83,7 +83,7 @@ export default function Node(props) {
                 >Generate children</button>
               </form>
               <div onClick={isPending ? () => {} : toggleComplete} className={"flex content-center gap-1 mt-auto mb-auto" + (isPending ? " opacity-50" : " hover:cursor-pointer")}>
-                <div className="size-3 flex justify-center content-center border border-banana-900 dark:border-banana-700 rounded-sm">{props.data.complete && <GiCheckMark className="size-2 m-auto fill-banana-900 dark:fill-banana-700" />}</div>
+                <div className="size-3 flex justify-center content-center border border-banana-800 dark:border-banana-500 rounded-sm">{props.data.complete && <GiCheckMark className="size-2 m-auto fill-banana-800 dark:fill-banana-500" />}</div>
                 <p className="animColor text-[0.5rem]">Mark as complete</p>
               </div>
             </div>

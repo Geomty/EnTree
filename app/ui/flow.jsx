@@ -56,8 +56,8 @@ export default function Flow({ initial, slug }) {
           transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
           title="Reset"
           onClick={resetView}
-          className="absolute bottom-5 right-5 z-10 p-2 hover:cursor-pointer bg-olive-200 dark:bg-olive-800 rounded-lg"
-        ><RiResetLeftFill className="size-6 fill-banana-900 dark:fill-banana-500" /></motion.button>}
+          className="absolute bottom-5 right-5 z-10 p-2 hover:cursor-pointer bg-slate-300 dark:bg-slate-700 rounded-lg"
+        ><RiResetLeftFill className="size-6 fill-banana-800 dark:fill-banana-500" /></motion.button>}
       </AnimatePresence>
       <AnimatePresence>{error && <Error />}</AnimatePresence>
       <motion.div className="w-screen h-screen" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}>
