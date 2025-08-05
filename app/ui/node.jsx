@@ -12,18 +12,19 @@ export default function Node(props) {
   let [active, tree, slug, reset, timeout, showError] = useContext(MyContext);
   const reactFlow = useReactFlow();
 
-  const toggleActive = useCallback(() => {
+  const toggleActive = useCallback(n => {
     if (active[0]) {
       reactFlow.setViewport(active[0].pos, { duration: 1000 });
       active[1](null);
     } else {
+      if (n == 1) return;
       reactFlow.fitView({ duration: 1000, nodes: [{ id: props.id }] });
       setTimeout(() => active[1]({ id: props.id, pos: reactFlow.getViewport() }), 1); // optimal solution!
     }
   }, [active]);
 
   const updateFlow = useCallback(() => {
-    toggleActive();
+    toggleActive(1);
     if (reset[0]) tree.current.organize();
     const result = tree.current.toFlow();
     reactFlow.setNodes(result.nodes);
@@ -174,8 +175,8 @@ function Title({ children, onClick, id, complete }) {
   return (
     <motion.div
       ref={titleRef}
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 1.05 }}
+      whileHover={{ scale: active[0] ? 1 : 1.1 }}
+      whileTap={{ scale: active[0] ? 1 : 1.05 }}
       animate={{ opacity: active[0]?.id == id ? 0 : 1 }}
       transition={{
         opacity: { type: "tween", duration: 0.5, ease: "easeInOut" },
