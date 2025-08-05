@@ -10,6 +10,25 @@
     transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out, border-color 0.3s ease-in-out, fill 0.3s ease-in-out, stroke 0.3s ease-in-out;
 }
 
+::-webkit-scrollbar {
+    width: 10px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--color-neutral-400);
+    border-radius: calc(infinity * 1px);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--color-neutral-600);
+    border-radius: calc(infinity * 1px);
+}
+
+::-webkit-scrollbar-thumb:active {
+    background-color: var(--color-neutral-700);
+}
+
 @theme {
     --color-olive-50:  oklch(from var(--color-green-50) l calc(c / 3) h);
     --color-olive-100: oklch(from var(--color-green-100) l calc(c / 3) h);
