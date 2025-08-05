@@ -50,10 +50,15 @@ export default function Flow({ initial, slug }) {
       <AnimatePresence>
         {(!reset[0] && !active[0]) && <motion.button
           type="button"
+          whileHover={{ scale: 1.2 }}
+          whileTap={{ scale: 1.1 }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
+          transition={{
+            opacity: { type: "tween", duration: 0.3, ease: "easeInOut" },
+            scale: { type: "tween", duration: 0.3, ease: "backOut" }
+          }}
           title="Reset"
           onClick={resetView}
           className="absolute bottom-5 right-5 z-10 p-2 hover:cursor-pointer bg-slate-300 dark:bg-slate-700 rounded-lg"

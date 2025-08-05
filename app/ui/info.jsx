@@ -44,14 +44,19 @@ export default function Info({ titles, slug }) {
 
   return (
     <>
-      <div onClick={() => {
-        if (!menuTimeout.current) {
-          menuTimeout.current = setTimeout(() => {
-            menuTimeout.current = false;
-          }, 300);
-          setMenu(!menu);
-        }
-      }} className="absolute top-9 right-9 size-12 z-20 bg-red-500 rounded-full hover:cursor-pointer"></div>
+      <motion.div
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 1.05 }}
+        onClick={() => {
+          if (!menuTimeout.current) {
+            menuTimeout.current = setTimeout(() => {
+              menuTimeout.current = false;
+            }, 300);
+            setMenu(!menu);
+          }
+        }}
+        className="absolute top-9 right-9 size-12 z-20 bg-red-500 rounded-full hover:cursor-pointer"
+      ></motion.div>
       <AnimatePresence>
         {menu && <motion.div
           initial={{ scale: 0, opacity: 0 }}
@@ -62,7 +67,7 @@ export default function Info({ titles, slug }) {
           className="absolute top-5 right-5 w-84 z-10 p-4 flex flex-col items-center gap-12 bg-slate-300 dark:bg-slate-700 rounded-2xl select-none"
         >
           <div className="w-full flex justify-start items-center"><ThemeToggle /></div>
-          <div className="w-full max-h-48 overflow-auto flex flex-col gap-4">
+          <div className="w-full max-h-48 overflow-x-hidden overflow-y-auto flex flex-col gap-4">
             {titlesArr.map(value => {
               return (
                 <div key={value.treeId} className="flex justify-between items-center gap-4">
@@ -72,14 +77,16 @@ export default function Info({ titles, slug }) {
                   }} className={"animColor w-full text-lg text-left hover:cursor-pointer" + (value.treeId == slug ? " font-bold" : "")}>{value.title}</button>
                   <form action={deleteTreeAction} style={{ all: "inherit" }}>
                     <input type="text" name="ids" value={"1_" + value.treeId} readOnly className="hidden" />
-                    <button
+                    <motion.button
+                      whileHover={{ scale: 1.3 }}
+                      whileTap={{ scale: 1.1 }}
                       type="submit"
                       disabled={isPending2}
                       title="Delete" 
                       className={"size-6" + (isPending2 ? " opacity-50" : " hover:cursor-pointer")}
                     >
                       <HiOutlineTrash className="size-full stroke-banana-800 dark:stroke-banana-500" />
-                    </button>
+                    </motion.button>
                   </form>
                 </div>
               )
@@ -98,14 +105,16 @@ export default function Info({ titles, slug }) {
                 (isPending ? " opacity-50 hover:cursor-default" : "")
               }
             />
-            <button
+            <motion.button
+              whileHover={{ scale: 1.3 }}
+              whileTap={{ scale: 1.1 }}
               type="submit"
               disabled={isPending}
               title="Create tree"
               className={"size-8 shrink-0" + (isPending ? " opacity-50" : " hover:cursor-pointer")}
             >
               <HiPlus className="size-full fill-banana-800 dark:fill-banana-500" />
-            </button>
+            </motion.button>
           </form>
         </motion.div>}
       </AnimatePresence>

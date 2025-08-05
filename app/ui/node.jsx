@@ -76,43 +76,51 @@ export default function Node(props) {
                 onClick={toggleActive}
                 disabled={isPending}
                 title="Back"
-                className={"my-auto" + (isPending ? " opacity-50" : " hover:cursor-pointer")}
+                className={"p-1" + (isPending ? " opacity-50" : " hover:cursor-pointer")}
               >
                 <HiArrowSmallLeft className="size-5 fill-banana-800 dark:fill-banana-500" />
               </motion.button>
               <p className="animColor text-lg select-text overflow-x-auto text-nowrap">{props.data.title}</p>
               {props.id == "0" ?
-                <div className="size-5 opacity-0"></div>
+                <div className="m-1 size-5 opacity-0"></div>
               :
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.2 }}
+                  whileTap={{ scale: 1.1 }}
                   onClick={deleteNode}
                   disabled={isPending}
                   title="Delete"
                   className={"" + (isPending ? " opacity-50" : " hover:cursor-pointer")}
                 >
                   <HiOutlineTrash className="size-5 stroke-banana-800 dark:stroke-banana-500" />
-                </button>
+                </motion.button>
               }
             </div>
             <Description>{props.data.description}</Description>
             <div className="flex justify-between content-center">
               <form action={formAction} style={{ all: "inherit" }}>
                 <input type="text" name="query" value={props.data.title} readOnly className="hidden" />
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 1.05 }}
                   type="submit"
                   title="Generate children"
                   disabled={isPending}
                   className={"animColor px-[0.3rem] py-[0.2rem] text-[0.5rem] bg-olive-800 !text-white dark:bg-olive-600 dark:!text-black rounded-md" +
                     (isPending ? " opacity-50" : " hover:cursor-pointer")
                   }
-                >Generate children</button>
+                >Generate children</motion.button>
               </form>
               <div onClick={isPending ? () => {} : toggleComplete} className={"flex content-center gap-1 mt-auto mb-auto" +
                 (isPending ? " opacity-50" : " hover:cursor-pointer")
               }>
-                <div className="size-3 flex justify-center content-center border border-banana-800 dark:border-banana-500 rounded-sm">
+                <motion.div
+                  whileHover={{ scale: 1.2 }}
+                  whileTap={{ scale: 1.1 }}
+                  className="size-3 flex justify-center content-center border border-banana-800 dark:border-banana-500 rounded-sm"
+                >
                   {props.data.complete && <GiCheckMark className="size-2 m-auto fill-banana-800 dark:fill-banana-500" />}
-                </div>
+                </motion.div>
                 <p className="animColor text-[0.5rem]">Mark as complete</p>
               </div>
             </div>
