@@ -72,7 +72,14 @@ export default function Info({ titles, slug }) {
                   }} className={"animColor w-full text-lg text-left hover:cursor-pointer" + (value.treeId == slug ? " font-bold" : "")}>{value.title}</button>
                   <form action={deleteTreeAction} style={{ all: "inherit" }}>
                     <input type="text" name="ids" value={"1_" + value.treeId} readOnly className="hidden" />
-                    <button type="submit" disabled={isPending2} title="Delete" className={"size-6" + (isPending2 ? " opacity-50" : " hover:cursor-pointer")}><HiOutlineTrash className="size-full stroke-banana-800 dark:stroke-banana-500" /></button>
+                    <button
+                      type="submit"
+                      disabled={isPending2}
+                      title="Delete" 
+                      className={"size-6" + (isPending2 ? " opacity-50" : " hover:cursor-pointer")}
+                    >
+                      <HiOutlineTrash className="size-full stroke-banana-800 dark:stroke-banana-500" />
+                    </button>
                   </form>
                 </div>
               )
@@ -80,8 +87,25 @@ export default function Info({ titles, slug }) {
           </div>
           <form action={createTreeAction} className="w-full flex items-center gap-4">
             <input type="text" name="userId" value="1" readOnly className="hidden" />
-            <input required disabled={isPending} name="query" type="text" placeholder="Enter a topic" title="Enter a topic" className={"animColor w-full h-9 pl-2 bg-neutral-100 dark:bg-neutral-800 rounded-lg" + (isPending ? " opacity-50 hover:cursor-default" : "")} />
-            <button type="submit" disabled={isPending} title="Create tree" className={"size-8 shrink-0" + (isPending ? " opacity-50" : " hover:cursor-pointer")}><HiPlus className="size-full fill-banana-800 dark:fill-banana-500" /></button>
+            <input
+              required
+              disabled={isPending}
+              name="query"
+              type="text"
+              placeholder="Enter a topic"
+              title="Enter a topic"
+              className={"animColor w-full h-9 pl-2 bg-neutral-100 dark:bg-neutral-800 rounded-lg" +
+                (isPending ? " opacity-50 hover:cursor-default" : "")
+              }
+            />
+            <button
+              type="submit"
+              disabled={isPending}
+              title="Create tree"
+              className={"size-8 shrink-0" + (isPending ? " opacity-50" : " hover:cursor-pointer")}
+            >
+              <HiPlus className="size-full fill-banana-800 dark:fill-banana-500" />
+            </button>
           </form>
         </motion.div>}
       </AnimatePresence>

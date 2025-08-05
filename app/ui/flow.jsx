@@ -60,7 +60,12 @@ export default function Flow({ initial, slug }) {
         ><RiResetLeftFill className="size-6 fill-banana-800 dark:fill-banana-500" /></motion.button>}
       </AnimatePresence>
       <AnimatePresence>{error && <Error />}</AnimatePresence>
-      <motion.div className="w-screen h-screen" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}>
+      <motion.div
+        className="w-screen h-screen"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
+      >
         <ReactFlow
           nodes={nodes}
           edges={edges}

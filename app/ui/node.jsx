@@ -58,17 +58,40 @@ export default function Node(props) {
   }, [result]);
 
   return (
-    <div className={(props.data.complete ? "opacity-50 " : "opacity-100 ") + (active[0] ? "cursor-auto " : "") + "w-96 h-52 flex justify-center content-center text-center bg-neutral-100 border-4 border-olive-900 dark:bg-neutral-800 dark:border-olive-700 rounded-4xl"}>
+    <div className={(props.data.complete ? "opacity-50 " : "opacity-100 ") + (active[0] ? "cursor-auto " : "") +
+      "w-96 h-52 flex justify-center content-center text-center bg-neutral-100 border-4 border-olive-900 dark:bg-neutral-800 dark:border-olive-700 rounded-4xl"
+    }>
       <AnimatePresence>
         {active[0]?.id == props.id &&
-          <Animated initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="w-full z-10 p-4 flex flex-col justify-between content-center nowheel">
+          <Animated
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="w-full z-10 p-4 flex flex-col justify-between content-center nowheel"
+          >
             <div className="flex justify-between content-center gap-2">
-              <button onClick={toggleActive} disabled={isPending} title="Back" className={"p-1" + (isPending ? " opacity-50" : " hover:cursor-pointer")}><HiArrowSmallLeft className="size-5 fill-banana-800 dark:fill-banana-500" /></button>
+              <motion.button
+                whileHover={{ scale: 1.3 }}
+                whileTap={{ scale: 1.1 }}
+                onClick={toggleActive}
+                disabled={isPending}
+                title="Back"
+                className={"my-auto" + (isPending ? " opacity-50" : " hover:cursor-pointer")}
+              >
+                <HiArrowSmallLeft className="size-5 fill-banana-800 dark:fill-banana-500" />
+              </motion.button>
               <p className="animColor text-lg select-text overflow-x-auto text-nowrap">{props.data.title}</p>
               {props.id == "0" ?
-                <div className="m-1 size-5 opacity-0"></div>
+                <div className="size-5 opacity-0"></div>
               :
-                <button onClick={deleteNode} disabled={isPending} title="Delete" className={"p-1" + (isPending ? " opacity-50" : " hover:cursor-pointer")}><HiOutlineTrash className="size-5 stroke-banana-800 dark:stroke-banana-500" /></button>
+                <button
+                  onClick={deleteNode}
+                  disabled={isPending}
+                  title="Delete"
+                  className={"" + (isPending ? " opacity-50" : " hover:cursor-pointer")}
+                >
+                  <HiOutlineTrash className="size-5 stroke-banana-800 dark:stroke-banana-500" />
+                </button>
               }
             </div>
             <Description>{props.data.description}</Description>
@@ -79,11 +102,17 @@ export default function Node(props) {
                   type="submit"
                   title="Generate children"
                   disabled={isPending}
-                  className={"animColor px-[0.3rem] py-[0.2rem] text-[0.5rem] bg-olive-800 !text-white dark:bg-olive-600 dark:!text-black rounded-md" + (isPending ? " opacity-50" : " hover:cursor-pointer")}
+                  className={"animColor px-[0.3rem] py-[0.2rem] text-[0.5rem] bg-olive-800 !text-white dark:bg-olive-600 dark:!text-black rounded-md" +
+                    (isPending ? " opacity-50" : " hover:cursor-pointer")
+                  }
                 >Generate children</button>
               </form>
-              <div onClick={isPending ? () => {} : toggleComplete} className={"flex content-center gap-1 mt-auto mb-auto" + (isPending ? " opacity-50" : " hover:cursor-pointer")}>
-                <div className="size-3 flex justify-center content-center border border-banana-800 dark:border-banana-500 rounded-sm">{props.data.complete && <GiCheckMark className="size-2 m-auto fill-banana-800 dark:fill-banana-500" />}</div>
+              <div onClick={isPending ? () => {} : toggleComplete} className={"flex content-center gap-1 mt-auto mb-auto" +
+                (isPending ? " opacity-50" : " hover:cursor-pointer")
+              }>
+                <div className="size-3 flex justify-center content-center border border-banana-800 dark:border-banana-500 rounded-sm">
+                  {props.data.complete && <GiCheckMark className="size-2 m-auto fill-banana-800 dark:fill-banana-500" />}
+                </div>
                 <p className="animColor text-[0.5rem]">Mark as complete</p>
               </div>
             </div>
@@ -91,8 +120,16 @@ export default function Node(props) {
         }
       </AnimatePresence>
       <Title onClick={toggleActive} id={props.id} complete={props.data.complete}>{props.data.title}</Title>
-      <Handle type="source" position="bottom" className={(active[0] ? "!cursor-default " : "!cursor-grab ") + (props.data.type == "end" ? "opacity-0 " : "") + handleStyle} />
-      <Handle type="target" position="top" className={(active[0] ? "!cursor-default " : "!cursor-grab ") + (props.data.type == "start" ? "opacity-0 " : "") + handleStyle} />
+      <Handle
+        type="source"
+        position="bottom"
+        className={(active[0] ? "!cursor-default " : "!cursor-grab ") + (props.data.type == "end" ? "opacity-0 " : "") + handleStyle}
+      />
+      <Handle
+        type="target"
+        position="top"
+        className={(active[0] ? "!cursor-default " : "!cursor-grab ") + (props.data.type == "start" ? "opacity-0 " : "") + handleStyle}
+      />
     </div>
   )
 }
@@ -130,8 +167,21 @@ function Title({ children, onClick, id, complete }) {
   }, []);
 
   return (
-    <Animated ref={titleRef} variants={{ active: { opacity: 0 }, inactive: { opacity: 1 } }} animate={active[0]?.id == id ? "active" : "inactive"} exit={{ opacity: 0 }} className="w-80 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 wrap-break-word">
-      <p style={{ fontSize: "var(--text-5xl)" }} className={"animColor " + (active[0] ? "" : "hover:cursor-pointer ") + (complete ? "line-through" : "")} onClick={active[0] ? () => {} : onClick}>{children}</p>
+    <Animated
+      ref={titleRef}
+      variants={{ active: { opacity: 0 }, inactive: { opacity: 1 } }}
+      animate={active[0]?.id == id ? "active" : "inactive"}
+      exit={{ opacity: 0 }}
+      className="w-80 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 wrap-break-word"
+    >
+      <p
+        style={{ fontSize: "var(--text-5xl)" }}
+        className={"animColor " +
+          (active[0] ? "" : "hover:cursor-pointer ") +
+          (complete ? "line-through" : "")
+        }
+        onClick={active[0] ? () => {} : onClick}
+      >{children}</p>
     </Animated>
   )
 }
