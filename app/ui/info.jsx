@@ -78,8 +78,8 @@ export default function Info({ titles, slug }) {
                   <form action={deleteTreeAction} style={{ all: "inherit" }}>
                     <input type="text" name="ids" value={"1_" + value.treeId} readOnly className="hidden" />
                     <motion.button
-                      whileHover={{ scale: 1.3 }}
-                      whileTap={{ scale: 1.1 }}
+                      whileHover={{ scale: isPending2 ? 1 : 1.3 }}
+                      whileTap={{ scale: isPending2 ? 1 : 1.1 }}
                       type="submit"
                       disabled={isPending2}
                       title="Delete" 
@@ -106,8 +106,8 @@ export default function Info({ titles, slug }) {
               }
             />
             <motion.button
-              whileHover={{ scale: 1.3 }}
-              whileTap={{ scale: 1.1 }}
+              whileHover={{ scale: isPending ? 1 : 1.3 }}
+              whileTap={{ scale: isPending ? 1 : 1.1 }}
               type="submit"
               disabled={isPending}
               title="Create tree"

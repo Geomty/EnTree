@@ -102,8 +102,8 @@ export default function Node(props) {
               <form action={formAction} style={{ all: "inherit" }}>
                 <input type="text" name="query" value={props.data.title} readOnly className="hidden" />
                 <motion.button
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 1.05 }}
+                  whileHover={{ scale: isPending ? 1 : 1.1 }}
+                  whileTap={{ scale: isPending ? 1 : 1.05 }}
                   type="submit"
                   title="Generate children"
                   disabled={isPending}
