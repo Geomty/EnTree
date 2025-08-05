@@ -63,10 +63,11 @@ export default function Node(props) {
     }>
       <AnimatePresence>
         {active[0]?.id == props.id &&
-          <Animated
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ type: "tween", duration: 0.5, ease: "easeInOut" }}
             className="w-full z-10 p-4 flex flex-col justify-between content-center nowheel"
           >
             <div className="flex justify-between content-center gap-2">
@@ -124,7 +125,7 @@ export default function Node(props) {
                 <p className="animColor text-[0.5rem]">Mark as complete</p>
               </div>
             </div>
-          </Animated>
+          </motion.div>
         }
       </AnimatePresence>
       <Title onClick={toggleActive} id={props.id} complete={props.data.complete}>{props.data.title}</Title>
@@ -140,10 +141,6 @@ export default function Node(props) {
       />
     </div>
   )
-}
-
-function Animated(props) {
-  return <motion.div {...props} transition={{ type: "tween", duration: 0.5, ease: "easeInOut" }} />
 }
 
 function Title({ children, onClick, id, complete }) {
@@ -175,11 +172,15 @@ function Title({ children, onClick, id, complete }) {
   }, []);
 
   return (
-    <Animated
+    <motion.div
       ref={titleRef}
-      variants={{ active: { opacity: 0 }, inactive: { opacity: 1 } }}
-      animate={active[0]?.id == id ? "active" : "inactive"}
-      exit={{ opacity: 0 }}
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 1.05 }}
+      animate={{ opacity: active[0]?.id == id ? 0 : 1 }}
+      transition={{
+        opacity: { type: "tween", duration: 0.5, ease: "easeInOut" },
+        scale: { type: "tween", duration: 0.3, ease: "backOut" }
+      }}
       className="w-80 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 wrap-break-word"
     >
       <p
@@ -190,7 +191,7 @@ function Title({ children, onClick, id, complete }) {
         }
         onClick={active[0] ? () => {} : onClick}
       >{children}</p>
-    </Animated>
+    </motion.div>
   )
 }
 

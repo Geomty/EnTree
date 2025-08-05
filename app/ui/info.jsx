@@ -67,7 +67,7 @@ export default function Info({ titles, slug }) {
           className="absolute top-5 right-5 w-84 z-10 p-4 flex flex-col items-center gap-12 bg-slate-300 dark:bg-slate-700 rounded-2xl select-none"
         >
           <div className="w-full flex justify-start items-center"><ThemeToggle /></div>
-          <div className="w-full max-h-48 overflow-x-hidden overflow-y-auto flex flex-col gap-4">
+          <div className="p-1 w-full max-h-48 overflow-x-hidden overflow-y-auto flex flex-col gap-4">
             {titlesArr.map(value => {
               return (
                 <div key={value.treeId} className="flex justify-between items-center gap-4">
