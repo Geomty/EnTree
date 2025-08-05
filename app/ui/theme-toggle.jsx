@@ -14,7 +14,8 @@ export default function ThemeToggle() {
         if (resolvedTheme == "light") setTheme("dark");
         else if (resolvedTheme == "dark") setTheme("light");
       }}
-      className="w-20 h-12 p-1 flex items-center hover:cursor-pointer bg-neutral-100 dark:bg-neutral-800 rounded-full">
+      className="w-20 h-12 p-1 flex items-center hover:cursor-pointer bg-neutral-100 dark:bg-neutral-800 rounded-full"
+    >
       <motion.div
         initial={{ marginLeft: resolvedTheme == "light" ? 0 : "2.5rem" }}
         animate={{ marginLeft: resolvedTheme == "light" ? 0 : "2.5rem" }}
