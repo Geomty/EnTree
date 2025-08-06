@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import Info from "@/app/ui/info";
+import Menu from "@/app/ui/menu";
 import Flow from "@/app/ui/flow";
 import { getTrees, getTree } from "@/app/lib/actions";
 
@@ -11,7 +11,7 @@ export default async function Page({ params }) {
 
   return (
     <>
-      <Info titles={titles} slug={slug} />
+      <Menu titles={titles} slug={slug} />
       <Flow initial={initial} slug={slug} />
     </>
   )

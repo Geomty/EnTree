@@ -8,7 +8,7 @@ import ThemeToggle from "@/app/ui/theme-toggle";
 import Error from "@/app/ui/error-toast";
 import { createTree, deleteTree } from "@/app/lib/actions";
 
-export default function Info({ titles = [], slug, opened = false }) {
+export default function Menu({ titles = [], slug, opened = false }) {
   const [titlesArr, setTitlesArr] = useState(titles);
   const [menu, setMenu] = useState(opened);
   let menuTimeout = useRef(false);

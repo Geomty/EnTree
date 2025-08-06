@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import Info from "@/app/ui/info";
+import Menu from "@/app/ui/menu";
 import { getTrees } from "@/app/lib/actions";
 
 export default async function Page() {
@@ -8,7 +8,7 @@ export default async function Page() {
 
   return (
     <div className="w-screen h-screen">
-      <Info opened={true} />
+      <Menu opened={true} />
     </div>
   )
 }
