@@ -13,6 +13,17 @@ export default function Info({ titles = [], slug, opened = false }) {
   const [menu, setMenu] = useState(opened);
   let menuTimeout = useRef(false);
 
+  const [bColor, setbColor] = useState(false);
+  useEffect(() => {
+    let bColorTimeout = setTimeout(() => {
+      if (opened) {
+        setbColor(!bColor);
+      }
+    }, 1000);
+    return () => clearTimeout(bColorTimeout);
+  }, [bColor]);
+  const [inputActive, setInputActive] = useState(false);
+
   const [error, setError] = useState(false);
   const showError = useCallback(() => setError(setTimeout(() => setError(false), 5000)), []);
 
@@ -98,12 +109,14 @@ export default function Info({ titles = [], slug, opened = false }) {
                 )
               })
             :
-              <p className="animColor text-center text-xl">Create your first tree below!</p>
+              <p className="animColor text-center text-lg">Create your first tree below!</p>
             }
           </div>
           <form action={createTreeAction} className="w-full flex items-center gap-4">
             <input type="text" name="userId" value="1" readOnly className="hidden" />
-            <input
+            <motion.input
+              animate={{ borderColor: bColor ? "var(--color-green-500)" : "var(--color-yellow-500)" }}
+              transition={{ type: "tween", duration: 1, ease: "easeInOut" }}
               required
               disabled={isPending}
               name="query"
@@ -111,8 +124,11 @@ export default function Info({ titles = [], slug, opened = false }) {
               placeholder="Enter a topic"
               title="Enter a topic"
               className={"animColor w-full h-9 pl-2 bg-neutral-100 dark:bg-neutral-800 rounded-lg" +
-                (isPending ? " opacity-50 hover:cursor-default" : "")
+                (isPending ? " opacity-50 hover:cursor-default" : "") +
+                ((opened && !inputActive) ? " border-2" : "")
               }
+              onFocus={() => setInputActive(true)}
+              onBlur={() => setInputActive(false)}
             />
             <motion.button
               whileHover={{ scale: isPending ? 1 : 1.3 }}
