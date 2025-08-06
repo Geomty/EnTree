@@ -8,9 +8,9 @@ import ThemeToggle from "@/app/ui/theme-toggle";
 import Error from "@/app/ui/error-toast";
 import { createTree, deleteTree } from "@/app/lib/actions";
 
-export default function Info({ titles, slug }) {
+export default function Info({ titles = [], slug, opened = false }) {
   const [titlesArr, setTitlesArr] = useState(titles);
-  const [menu, setMenu] = useState(false);
+  const [menu, setMenu] = useState(opened);
   let menuTimeout = useRef(false);
 
   const [error, setError] = useState(false);
@@ -23,7 +23,7 @@ export default function Info({ titles, slug }) {
         showError();
       } else {
         setMenu(false);
-        setTimeout(() => redirect(createTreeResult.response), 100);
+        setTimeout(() => redirect("/tree/" + createTreeResult.response), 100);
       }
     }
   }, [createTreeResult]);
@@ -36,7 +36,7 @@ export default function Info({ titles, slug }) {
       } else if (deleteTreeResult.response == slug) {
         setMenu(false);
         setTimeout(() => {
-          if (!titlesArr.length) redirect("/tree");
+          if (titlesArr.length == 1) redirect("/tree");
           const i = titlesArr.findIndex(value => slug == value.treeId);
           if (i) redirect(titlesArr[i-1].treeId);
           else redirect(titlesArr[i+1].treeId);
@@ -49,10 +49,10 @@ export default function Info({ titles, slug }) {
 
   return (
     <>
-      <motion.div
+      <motion.button
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 1.05 }}
-        onClick={() => {
+        onClick={opened ? () => {} : () => {
           if (!menuTimeout.current) {
             menuTimeout.current = setTimeout(() => {
               menuTimeout.current = false;
@@ -61,7 +61,7 @@ export default function Info({ titles, slug }) {
           }
         }}
         className="absolute top-9 right-9 size-12 z-20 bg-red-500 rounded-full hover:cursor-pointer"
-      ></motion.div>
+      ></motion.button>
       <AnimatePresence>
         {menu && <motion.div
           initial={{ scale: 0, opacity: 0 }}
@@ -73,29 +73,33 @@ export default function Info({ titles, slug }) {
         >
           <div className="w-full flex justify-start items-center"><ThemeToggle /></div>
           <div className="p-1 w-full max-h-48 overflow-x-hidden overflow-y-auto flex flex-col gap-4">
-            {titlesArr.map(value => {
-              return (
-                <div key={value.treeId} className="flex justify-between items-center gap-4">
-                  <button onClick={() => {
-                    setMenu(false);
-                    setTimeout(() => redirect(value.treeId), 100);
-                  }} className={"animColor w-full text-lg text-left hover:cursor-pointer" + (value.treeId == slug ? " font-bold" : "")}>{value.title}</button>
-                  <form action={deleteTreeAction} style={{ all: "inherit" }}>
-                    <input type="text" name="ids" value={"1_" + value.treeId} readOnly className="hidden" />
-                    <motion.button
-                      whileHover={{ scale: isPending2 ? 1 : 1.3 }}
-                      whileTap={{ scale: isPending2 ? 1 : 1.1 }}
-                      type="submit"
-                      disabled={isPending2}
-                      title="Delete" 
-                      className={"size-6" + (isPending2 ? " opacity-50" : " hover:cursor-pointer")}
-                    >
-                      <HiOutlineTrash className="size-full stroke-banana-800 dark:stroke-banana-500" />
-                    </motion.button>
-                  </form>
-                </div>
-              )
-            })}
+            {titlesArr.length ?
+              titlesArr.map(value => {
+                return (
+                  <div key={value.treeId} className="flex justify-between items-center gap-4">
+                    <button onClick={() => {
+                      setMenu(false);
+                      setTimeout(() => redirect(value.treeId), 100);
+                    }} className={"animColor w-full text-lg text-left hover:cursor-pointer" + (value.treeId == slug ? " font-bold" : "")}>{value.title}</button>
+                    <form action={deleteTreeAction} style={{ all: "inherit" }}>
+                      <input type="text" name="ids" value={"1_" + value.treeId} readOnly className="hidden" />
+                      <motion.button
+                        whileHover={{ scale: isPending2 ? 1 : 1.3 }}
+                        whileTap={{ scale: isPending2 ? 1 : 1.1 }}
+                        type="submit"
+                        disabled={isPending2}
+                        title="Delete" 
+                        className={"size-6" + (isPending2 ? " opacity-50" : " hover:cursor-pointer")}
+                      >
+                        <HiOutlineTrash className="size-full stroke-banana-800 dark:stroke-banana-500" />
+                      </motion.button>
+                    </form>
+                  </div>
+                )
+              })
+            :
+              <p className="animColor text-center text-xl">Create your first tree below!</p>
+            }
           </div>
           <form action={createTreeAction} className="w-full flex items-center gap-4">
             <input type="text" name="userId" value="1" readOnly className="hidden" />

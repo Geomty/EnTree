@@ -10,9 +10,9 @@ export default async function Page({ params }) {
   const titles = (await getTrees("1")).response;
 
   return (
-    <div className="text-black dark:text-neutral-200 bg-white dark:bg-neutral-950">
+    <>
       <Info titles={titles} slug={slug} />
       <Flow initial={initial} slug={slug} />
-    </div>
+    </>
   )
 }
