@@ -73,8 +73,8 @@ export default function Node(props) {
           >
             <div className="flex justify-between content-center gap-2">
               <motion.button
-                whileHover={{ scale: 1.3 }}
-                whileTap={{ scale: 1.1 }}
+                whileHover={{ scale: isPending ? 1 : 1.3 }}
+                whileTap={{ scale: isPending ? 1 : 1.1 }}
                 onClick={toggleActive}
                 disabled={isPending}
                 title="Back"
@@ -87,8 +87,8 @@ export default function Node(props) {
                 <div className="m-1 size-5 opacity-0"></div>
               :
                 <motion.button
-                  whileHover={{ scale: 1.2 }}
-                  whileTap={{ scale: 1.1 }}
+                  whileHover={{ scale: isPending ? 1 : 1.2 }}
+                  whileTap={{ scale: isPending ? 1 : 1.1 }}
                   onClick={deleteNode}
                   disabled={isPending}
                   title="Delete"
@@ -117,8 +117,8 @@ export default function Node(props) {
                 (isPending ? " opacity-50" : " hover:cursor-pointer")
               }>
                 <motion.button
-                  whileHover={{ scale: 1.2 }}
-                  whileTap={{ scale: 1.1 }}
+                  whileHover={{ scale: isPending ? 1 : 1.2 }}
+                  whileTap={{ scale: isPending ? 1 : 1.1 }}
                   className={"size-3 flex justify-center content-center border border-banana-800 dark:border-banana-500 rounded-sm" +
                     (isPending ? "" : " hover:cursor-pointer")
                   }
