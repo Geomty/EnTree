@@ -35,8 +35,8 @@ export default function Node(props) {
   const toggleComplete = useCallback(() => {
     reactFlow.updateNodeData(props.id, { complete: !props.data.complete });
     tree.current.findChild(props.id).complete = !props.data.complete;
-    if (timeout) clearTimeout(timeout);
-    timeout = setTimeout(() => updateTree("1", slug, JSON.stringify(tree.current)), 3000);
+    if (timeout.current) clearTimeout(timeout.current);
+    timeout.current = setTimeout(() => updateTree("1", slug, JSON.stringify(tree.current)), 3000);
   }, [tree, props.data.complete]);
 
   const deleteNode = useCallback(() => {
@@ -119,7 +119,9 @@ export default function Node(props) {
                 <motion.button
                   whileHover={{ scale: 1.2 }}
                   whileTap={{ scale: 1.1 }}
-                  className="size-3 flex justify-center content-center border border-banana-800 dark:border-banana-500 rounded-sm"
+                  className={"size-3 flex justify-center content-center border border-banana-800 dark:border-banana-500 rounded-sm" +
+                    (isPending ? "" : " hover:cursor-pointer")
+                  }
                 >
                   {props.data.complete && <GiCheckMark className="size-2 m-auto fill-banana-800 dark:fill-banana-500" />}
                 </motion.button>
