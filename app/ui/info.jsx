@@ -35,7 +35,12 @@ export default function Info({ titles, slug }) {
         showError();
       } else if (deleteTreeResult.response == slug) {
         setMenu(false);
-        setTimeout(() => redirect("/tree"), 100);
+        setTimeout(() => {
+          if (!titlesArr.length) redirect("/tree");
+          const i = titlesArr.findIndex(value => slug == value.treeId);
+          if (i) redirect(titlesArr[i-1].treeId);
+          else redirect(titlesArr[i+1].treeId);
+        }, 100);
       } else {
         setTitlesArr(titlesArr.filter(value => deleteTreeResult.response != value.treeId));
       }
