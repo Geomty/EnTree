@@ -116,13 +116,13 @@ export default function Node(props) {
               <div onClick={isPending ? () => {} : toggleComplete} className={"flex content-center gap-1 mt-auto mb-auto" +
                 (isPending ? " opacity-50" : " hover:cursor-pointer")
               }>
-                <motion.div
+                <motion.button
                   whileHover={{ scale: 1.2 }}
                   whileTap={{ scale: 1.1 }}
                   className="size-3 flex justify-center content-center border border-banana-800 dark:border-banana-500 rounded-sm"
                 >
                   {props.data.complete && <GiCheckMark className="size-2 m-auto fill-banana-800 dark:fill-banana-500" />}
-                </motion.div>
+                </motion.button>
                 <p className="animColor text-[0.5rem]">Mark as complete</p>
               </div>
             </div>
@@ -173,7 +173,7 @@ function Title({ children, onClick, id, complete }) {
   }, []);
 
   return (
-    <motion.div
+    <motion.button
       ref={titleRef}
       whileHover={{ scale: active[0] ? 1 : 1.1 }}
       whileTap={{ scale: active[0] ? 1 : 1.05 }}
@@ -182,17 +182,18 @@ function Title({ children, onClick, id, complete }) {
         opacity: { type: "tween", duration: 0.5, ease: "easeInOut" },
         scale: { type: "tween", duration: 0.3, ease: "backOut" }
       }}
-      className="w-80 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 wrap-break-word"
+      className={"w-80 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 wrap-break-word " +
+        (active[0] ? "" : "hover:cursor-pointer")
+      }
+      onClick={active[0] ? () => {} : onClick}
     >
       <p
         style={{ fontSize: "var(--text-5xl)" }}
         className={"animColor " +
-          (active[0] ? "" : "hover:cursor-pointer ") +
           (complete ? "line-through" : "")
         }
-        onClick={active[0] ? () => {} : onClick}
       >{children}</p>
-    </motion.div>
+    </motion.button>
   )
 }
 

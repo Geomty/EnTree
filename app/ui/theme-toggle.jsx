@@ -6,7 +6,7 @@ export default function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
 
   return (
-    <motion.div
+    <motion.button
       suppressHydrationWarning
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 1.05 }}
@@ -17,6 +17,7 @@ export default function ThemeToggle() {
       className="w-20 h-12 p-1 flex items-center hover:cursor-pointer bg-neutral-100 dark:bg-neutral-800 rounded-full"
     >
       <motion.div
+        suppressHydrationWarning
         initial={{ marginLeft: resolvedTheme == "light" ? 0 : "2.5rem" }}
         animate={{ marginLeft: resolvedTheme == "light" ? 0 : "2.5rem" }}
         transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
@@ -25,7 +26,7 @@ export default function ThemeToggle() {
         <ThemeIcon MyIcon={HiOutlineSun} bool={resolvedTheme == "light"} />
         <ThemeIcon MyIcon={HiOutlineMoon} bool={resolvedTheme != "light"} />
       </motion.div>
-    </motion.div>
+    </motion.button>
   )
 }
 
