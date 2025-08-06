@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { HiOutlineTrash, HiPlus } from "react-icons/hi2";
 import ThemeToggle from "@/app/ui/theme-toggle";
-import Error from "@/app/ui/error-toast";
+import ErrorToast from "@/app/ui/error-toast";
 import { createTree, deleteTree } from "@/app/lib/actions";
 
 export default function Menu({ titles = [], slug, opened = false }) {
@@ -115,7 +115,7 @@ export default function Menu({ titles = [], slug, opened = false }) {
           <form action={createTreeAction} className="w-full flex items-center gap-4">
             <input type="text" name="userId" value="1" readOnly className="hidden" />
             <motion.input
-              animate={{ borderColor: bColor ? "var(--color-green-500)" : "var(--color-yellow-500)" }}
+              animate={{ borderColor: bColor ? "#00c951" : "#efb100" }} // green-500, yellow-500
               transition={{ type: "tween", duration: 1, ease: "easeInOut" }}
               required
               disabled={isPending}
@@ -143,7 +143,7 @@ export default function Menu({ titles = [], slug, opened = false }) {
           </form>
         </motion.div>}
       </AnimatePresence>
-      <AnimatePresence>{error && <Error />}</AnimatePresence>
+      <AnimatePresence>{error && <ErrorToast />}</AnimatePresence>
     </>
   )
 }

@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { RiResetLeftFill } from "react-icons/ri";
 import Node from "@/app/ui/node";
 import Edge from "@/app/ui/edge";
-import Error from "@/app/ui/error-toast";
+import ErrorToast from "@/app/ui/error-toast";
 import { MyContext } from "@/app/lib/context";
 import { Tree } from "@/app/lib/classes";
 import { updateTree } from "@/app/lib/actions";
@@ -64,7 +64,7 @@ export default function Flow({ initial, slug }) {
           className="absolute bottom-5 right-5 z-10 p-2 hover:cursor-pointer bg-slate-300 dark:bg-slate-700 rounded-lg"
         ><RiResetLeftFill className="size-6 fill-banana-800 dark:fill-banana-500" /></motion.button>}
       </AnimatePresence>
-      <AnimatePresence>{error && <Error />}</AnimatePresence>
+      <AnimatePresence>{error && <ErrorToast />}</AnimatePresence>
       <motion.div
         className="w-screen h-screen"
         initial={{ opacity: 0 }}
