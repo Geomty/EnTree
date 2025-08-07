@@ -50,7 +50,7 @@ export default function Node(props) {
   useEffect(() => {
     if (result) {
       if (result.error) {
-        showError();
+        showError(result.error);
       } else {
         tree.current.addChildren(props.id, result.response);
         updateFlow();

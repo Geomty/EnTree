@@ -34,7 +34,7 @@ If the user enters a topic you believe is invalid, simply return "invalid" in al
         }
       }
     })).text;
-    if (description == "invalid") throw new Error("Invalid topic entered.");
+    if (description.toLowerCase() == "invalid") throw new Error("Please enter a valid topic.");
     const id = crypto.randomUUID();
     await trees.insertOne({
       userId: formData.get("userId"),

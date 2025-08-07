@@ -25,13 +25,16 @@ export default function Menu({ titles = [], slug, opened = false }) {
   const [inputActive, setInputActive] = useState(false);
 
   const [error, setError] = useState(false);
-  const showError = useCallback(() => setError(setTimeout(() => setError(false), 5000)), []);
+  const showError = useCallback(err => {
+    setError(err);
+    setTimeout(() => setError(false), 5000);
+  }, []);
 
   const [createTreeResult, createTreeAction, isPending] = useActionState(createTree, null);
   useEffect(() => {
     if (createTreeResult) {
       if (createTreeResult.error) {
-        showError();
+        showError(createTreeResult.error);
       } else {
         setMenu(false);
         setTimeout(() => redirect("/tree/" + createTreeResult.response), 100);
@@ -43,7 +46,7 @@ export default function Menu({ titles = [], slug, opened = false }) {
   useEffect(() => {
     if (deleteTreeResult) {
       if (deleteTreeResult.error) {
-        showError();
+        showError(deleteTreeResult.error);
       } else if (deleteTreeResult.response == slug) {
         setMenu(false);
         setTimeout(() => {
@@ -143,7 +146,7 @@ export default function Menu({ titles = [], slug, opened = false }) {
           </form>
         </motion.div>}
       </AnimatePresence>
-      <AnimatePresence>{error && <ErrorToast />}</AnimatePresence>
+      <AnimatePresence>{error && <ErrorToast error={error} />}</AnimatePresence>
     </>
   )
 }

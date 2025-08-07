@@ -43,7 +43,10 @@ export default function Flow({ initial, slug }) {
   }, [tree, reset]);
 
   const [error, setError] = useState(false);
-  const showError = useCallback(() => setError(setTimeout(() => setError(false), 5000)), []);
+  const showError = useCallback(err => {
+    setError(err);
+    setTimeout(() => setError(false), 5000);
+  }, []);
 
   return (
     <MyContext value={[active, tree, slug, reset, timeout, showError]}>
@@ -64,7 +67,7 @@ export default function Flow({ initial, slug }) {
           className="absolute bottom-5 right-5 z-10 p-2 hover:cursor-pointer bg-slate-300 dark:bg-slate-700 rounded-lg"
         ><RiResetLeftFill className="size-6 fill-banana-800 dark:fill-banana-500" /></motion.button>}
       </AnimatePresence>
-      <AnimatePresence>{error && <ErrorToast />}</AnimatePresence>
+      <AnimatePresence>{error && <ErrorToast error={error} />}</AnimatePresence>
       <motion.div
         className="w-screen h-screen"
         initial={{ opacity: 0 }}
