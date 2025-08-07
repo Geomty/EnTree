@@ -91,10 +91,16 @@ export default function Menu({ titles = [], slug, opened = false }) {
               titlesArr.map(value => {
                 return (
                   <div key={value.treeId} className="flex justify-between items-center gap-4">
-                    <button onClick={() => {
-                      setMenu(false);
-                      setTimeout(() => redirect(value.treeId), 100);
-                    }} className={"animColor w-full text-lg text-left hover:cursor-pointer" + (value.treeId == slug ? " font-bold" : "")}>{value.title}</button>
+                    <motion.button
+                      initial={{ transform: "scale(1)" }}
+                      whileHover={{ transform: "scale(1.1)" }}
+                      whileTap={{ transform: "scale(1.05)" }}
+                      transition={{ type: "tween", duration: 0.3, ease: "backOut" }}
+                      onClick={() => {
+                        setMenu(false);
+                        setTimeout(() => redirect(value.treeId), 100);
+                      }}
+                      className={"animColor w-full origin-left text-lg text-left hover:cursor-pointer" + (value.treeId == slug ? " font-bold" : "")}>{value.title}</motion.button>
                     <form action={deleteTreeAction} style={{ all: "inherit" }}>
                       <input type="text" name="ids" value={"1_" + value.treeId} readOnly className="hidden" />
                       <motion.button
