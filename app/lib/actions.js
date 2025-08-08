@@ -96,7 +96,7 @@ export async function deleteTree(prevState, formData) {
 }
 
 export async function generateChildren(prevState, formData) {
-  /* return await handleError(async () => {
+  return await handleError(async () => {
     let result = [];
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
@@ -122,9 +122,9 @@ If the user enters a topic you believe is invalid, simply return "invalid" in al
       result.push({ title: arr[i], description: arr[i+1] });
     }
     return result;
-  }); */
+  });
 
-  await new Promise(res => setTimeout(res, 1000));
+  /* await new Promise(res => setTimeout(res, 1000));
   return await handleError(() => [
     {
       title: formData.get("query") + "1",
@@ -134,5 +134,5 @@ If the user enters a topic you believe is invalid, simply return "invalid" in al
       title: formData.get("query") + "2",
       description: "This is yet another description."
     }
-  ]);
+  ]); */
 }

@@ -1,3 +1,14 @@
+import { signIn } from "@/auth";
+
 export default function Home() {
-  return <div>Nothing to see here</div>;
+  return (
+    <form
+      action={async () => {
+        "use server";
+        await signIn("google");
+      }}
+    >
+      <button type="submit">Sign in with Google</button>
+    </form>
+  )
 }
