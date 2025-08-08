@@ -5,7 +5,7 @@ export default function Home() {
     <form
       action={async () => {
         "use server";
-        await signIn("google");
+        await signIn("google", { redirectTo: "/tree" });
       }}
     >
       <button type="submit">Sign in with Google</button>
