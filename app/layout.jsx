@@ -1,3 +1,4 @@
+import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
 import { dm_sans } from "@/app/lib/fonts";
 import "@xyflow/react/dist/style.css";
@@ -14,9 +15,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={dm_sans.className}>
-        <ThemeProvider attribute="class">
-          {children}
-        </ThemeProvider>
+        <SessionProvider>
+          <ThemeProvider attribute="class">
+            {children}
+          </ThemeProvider>
+        </SessionProvider>
       </body>
     </html>
   );

@@ -2,7 +2,7 @@
 
 import { useActionState, useCallback, useEffect, useRef, useState } from "react";
 import { redirect } from "next/navigation";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { AnimatePresence, motion } from "motion/react";
 import { HiArrowLeftOnRectangle, HiOutlineTrash, HiPlus } from "react-icons/hi2";
 import ThemeToggle from "@/app/ui/theme-toggle";
@@ -10,6 +10,8 @@ import ErrorToast from "@/app/ui/error-toast";
 import { createTree, deleteTree } from "@/app/lib/actions";
 
 export default function Menu({ titles = [], slug, opened = false }) {
+  const session = useSession();
+
   const [titlesArr, setTitlesArr] = useState(titles);
   const [menu, setMenu] = useState(opened);
   let menuTimeout = useRef(false);
@@ -75,8 +77,10 @@ export default function Menu({ titles = [], slug, opened = false }) {
             setMenu(!menu);
           }
         }}
-        className="absolute top-9 right-9 size-12 z-20 bg-red-500 rounded-full hover:cursor-pointer"
-      ></motion.button>
+        className={"absolute top-9 right-9 size-12 z-20 rounded-full hover:cursor-pointer" +
+          (session.status != "authenticated" ? " bg-red-500" : "")
+        }
+      >{session.status == "authenticated" && <img src={session.data.user.image} className="size-full rounded-full" />}</motion.button>
       <AnimatePresence>
         {menu && <motion.div
           initial={{ scale: 0, opacity: 0 }}
