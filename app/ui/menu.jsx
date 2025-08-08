@@ -2,8 +2,9 @@
 
 import { useActionState, useCallback, useEffect, useRef, useState } from "react";
 import { redirect } from "next/navigation";
+import { signOut } from "next-auth/react";
 import { AnimatePresence, motion } from "motion/react";
-import { HiOutlineTrash, HiPlus } from "react-icons/hi2";
+import { HiArrowLeftOnRectangle, HiOutlineTrash, HiPlus } from "react-icons/hi2";
 import ThemeToggle from "@/app/ui/theme-toggle";
 import ErrorToast from "@/app/ui/error-toast";
 import { createTree, deleteTree } from "@/app/lib/actions";
@@ -85,7 +86,20 @@ export default function Menu({ titles = [], slug, opened = false }) {
           style={{ transformOrigin: "18.5rem 2.5rem" }}
           className="absolute top-5 right-5 w-84 z-10 p-4 flex flex-col items-center gap-12 bg-slate-300 dark:bg-slate-700 rounded-2xl select-none"
         >
-          <div className="w-full flex justify-start items-center"><ThemeToggle /></div>
+          <div className="w-full flex justify-between items-center pr-16">
+            <ThemeToggle />
+            <motion.button
+              initial={{ transform: "scale(1)" }}
+              whileHover={{ transform: "scale(1.3)" }}
+              whileTap={{ transform: "scale(1.1)" }}
+              transition={{ type: "tween", duration: 0.3, ease: "backOut" }}
+              title="Sign out"
+              onClick={() => signOut({ redirectTo: "/" })}
+              className="size-8 hover:cursor-pointer"
+            >
+              <HiArrowLeftOnRectangle className="size-full fill-banana-800 dark:fill-banana-500" />
+            </motion.button>
+          </div>
           <div className="p-1 w-full max-h-48 overflow-x-hidden overflow-y-auto flex flex-col gap-4">
             {titlesArr.length ?
               titlesArr.map(value => {
