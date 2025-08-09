@@ -54,14 +54,16 @@ If the user enters a topic you believe is invalid, simply return "invalid" in al
           treeId: id
         }
       }
-    });
+    }, { upsert: true });
     return id;
   });
 }
 
 export async function getTrees(userId) {
   return await handleError(async () => {
-    return (await users.findOne({ userId })).trees;
+    const result = await users.findOne({ userId });
+    if (result) return result.trees;
+    else return result;
   });
 }
 

@@ -1,4 +1,4 @@
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { auth } from "@/auth";
 import Menu from "@/app/ui/menu";
 import Flow from "@/app/ui/flow";
