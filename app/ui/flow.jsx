@@ -28,7 +28,7 @@ export default function Flow({ initial, slug }) {
   const onNodeDragStop = useCallback((_, node) => {
     tree.current.findChild(node.id).position = node.position;
     if (timeout.current) clearTimeout(timeout.current);
-    timeout.current = setTimeout(() => updateTree("1", slug, JSON.stringify(tree.current)), 3000);
+    timeout.current = setTimeout(() => updateTree(slug, JSON.stringify(tree.current)), 3000);
   }, []);
   const reset = useState(true);
 
@@ -39,7 +39,7 @@ export default function Flow({ initial, slug }) {
     setEdges(result.edges);
     reset[1](true);
     if (timeout.current) clearTimeout(timeout.current);
-    timeout.current = setTimeout(() => updateTree("1", slug, JSON.stringify(tree.current)), 3000);
+    timeout.current = setTimeout(() => updateTree(slug, JSON.stringify(tree.current)), 3000);
   }, [tree, reset]);
 
   const [error, setError] = useState(false);

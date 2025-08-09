@@ -9,9 +9,9 @@ export default async function Page({ params }) {
   if (!session?.user) notFound();
 
   const { slug } = await params;
-  const initial = (await getTree("1", slug)).response;
+  const initial = (await getTree(slug)).response;
   if (!initial) notFound();
-  const titles = (await getTrees("1")).response;
+  const titles = (await getTrees()).response;
 
   return (
     <>

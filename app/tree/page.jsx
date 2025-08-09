@@ -7,7 +7,7 @@ export default async function Page() {
   const session = await auth();
   if (!session?.user) redirect("/");
 
-  const titles = (await getTrees("1")).response;
+  const titles = (await getTrees()).response;
   if (titles?.length) redirect("/tree/" + titles[0].treeId);
 
   return (

@@ -118,7 +118,7 @@ export default function Menu({ titles = [], slug, opened = false }) {
                       }}
                       className={"animColor w-full origin-left text-lg text-left hover:cursor-pointer" + (value.treeId == slug ? " font-bold" : "")}>{value.title}</motion.button>
                     <form action={deleteTreeAction} style={{ all: "inherit" }}>
-                      <input type="text" name="ids" value={"1_" + value.treeId} readOnly className="hidden" />
+                      <input type="text" name="treeId" value={value.treeId} readOnly className="hidden" />
                       <motion.button
                         whileHover={{ scale: isPending2 ? 1 : 1.3 }}
                         whileTap={{ scale: isPending2 ? 1 : 1.1 }}
@@ -138,7 +138,6 @@ export default function Menu({ titles = [], slug, opened = false }) {
             }
           </div>
           <form action={createTreeAction} className="w-full flex items-center gap-4">
-            <input type="text" name="userId" value="1" readOnly className="hidden" />
             <motion.input
               animate={{ borderColor: bColor ? "#00c951" : "#efb100" }} // green-500, yellow-500
               transition={{ type: "tween", duration: 1, ease: "easeInOut" }}

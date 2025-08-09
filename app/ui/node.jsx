@@ -29,14 +29,14 @@ export default function Node(props) {
     const result = tree.current.toFlow();
     reactFlow.setNodes(result.nodes);
     reactFlow.setEdges(result.edges);
-    updateTree("1", slug, JSON.stringify(tree.current));
+    updateTree(slug, JSON.stringify(tree.current));
   }, [tree, reset, toggleActive]);
 
   const toggleComplete = useCallback(() => {
     reactFlow.updateNodeData(props.id, { complete: !props.data.complete });
     tree.current.findChild(props.id).complete = !props.data.complete;
     if (timeout.current) clearTimeout(timeout.current);
-    timeout.current = setTimeout(() => updateTree("1", slug, JSON.stringify(tree.current)), 3000);
+    timeout.current = setTimeout(() => updateTree(slug, JSON.stringify(tree.current)), 3000);
   }, [tree, props.data.complete]);
 
   const deleteNode = useCallback(() => {

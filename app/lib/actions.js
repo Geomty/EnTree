@@ -2,6 +2,7 @@
 
 import { GoogleGenAI } from "@google/genai";
 import { MongoClient } from "mongodb";
+import { auth } from "@/auth";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 const mongo = new MongoClient(process.env.MONGO_CONNECTION_URI);
@@ -11,8 +12,9 @@ const users = database.collection("users");
 
 async function handleError(func) {
   let result;
+  const session = await auth();
   try {
-    result = { response: await func() }
+    result = { response: await func(session.user.email) }
   } catch (error) {
     result = { error };
     console.log(error);
@@ -21,7 +23,7 @@ async function handleError(func) {
 }
 
 export async function createTree(prevState, formData) {
-  return await handleError(async () => {
+  return await handleError(async email => {
     const description = (await ai.models.generateContent({
       model: "gemini-2.5-flash",
       contents: formData.get("query"),
@@ -37,7 +39,7 @@ If the user enters a topic you believe is invalid, simply return "invalid" in al
     if (description.toLowerCase() == "invalid") throw new Error("Please enter a valid topic.");
     const id = crypto.randomUUID();
     await trees.insertOne({
-      userId: formData.get("userId"),
+      userId: email,
       tree: {
         title: formData.get("query"),
         description,
@@ -47,7 +49,7 @@ If the user enters a topic you believe is invalid, simply return "invalid" in al
       },
       treeId: id
     });
-    await users.updateOne({ userId: formData.get("userId") }, {
+    await users.updateOne({ userId: email }, {
       $push: {
         trees: {
           title: formData.get("query"),
@@ -59,34 +61,34 @@ If the user enters a topic you believe is invalid, simply return "invalid" in al
   });
 }
 
-export async function getTrees(userId) {
-  return await handleError(async () => {
-    const result = await users.findOne({ userId });
+export async function getTrees() {
+  return await handleError(async email => {
+    const result = await users.findOne({ userId: email });
     if (result) return result.trees;
     else return result;
   });
 }
 
-export async function getTree(userId, treeId) {
-  return await handleError(async () => {
-    const result = await trees.findOne({ userId, treeId });
+export async function getTree(treeId) {
+  return await handleError(async email => {
+    const result = await trees.findOne({ userId: email, treeId });
     if (result) return result.tree;
     else return result;
   });
 }
 
-export async function updateTree(userId, treeId, treeString) {
+export async function updateTree(treeId, treeString) {
   const tree = JSON.parse(treeString);
-  return await handleError(async () => {
-    return (await trees.updateOne({ userId, treeId }, { $set: { tree } })).acknowledged;
+  return await handleError(async email => {
+    return (await trees.updateOne({ userId: email, treeId }, { $set: { tree } })).acknowledged;
   });
 }
 
 export async function deleteTree(prevState, formData) {
-  return await handleError(async () => {
-    const [userId, treeId] = formData.get("ids").split("_");
-    await trees.deleteOne({ userId, treeId });
-    await users.updateOne({ userId }, {
+  return await handleError(async email => {
+    const treeId = formData.get("treeId");
+    await trees.deleteOne({ userId: email, treeId });
+    await users.updateOne({ userId: email }, {
       $pull: {
         trees: {
           treeId
