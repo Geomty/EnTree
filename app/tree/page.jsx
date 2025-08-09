@@ -1,8 +1,12 @@
 import { redirect } from "next/navigation";
+import { auth } from "@/auth";
 import Menu from "@/app/ui/menu";
 import { getTrees } from "@/app/lib/actions";
 
 export default async function Page() {
+  const session = await auth();
+  if (!session?.user) redirect("/");
+
   const titles = (await getTrees("1")).response;
   if (titles.length) redirect("/tree/" + titles[0].treeId);
 

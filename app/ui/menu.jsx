@@ -77,9 +77,7 @@ export default function Menu({ titles = [], slug, opened = false }) {
             setMenu(!menu);
           }
         }}
-        className={"absolute top-9 right-9 size-12 z-20 rounded-full hover:cursor-pointer" +
-          (session.status != "authenticated" ? " bg-red-500" : "")
-        }
+        className={"absolute top-9 right-9 size-12 z-20 rounded-full hover:cursor-pointer"}
       >{session.status == "authenticated" && <img src={session.data.user.image} className="size-full rounded-full" />}</motion.button>
       <AnimatePresence>
         {menu && <motion.div
