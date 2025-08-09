@@ -111,7 +111,7 @@ export default function Node(props) {
                   className={"animColor px-[0.3rem] py-[0.2rem] text-[0.5rem] bg-olive-800 !text-white dark:bg-olive-600 dark:!text-black rounded-md" +
                     (isPending ? " opacity-50" : " hover:cursor-pointer")
                   }
-                >Generate children</motion.button>
+                >Generate prerequisites</motion.button>
               </form>
               <div onClick={isPending ? () => {} : toggleComplete} className={"flex content-center gap-1 mt-auto mb-auto" +
                 (isPending ? " opacity-50" : " hover:cursor-pointer")
