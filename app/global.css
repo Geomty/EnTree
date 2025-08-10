@@ -14,7 +14,7 @@ input {
     transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out !important;
 }
 
-#google:hover {
+button[class^="border-neutral-500"]:hover {
     box-shadow: 0px 1px 2px 0px var(--color-neutral-500);
 }
 
