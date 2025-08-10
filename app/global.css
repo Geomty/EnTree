@@ -14,6 +14,10 @@ input {
     transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out !important;
 }
 
+#google:hover {
+    box-shadow: 0px 1px 2px 0px var(--color-neutral-500);
+}
+
 ::-webkit-scrollbar {
     width: 10px;
     height: 8px;
