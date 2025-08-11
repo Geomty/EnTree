@@ -2,7 +2,7 @@
 
 import { GoogleGenAI } from "@google/genai";
 import { MongoClient } from "mongodb";
-import { auth } from "@/auth";
+import { auth, signIn } from "@/auth";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 const mongo = new MongoClient(process.env.MONGO_CONNECTION_URI);
@@ -20,6 +20,10 @@ async function handleError(func) {
     console.log(error);
   }
   return result;
+}
+
+export async function signInAction() {
+  await signIn("google", { redirectTo: "/tree" });
 }
 
 export async function createTree(prevState, formData) {
