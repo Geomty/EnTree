@@ -12,7 +12,7 @@ export default function Home() {
   const session = useSession();
   if (session.status == "authenticated") redirect("/tree");
 
-  const [page, setPage] = useState(0);
+  const [instr, setInstr] = useState(false);
 
   return (
     <div className="flex lg:flex-row flex-col overflow-x-hidden">
@@ -36,10 +36,7 @@ export default function Home() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 1.05 }}
             transition={{ type: "tween", duration: 0.3, ease: "backOut" }}
-            onClick={() => {
-              if (page == 0) setPage(1);
-              else setPage(0);
-            }}
+            onClick={() => setInstr(!instr)}
             className="text-neutral-600 lg:text-xl text-lg hover:cursor-pointer"
           >How it works &gt;</motion.button>
         </div>
@@ -54,7 +51,7 @@ export default function Home() {
         ].map((value, index) => {
           return (
             <AnimatePresence key={index}>
-              {page > 0 && <motion.div
+              {instr && <motion.div
                 initial={{ left: "80%" }}
                 animate={{ left: index % 2 ? "5%" : "-5%" }}
                 exit={{ left: "80%", transition: { type: "tween", duration: 0.8-0.05*index, ease: "backIn", delay: 0.05*index } }}
