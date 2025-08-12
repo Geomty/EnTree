@@ -19,7 +19,7 @@ export default function Home() {
       <div className="lg:w-[50vw] w-screen h-screen flex justify-center items-center">
         <div className="flex flex-col lg:items-start items-center gap-10 lg:text-left text-center">
           <h1 className={"text-black lg:text-8xl text-7xl font-black " + montserrat.className}>EnTree</h1>
-          <p className="text-neutral-700 lg:text-2xl text-xl">Your entry into AI-guided learning.<br></br>Generate a visual learning plan about any topic.</p>
+          <p className="text-neutral-700 lg:text-2xl text-xl">Your entry into AI-guided learning.<br></br>Generate a visual learning plan about any topic in seconds.</p>
           <form action={signInAction}>
             <motion.button
               initial={{ backgroundColor: "#ffffff" }}

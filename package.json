@@ -24,7 +24,7 @@
     "@tailwindcss/postcss": "^4",
     "tailwindcss": "^4"
   },
-  "description": "Your entry into AI-guided learning. Generate a visual learning plan about any topic.",
+  "description": "Your entry into AI-guided learning. Generate a visual learning plan about any topic in seconds.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Geomty/EnTree.git"

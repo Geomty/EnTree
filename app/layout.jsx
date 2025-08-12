@@ -6,7 +6,7 @@ import "@/app/global.css";
 
 export const metadata = {
   title: "EnTree",
-  description: "Your entry into AI-guided learning. Generate a visual learning plan about any topic.",
+  description: "Your entry into AI-guided learning. Generate a visual learning plan about any topic in seconds.",
   author: "Geomty",
   keywords: ["tree", "learn", "learning", "ai"]
 };
