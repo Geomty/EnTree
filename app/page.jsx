@@ -46,12 +46,15 @@ export default function Home() {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 1.05 }}
               transition={{ type: "tween", duration: 0.3, ease: "backOut" }}
-              onClick={() => setInstr(!instr)}
+              onClick={() => {
+                setInstr(!instr);
+                document.getElementById("instructions").scrollIntoView({ behavior: "smooth" });
+              }}
               className="text-neutral-300 lg:text-xl text-lg hover:cursor-pointer"
             >How it works &gt;</motion.button>
           </div>
         </div>
-        <div className="lg:w-[50vw] w-screen h-screen flex flex-col justify-center items-center gap-8">
+        <div id="instructions" className="lg:w-[50vw] w-screen h-screen flex flex-col justify-center items-center gap-8">
           {[
             "Enter a topic that you want to learn about but seems out of reach",
             "Generate prerequisite topics for your chosen topic with the help of AI",
