@@ -16,7 +16,7 @@ export default function Home() {
 
   return (
     <div className="flex lg:flex-row flex-col overflow-x-hidden">
-      <HalfContainer>
+      <div className="lg:w-[50vw] w-screen h-screen flex justify-center items-center">
         <div className="flex flex-col lg:items-start items-center gap-10 lg:text-left text-center">
           <h1 className={"text-black lg:text-8xl text-7xl font-black " + montserrat.className}>EnTree</h1>
           <p className="text-neutral-700 lg:text-2xl text-xl">Your entry into AI-guided learning.<br></br>Generate a visual learning plan about any topic.</p>
@@ -43,23 +43,30 @@ export default function Home() {
             className="text-neutral-600 lg:text-xl text-lg hover:cursor-pointer"
           >How it works &gt;</motion.button>
         </div>
-      </HalfContainer>
-      <HalfContainer>
-        <AnimatePresence>
-          {page > 0 && <motion.div
-            initial={{ left: "75%" }}
-            animate={{ left: "0%" }}
-            exit={{ left: "75%", transition: { type: "tween", duration: 0.7, ease: "backIn" } }}
-            transition={{ type: "tween", duration: 0.7, ease: "backOut" }}
-            className="lg:w-1/2 w-3/4 aspect-square p-4 relative bg-neutral-500 rounded-3xl"
-          >
-          </motion.div>}
-        </AnimatePresence>
-      </HalfContainer>
+      </div>
+      <div className="lg:w-[50vw] w-screen h-screen flex flex-col justify-center items-center gap-8">
+        {[
+          "Enter a topic that you want to learn about but seems out of reach.",
+          "Generate prerequisite topics for your chosen topic with the help of AI.",
+          "Keep generating prerequisites until you reach topics that you already understand.",
+          "Work your way up and learn about progressively more advanced topics, marking them as complete along the way.",
+          "Once you understand your originally chosen topic, start again and learn something new!"
+        ].map((value, index) => {
+          return (
+            <AnimatePresence key={index}>
+              {page > 0 && <motion.div
+                initial={{ left: "80%" }}
+                animate={{ left: index % 2 ? "5%" : "-5%" }}
+                exit={{ left: "80%", transition: { type: "tween", duration: 0.8-0.05*index, ease: "backIn", delay: 0.05*index } }}
+                transition={{ type: "tween", duration: 0.6, ease: "backOut", delay: 0.05*index }}
+                className="lg:max-w-7/12 max-w-3/4 p-4 relative bg-neutral-500 rounded-3xl"
+              >
+                <p className={"text-white lg:text-xl text-lg" + (index % 2 ? " text-right" : " text-left")}>{index+1}. {value}</p>
+              </motion.div>}
+            </AnimatePresence>
+          )
+        })}
+      </div>
     </div>
   )
-}
-
-function HalfContainer({ children }) {
-  return <div className="lg:w-[50vw] w-screen h-screen flex justify-center items-center">{children}</div>
 }
