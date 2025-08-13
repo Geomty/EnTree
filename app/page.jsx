@@ -55,6 +55,9 @@ export default function Home() {
           </div>
         </div>
         <div id="instructions" className="lg:w-[50vw] w-screen h-screen flex flex-col justify-center items-center gap-8">
+          <div className="absolute">
+            {[0, 0, 0].map((value, index, array) => <Container key={index} bool={instr} calc={index - (array.length / 2 - 0.5)} />)}
+          </div>
           {[
             "Enter a topic that you want to learn about but seems out of reach",
             "Generate prerequisite topics for your chosen topic with the help of AI",
@@ -80,5 +83,20 @@ export default function Home() {
         </div>
       </div>
     </>
+  )
+}
+
+function Container({ bool, calc }) {
+  return (
+    <motion.div
+      animate={{ opacity: bool ? 0 : 1 }}
+      transition={bool ?
+        { type: "tween", duration: 0.3, ease: "easeInOut" }
+      :
+        { type: "tween", duration: 0.3, ease: "easeInOut", delay: 0.5 }
+      }
+      style={{ top: `${-calc*2}rem`, left: `${calc*5}rem`, filter: `brightness(${50+calc*10}%)` }}
+      className="relative w-96 aspect-video bg-neutral-500 rounded-3xl"
+    ></motion.div>
   )
 }
