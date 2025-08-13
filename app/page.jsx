@@ -1,14 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { AnimatePresence, motion } from "motion/react";
+import { gsap } from "gsap";
+import { SplitText as GSAPSplitText } from "gsap/SplitText";
 import { FcGoogle } from "react-icons/fc";
 import { montserrat, roboto } from "@/app/lib/fonts";
 import { signInAction } from "@/app/lib/actions";
 import Aurora from "@/app/ui/react-bits/Aurora";
 import TiltedCard from "@/app/ui/react-bits/TiltedCard";
+
+gsap.registerPlugin(GSAPSplitText);
 
 export default function Home() {
   const session = useSession();
@@ -30,13 +34,39 @@ export default function Home() {
       <div className="flex lg:flex-row flex-col overflow-x-hidden">
         <div className="lg:w-[50vw] w-screen h-screen flex justify-center items-center">
           <div className="lg:relative lg:left-20 flex flex-col lg:items-start items-center gap-10 lg:text-left text-center">
-            <h1 className={"text-neutral-200 lg:text-8xl text-7xl font-black " + montserrat.className}>EnTree</h1>
-            <p className="text-neutral-300 lg:text-2xl text-xl lg:max-w-full max-w-3/4">Your entry into AI-guided learning.<br></br>Generate a visual learning plan about any topic in seconds.</p>
+            <SplitText
+              options={{
+                stagger: 0.05,
+                duration: 1,
+                ease: "elastic.out(1.5,0.5)"
+              }}
+              className={"text-neutral-200 lg:text-8xl text-7xl font-black " + montserrat.className}
+            >EnTree</SplitText>
+            <div className="flex flex-col gap-2">
+              {["Your entry into AI-guided learning.", "Generate a visual learning plan about any topic in seconds."].map((value, index) => {
+                return (
+                  <SplitText
+                    key={index}
+                    options={{
+                      stagger: 0.01,
+                      duration: 1,
+                      ease: "elastic.out(1,0.5)"
+                    }}
+                    className="text-neutral-300 lg:text-2xl text-xl lg:max-w-full max-w-3/4"
+                  >{value}</SplitText>
+                )
+              })}
+            </div>
             <form action={signInAction}>
               <motion.button
-                initial={{ backgroundColor: "#262626" }} // neutral-800
+                initial={{ backgroundColor: "#262626", marginTop: "2rem", opacity: 0 }} // neutral-800
+                animate={{ marginTop: "0rem", opacity: 1 }}
                 whileHover={{ backgroundColor: "#404040", boxShadow: "0px 1px 2px 0px #737373" }} // neutral-700, neutral-500
-                transition={{ type: "tween", duration: 0.2, ease: "easeInOut" }}
+                transition={{
+                  marginTop: { type: "tween", duration: 1, ease: "backOut" },
+                  opacity: { type: "tween", duration: 1, ease: "backOut" },
+                  default: { type: "tween", duration: 0.2, ease: "easeInOut" }
+                }}
                 type="submit"
                 className="px-3 py-2 flex items-center gap-3 border border-neutral-500 rounded-full select-none hover:cursor-pointer !transition-none"
               >
@@ -45,9 +75,14 @@ export default function Home() {
               </motion.button>
             </form>
             <motion.button
+              initial={{ marginTop: "1rem", opacity: 0 }}
+              animate={{ marginTop: "0rem", opacity: 1 }}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 1.05 }}
-              transition={{ type: "tween", duration: 0.3, ease: "backOut" }}
+              transition={{
+                scale: { type: "tween", duration: 0.3, ease: "backOut" },
+                default: { type: "tween", duration: 1, ease: "backOut" }
+              }}
               onClick={() => {
                 if (!instr) document.getElementById("instructions").scrollIntoView({ behavior: "smooth" });
                 setInstr(!instr);
@@ -57,9 +92,14 @@ export default function Home() {
           </div>
         </div>
         <div id="instructions" className="lg:w-[50vw] w-screen h-screen flex flex-col justify-center items-center gap-8">
-          <div className="absolute">
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: "tween", duration: 1, ease: "backOut" }}
+            className="absolute"
+          >
             {["1.png", "2.png", "3.png"].map((value, index, array) => <Container key={index} bool={instr} file={value} calc={index - (array.length / 2 - 0.5)} />)}
-          </div>
+          </motion.div>
           {[
             "Enter a topic that you want to learn about but seems out of reach",
             "Generate prerequisite topics for your chosen topic with the help of AI",
@@ -112,5 +152,29 @@ function Container({ bool, file, calc }) {
         showTooltip={false}
       />
     </motion.div>
+  )
+}
+
+function SplitText({ children, options, className }) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(0);
+
+  useEffect(() => {
+    let split = GSAPSplitText.create(ref.current, {
+      autoSplit: true,
+      onSplit: self => {
+        setVisible(1);
+        return gsap.from(self.chars, {
+          y: 20,
+          opacity: 0,
+          ...options,
+        });
+      }
+    });
+    return () => split.revert();
+  }, []);
+
+  return (
+    <p ref={ref} style={{ opacity: visible }} className={className}>{children}</p>
   )
 }
