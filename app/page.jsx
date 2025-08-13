@@ -17,8 +17,9 @@ export default function Home() {
   const [instr, setInstr] = useState(false);
 
   return (
-    <div className="bg-neutral-950">
-      <div style={{ filter: "grayscale(10%) blur(100px)" }} className="w-screen h-screen fixed">
+    <>
+      <div className="w-screen h-screen fixed -z-20 bg-neutral-950"></div>
+      <div style={{ filter: "grayscale(10%) blur(100px)" }} className="w-screen h-screen fixed -z-10">
         <Aurora
           colorStops={["#00a63e", "#efb100", "#2b7fff"]} // green-500, yellow-500, blue-500
           speed={0.5}
@@ -83,7 +84,7 @@ export default function Home() {
           })}
         </div>
       </div>
-    </div>
+    </>
   )
 }
 
