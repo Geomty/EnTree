@@ -16,8 +16,8 @@ export default function Home() {
   const [instr, setInstr] = useState(false);
 
   return (
-    <>
-      <div style={{ filter: "grayscale(10%) blur(100px)" }} className="w-screen h-screen fixed -z-10">
+    <div className="bg-neutral-950">
+      <div style={{ filter: "grayscale(10%) blur(100px)" }} className="w-screen h-screen fixed">
         <Aurora
           colorStops={["#00a63e", "#efb100", "#2b7fff"]} // green-500, yellow-500, blue-500
           speed={0.5}
@@ -82,7 +82,7 @@ export default function Home() {
           })}
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
@@ -96,7 +96,7 @@ function Container({ bool, calc }) {
         { type: "tween", duration: 0.3, ease: "easeInOut", delay: 0.5 }
       }
       style={{ top: `${-calc*2}rem`, left: `${calc*5}rem`, filter: `brightness(${50+calc*10}%)` }}
-      className="relative w-96 aspect-video bg-neutral-500 rounded-3xl"
+      className="relative w-96 aspect-video bg-neutral-100 rounded-3xl"
     ></motion.div>
   )
 }
