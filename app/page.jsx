@@ -8,6 +8,7 @@ import { FcGoogle } from "react-icons/fc";
 import { montserrat, roboto } from "@/app/lib/fonts";
 import { signInAction } from "@/app/lib/actions";
 import Aurora from "@/app/ui/react-bits/Aurora";
+import TiltedCard from "@/app/ui/react-bits/TiltedCard";
 
 export default function Home() {
   const session = useSession();
@@ -56,7 +57,7 @@ export default function Home() {
         </div>
         <div id="instructions" className="lg:w-[50vw] w-screen h-screen flex flex-col justify-center items-center gap-8">
           <div className="absolute">
-            {[0, 0, 0].map((value, index, array) => <Container key={index} bool={instr} calc={index - (array.length / 2 - 0.5)} />)}
+            {["1.png", "2.png", "3.png"].map((value, index, array) => <Container key={index} bool={instr} file={value} calc={index - (array.length / 2 - 0.5)} />)}
           </div>
           {[
             "Enter a topic that you want to learn about but seems out of reach",
@@ -86,7 +87,7 @@ export default function Home() {
   )
 }
 
-function Container({ bool, calc }) {
+function Container({ bool, file, calc }) {
   return (
     <motion.div
       animate={{ opacity: bool ? 0 : 1 }}
@@ -95,8 +96,20 @@ function Container({ bool, calc }) {
       :
         { type: "tween", duration: 0.3, ease: "easeInOut", delay: 0.5 }
       }
-      style={{ top: `${-calc*2}rem`, left: `${calc*5}rem`, filter: `brightness(${50+calc*10}%)` }}
-      className="relative w-96 aspect-video bg-neutral-100 rounded-3xl"
-    ></motion.div>
+      style={{ top: `${-calc*3}rem`, left: `${calc*5}rem`, filter: `brightness(${90+calc*10}%)` }}
+      className="relative"
+    >
+      <TiltedCard
+        imageSrc={file}
+        altText=""
+        containerHeight="270px"
+        containerWidth="480px"
+        imageHeight="540px"
+        imageWidth="960px"
+        scaleOnHover={0.6}
+        showMobileWarning={false}
+        showTooltip={false}
+      />
+    </motion.div>
   )
 }
