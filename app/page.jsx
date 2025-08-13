@@ -47,8 +47,8 @@ export default function Home() {
               whileTap={{ scale: 1.05 }}
               transition={{ type: "tween", duration: 0.3, ease: "backOut" }}
               onClick={() => {
+                if (!instr) document.getElementById("instructions").scrollIntoView({ behavior: "smooth" });
                 setInstr(!instr);
-                document.getElementById("instructions").scrollIntoView({ behavior: "smooth" });
               }}
               className="text-neutral-300 lg:text-xl text-lg hover:cursor-pointer"
             >How it works &gt;</motion.button>
