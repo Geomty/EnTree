@@ -65,9 +65,9 @@ export default function Home() {
             return (
               <AnimatePresence key={index}>
                 {instr && <motion.div
-                  initial={{ left: "80%" }}
-                  animate={{ left: index % 2 ? "5%" : "-5%" }}
-                  exit={{ left: "80%", transition: { type: "tween", duration: 0.8-0.05*index, ease: "backIn", delay: 0.05*index } }}
+                  initial={{ left: "80%", opacity: 0 }}
+                  animate={{ left: index % 2 ? "5%" : "-5%", opacity: 1 }}
+                  exit={{ left: "80%", opacity: 0, transition: { type: "tween", duration: 0.8-0.05*index, ease: "backIn", delay: 0.05*index } }}
                   transition={{ type: "tween", duration: 0.6, ease: "backOut", delay: 0.05*index }}
                   style={{ backgroundColor: "rgba(115, 115, 115, 0.2)" }} // neutral-500
                   className="lg:max-w-7/12 max-w-3/4 px-6 py-4 relative rounded-3xl"
