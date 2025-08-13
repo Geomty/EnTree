@@ -42,7 +42,7 @@ export default function Home() {
               }}
               className={"text-neutral-200 lg:text-8xl text-7xl font-black " + montserrat.className}
             >EnTree</SplitText>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col lg:items-start items-center gap-2">
               {["Your entry into AI-guided learning.", "Generate a visual learning plan about any topic in seconds."].map((value, index) => {
                 return (
                   <SplitText
@@ -52,7 +52,7 @@ export default function Home() {
                       duration: 1,
                       ease: "elastic.out(1,0.5)"
                     }}
-                    className="text-neutral-300 lg:text-2xl text-xl lg:max-w-full max-w-3/4"
+                    className="text-neutral-300 lg:text-2xl text-xl lg:max-w-full max-w-11/12"
                   >{value}</SplitText>
                 )
               })}
