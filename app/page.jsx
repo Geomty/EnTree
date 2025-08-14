@@ -143,10 +143,10 @@ function Container({ bool, file, calc }) {
       <TiltedCard
         imageSrc={file}
         altText=""
-        containerHeight="270px"
-        containerWidth="480px"
-        imageHeight="540px"
-        imageWidth="960px"
+        containerHeight="lg:h-[13.5vw] h-[27vw]"
+        containerWidth="lg:w-[24vw] w-[48vw]"
+        imageHeight=""
+        imageWidth="lg:w-[48vw] w-[96vw]"
         scaleOnHover={0.6}
         showMobileWarning={false}
         showTooltip={false}

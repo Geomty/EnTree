@@ -74,11 +74,7 @@ export default function TiltedCard({
   return (
     <figure
       ref={ref}
-      className="relative w-full h-full [perspective:800px] flex flex-col items-center justify-center"
-      style={{
-        height: containerHeight,
-        width: containerWidth,
-      }}
+      className={"relative [perspective:800px] flex flex-col items-center justify-center " + containerWidth + " " + containerHeight} //
       onMouseMove={handleMouse}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -90,10 +86,8 @@ export default function TiltedCard({
       )}
 
       <motion.div
-        className="relative [transform-style:preserve-3d]"
+        className={"relative [transform-style:preserve-3d] " + imageWidth + " " + imageHeight} //
         style={{
-          width: imageWidth,
-          height: imageHeight,
           rotateX,
           rotateY,
           scale,
@@ -102,11 +96,7 @@ export default function TiltedCard({
         <motion.img
           src={imageSrc}
           alt={altText}
-          className="object-cover rounded-[15px] will-change-transform [transform:translateZ(0)]" //
-          style={{
-            width: imageWidth,
-            height: imageHeight,
-          }}
+          className={"object-cover rounded-[15px] will-change-transform [transform:translateZ(0)] " + imageWidth + " " + imageHeight} //
         />
 
         {displayOverlayContent && overlayContent && (
