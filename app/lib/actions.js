@@ -12,8 +12,8 @@ const users = database.collection("users");
 
 async function handleError(func) {
   let result;
-  const session = await auth();
   try {
+    const session = await auth();
     result = { response: await func(session.user.email) }
   } catch (error) {
     result = { error };

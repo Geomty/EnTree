@@ -3,6 +3,10 @@ import { auth } from "@/auth";
 import Menu from "@/app/ui/menu";
 import { getTrees } from "@/app/lib/actions";
 
+export const metadata = {
+  title: "New Tree"
+}
+
 export default async function Page() {
   const session = await auth();
   if (!session?.user) redirect("/");
