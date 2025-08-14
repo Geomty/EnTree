@@ -52,7 +52,7 @@ export default function Home() {
                       duration: 1,
                       ease: "elastic.out(1,0.5)"
                     }}
-                    className="text-neutral-300 lg:text-2xl text-xl lg:max-w-full max-w-11/12"
+                    className="text-neutral-300 lg:text-2xl text-xl lg:max-w-full max-w-[80vw]"
                   >{value}</SplitText>
                 )
               })}
@@ -168,6 +168,7 @@ function SplitText({ children, options, className }) {
           y: 20,
           opacity: 0,
           ...options,
+          //onComplete: () => self.revert()
         });
       }
     });
