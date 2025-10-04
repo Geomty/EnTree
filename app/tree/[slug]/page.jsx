@@ -8,6 +8,7 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const initial = (await getTree(slug)).response;
   if (initial) return { title: initial.title };
+  else return { title: "404" };
 }
 
 export default async function Page({ params }) {

@@ -1,7 +1,5 @@
 export const metadata = {
-  title: {
-    absolute: "404 – EnTree"
-  }
+  title: "404"
 };
 
 export default function NotFound() {
