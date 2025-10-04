@@ -14,7 +14,7 @@ async function handleError(func) {
   let result;
   try {
     const session = await auth();
-    result = { response: await func(session.user.email) }
+    result = { response: await func(session?.user.email) }
   } catch (error) {
     result = { error };
     console.log(error);
@@ -24,6 +24,12 @@ async function handleError(func) {
 
 export async function signInAction() {
   await signIn("google", { redirectTo: "/tree" });
+}
+
+export async function sendFeedback(prevState, formData) {
+  return await handleError(async () => {
+    return await new Promise(res => setTimeout(res, 2000));
+  });
 }
 
 export async function createTree(prevState, formData) {
@@ -75,9 +81,11 @@ export async function getTrees() {
 
 export async function getTree(treeId) {
   return await handleError(async email => {
-    const result = await trees.findOne({ userId: email, treeId });
-    if (result) return result.tree;
-    else return result;
+    if (email) {
+      const result = await trees.findOne({ userId: email, treeId });
+      if (result) return result.tree;
+      else return result;
+    } else return null;
   });
 }
 
