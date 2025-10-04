@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { AnimatePresence, motion } from "motion/react";
 import { gsap } from "gsap";
@@ -63,9 +64,9 @@ export default function Home() {
                 animate={{ marginTop: "0rem", opacity: 1 }}
                 whileHover={{ backgroundColor: "#404040", boxShadow: "0px 1px 2px 0px #737373" }} // neutral-700, neutral-500
                 transition={{
-                  marginTop: { type: "tween", duration: 1, ease: "backOut" },
-                  opacity: { type: "tween", duration: 1, ease: "backOut" },
-                  default: { type: "tween", duration: 0.2, ease: "easeInOut" }
+                  backgroundColor: { type: "tween", duration: 0.2, ease: "easeInOut" },
+                  boxShadow: { type: "tween", duration: 0.2, ease: "easeInOut" },
+                  default: { type: "tween", duration: 1, ease: "backOut" }
                 }}
                 type="submit"
                 className="px-3 py-2 flex items-center gap-3 border border-neutral-500 rounded-full select-none hover:cursor-pointer !transition-none"
@@ -74,21 +75,31 @@ export default function Home() {
                 <p className={"text-neutral-300 text-md font-medium " + roboto.className}>Sign in with Google</p>
               </motion.button>
             </form>
-            <motion.button
+            <motion.div
               initial={{ marginTop: "1rem", opacity: 0 }}
               animate={{ marginTop: "0rem", opacity: 1 }}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 1.05 }}
-              transition={{
-                scale: { type: "tween", duration: 0.3, ease: "backOut" },
-                default: { type: "tween", duration: 1, ease: "backOut" }
-              }}
-              onClick={() => {
-                if (!instr) document.getElementById("instructions").scrollIntoView({ behavior: "smooth" });
-                setInstr(!instr);
-              }}
-              className="text-neutral-300 lg:text-xl text-lg hover:cursor-pointer"
-            >How it works &gt;</motion.button>
+              transition={{ type: "tween", duration: 1, ease: "backOut" }}
+              className="flex gap-12 lg:text-xl text-lg text-neutral-300"
+            >
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 1.05 }}
+                transition={{ type: "tween", duration: 0.3, ease: "backOut" }}
+                onClick={() => {
+                  if (!instr) document.getElementById("instructions").scrollIntoView({ behavior: "smooth" });
+                  setInstr(!instr);
+                }}
+                className="hover:cursor-pointer"
+              >How it works</motion.button>
+              <Link href="/feedback">
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 1.05 }}
+                  transition={{ type: "tween", duration: 0.3, ease: "backOut" }}
+                  className="hover:cursor-pointer"
+                >Leave feedback</motion.div>
+              </Link>
+            </motion.div>
           </div>
         </div>
         <div id="instructions" className="lg:w-[50vw] w-screen h-screen flex flex-col justify-center items-center gap-8">
