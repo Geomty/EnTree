@@ -106,7 +106,7 @@ export default function Node(props) {
                   whileHover={{ scale: isPending ? 1 : 1.1 }}
                   whileTap={{ scale: isPending ? 1 : 1.05 }}
                   type="submit"
-                  title="Generate children"
+                  title="Generate prerequisites"
                   disabled={isPending}
                   className={"animColor px-[0.3rem] py-[0.2rem] text-[0.5rem] bg-olive-800 !text-white dark:bg-olive-600 dark:!text-black rounded-md" +
                     (isPending ? " opacity-50" : " hover:cursor-pointer")
