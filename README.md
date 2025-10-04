@@ -1,4 +1,4 @@
-# <img src="./app/favicon.ico" />ntree
+# <img src="./app/favicon.ico" />nTree
 Your entry into AI-guided learning. Generate a visual learning plan about any topic in seconds.
 ### How it works
 1. Enter a topic that you want to learn about but seems out of reach
