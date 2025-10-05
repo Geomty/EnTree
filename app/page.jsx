@@ -264,7 +264,7 @@ function FeedbackForm({ setFeedbackOpen }) {
               id="formMessage"
               name="message"
               placeholder="Your message"
-              className={"resize min-w-92 min-h-28 max-w-[70vw] max-h-[60vh] px-2 py-1 bg-olive-700 rounded-md" + (isPending ? " opacity-50" : "")}
+              className={"resize lg:min-w-92 min-w-[70vw] min-h-28 max-w-[70vw] max-h-[50vh] px-2 py-1 bg-olive-700 rounded-md" + (isPending ? " opacity-50" : "")}
             ></textarea>
           </div>
           <div className="w-full flex justify-end">
