@@ -225,7 +225,7 @@ function FeedbackForm({ setFeedbackOpen }) {
       transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
       className="w-screen h-screen fixed z-10"
     >
-      <div onClick={() => setFeedbackOpen(false)} className="w-full h-full bg-black opacity-30"></div>
+      <div onClick={() => {if (!isPending) setFeedbackOpen(false)}} className="w-full h-full bg-black opacity-30"></div>
       <motion.div
         initial={{ top: "48%" }}
         animate={{ top: "50%" }}
@@ -288,9 +288,9 @@ function FeedbackForm({ setFeedbackOpen }) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
-          className="absolute left-1/2 -translate-x-1/2 bottom-8 z-10 px-3 py-2 flex justify-center items-center gap-3 rounded-full bg-olive-900"
+          className="lg:w-auto w-[80vw] absolute left-1/2 -translate-x-1/2 bottom-8 z-10 px-3 py-2 flex justify-center items-center gap-3 rounded-full bg-olive-900"
         >
-          <p className="text-lg text-neutral-200 select-none">Thank you, your feedback is greatly appreciated!</p>
+          <p className="text-lg text-neutral-200 text-center select-none">Thank you, your feedback is greatly appreciated!</p>
         </motion.div>
       )}</AnimatePresence>
     </motion.div>
