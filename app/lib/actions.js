@@ -28,7 +28,23 @@ export async function signInAction() {
 
 export async function sendFeedback(prevState, formData) {
   return await handleError(async () => {
-    return await new Promise(res => setTimeout(res, 2000));
+    const res = await fetch(process.env.FORMCARRY_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify({
+        "Name": formData.get("name"),
+        "Message": formData.get("message")
+      })
+    });
+    const data = await res.json();
+    if (data.code == 200) {
+      return "Success";
+    } else {
+      throw new Error(data.message);
+    }
   });
 }
 
