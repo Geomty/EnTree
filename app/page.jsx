@@ -23,6 +23,12 @@ export default function Home() {
   const [instr, setInstr] = useState(false);
   const [feedbackOpen, setFeedbackOpen] = useState(false);
 
+  useEffect(() => {
+    if (window.location.hash == "#feedback") {
+      setTimeout(() => setFeedbackOpen(true), 500);
+    }
+  }, []);
+
   return (
     <>
       <div className="w-screen h-screen fixed -z-20 bg-neutral-950"></div>
@@ -99,7 +105,10 @@ export default function Home() {
                 whileTap={{ scale: 1.05 }}
                 transition={{ type: "tween", duration: 0.3, ease: "backOut" }}
                 className="hover:cursor-pointer"
-                onClick={() => setFeedbackOpen(true)}
+                onClick={() => {
+                  setFeedbackOpen(true);
+                  window.history.replaceState(null, "", "#feedback");
+                }}
               >Leave feedback</motion.button>
             </motion.div>
           </div>
@@ -225,7 +234,15 @@ function FeedbackForm({ setFeedbackOpen }) {
       transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
       className="w-screen h-screen fixed z-10"
     >
-      <div onClick={() => {if (!isPending) setFeedbackOpen(false)}} className="w-full h-full bg-black opacity-30"></div>
+      <div
+        onClick={() => {
+          if (!isPending) {
+            setFeedbackOpen(false);
+            window.history.replaceState(null, "", "/");
+          }
+        }}
+        className="w-full h-full bg-black opacity-30"
+      ></div>
       <motion.div
         initial={{ top: "48%" }}
         animate={{ top: "50%" }}
@@ -240,7 +257,10 @@ function FeedbackForm({ setFeedbackOpen }) {
             disabled={isPending}
             title="Back"
             className={isPending ? "opacity-50" : "hover:cursor-pointer"}
-            onClick={() => setFeedbackOpen(false)}
+            onClick={() => {
+              setFeedbackOpen(false);
+              window.history.replaceState(null, "", "/");
+            }}
           >
             <HiArrowSmallLeft className="size-10 fill-banana-500" />
           </motion.button>
