@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { auth } from "@/auth";
-import Menu from "@/app/ui/menu";
+import MenuContainer from "@/app/ui/menu";
 import Flow from "@/app/ui/flow";
 import { getTrees, getTree } from "@/app/lib/actions";
 
@@ -22,7 +22,7 @@ export default async function Page({ params }) {
 
   return (
     <>
-      <Menu titles={titles} slug={slug} />
+      <MenuContainer titles={titles} slug={slug} />
       <Flow initial={initial} slug={slug} />
     </>
   )

@@ -1,16 +1,14 @@
 "use client";
 
-import { useActionState, useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { AnimatePresence, motion } from "motion/react";
 import { gsap } from "gsap";
 import { SplitText as GSAPSplitText } from "gsap/SplitText";
 import { FcGoogle } from "react-icons/fc";
-import { HiArrowSmallLeft } from "react-icons/hi2";
 import { montserrat, roboto } from "@/app/lib/fonts";
-import { signInAction, sendFeedback } from "@/app/lib/actions";
-import ErrorToast from "@/app/ui/error-toast";
+import { signInAction } from "@/app/lib/actions";
 import Aurora from "@/app/ui/react-bits/Aurora";
 import TiltedCard from "@/app/ui/react-bits/TiltedCard";
 
@@ -21,13 +19,6 @@ export default function Home() {
   if (session.status == "authenticated") redirect("/tree");
 
   const [instr, setInstr] = useState(false);
-  const [feedbackOpen, setFeedbackOpen] = useState(false);
-
-  useEffect(() => {
-    if (window.location.hash == "#feedback") {
-      setTimeout(() => setFeedbackOpen(true), 500);
-    }
-  }, []);
 
   return (
     <>
@@ -40,7 +31,6 @@ export default function Home() {
           amplitude={0.1}
         />
       </div>
-      <AnimatePresence>{feedbackOpen && <FeedbackForm setFeedbackOpen={setFeedbackOpen} />}</AnimatePresence>
       <div className="flex lg:flex-row flex-col overflow-x-hidden">
         <div className="lg:w-[50vw] w-screen h-screen flex justify-center items-center">
           <div className="lg:relative lg:left-20 flex flex-col lg:items-start items-center gap-10 lg:text-left text-center">
@@ -84,33 +74,22 @@ export default function Home() {
                 <p className={"text-neutral-300 text-md font-medium " + roboto.className}>Sign in with Google</p>
               </motion.button>
             </form>
-            <motion.div
+            <motion.button
               initial={{ marginTop: "1rem", opacity: 0 }}
               animate={{ marginTop: "0rem", opacity: 1 }}
-              transition={{ type: "tween", duration: 1, ease: "backOut" }}
-              className="flex gap-12 lg:text-xl text-lg text-neutral-300"
-            >
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 1.05 }}
-                transition={{ type: "tween", duration: 0.3, ease: "backOut" }}
-                onClick={() => {
-                  if (!instr) document.getElementById("instructions").scrollIntoView({ behavior: "smooth" });
-                  setInstr(!instr);
-                }}
-                className="hover:cursor-pointer"
-              >How it works</motion.button>
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 1.05 }}
-                transition={{ type: "tween", duration: 0.3, ease: "backOut" }}
-                className="hover:cursor-pointer"
-                onClick={() => {
-                  setFeedbackOpen(true);
-                  window.history.replaceState(null, "", "#feedback");
-                }}
-              >Leave feedback</motion.button>
-            </motion.div>
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 1.05 }}
+              transition={{
+                scale: { type: "tween", duration: 0.3, ease: "backOut" },
+                default: { type: "tween", duration: 1, ease: "backOut" }
+              }}
+              title="How it works"
+              onClick={() => {
+                if (!instr) document.getElementById("instructions").scrollIntoView({ behavior: "smooth" });
+                setInstr(!instr);
+              }}
+              className="text-neutral-300 lg:text-xl text-lg hover:cursor-pointer"
+            >How it works &gt;</motion.button>
           </div>
         </div>
         <div id="instructions" className="lg:w-[50vw] w-screen h-screen flex flex-col justify-center items-center gap-8">
@@ -199,120 +178,5 @@ function SplitText({ children, options, className }) {
 
   return (
     <p ref={ref} style={{ opacity: visible }} className={className}>{children}</p>
-  )
-}
-
-function FeedbackForm({ setFeedbackOpen }) {
-  const [error, setError] = useState(false);
-  const showError = useCallback(err => {
-    setError(err);
-    setTimeout(() => setError(false), 5000);
-  }, []);
-
-  const [confirm, setConfirm] = useState(false);
-  const showConfirm = useCallback(() => {
-    setConfirm(true);
-    setTimeout(() => setConfirm(false), 5000);
-  }, []);
-
-  const [result, formAction, isPending] = useActionState(sendFeedback, null);
-  useEffect(() => {
-    if (result) {
-      if (result.error) {
-        showError(result.error);
-      } else {
-        showConfirm();
-      }
-    }
-  }, [result]);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
-      className="w-screen h-screen fixed z-10"
-    >
-      <div
-        onClick={() => {
-          if (!isPending) {
-            setFeedbackOpen(false);
-            window.history.replaceState(null, "", "/");
-          }
-        }}
-        className="w-full h-full bg-black opacity-30"
-      ></div>
-      <motion.div
-        initial={{ top: "48%" }}
-        animate={{ top: "50%" }}
-        exit={{ top: "48%" }}
-        transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
-        className="p-10 absolute left-1/2 -translate-1/2 flex flex-col items-center gap-12 bg-olive-900 rounded-[3rem]"
-      >
-        <div className="w-full flex justify-between items-center text-2xl text-neutral-200">
-          <motion.button
-            whileHover={{ scale: isPending ? 1 : 1.3 }}
-            whileTap={{ scale: isPending ? 1 : 1.1 }}
-            disabled={isPending}
-            title="Back"
-            className={isPending ? "opacity-50" : "hover:cursor-pointer"}
-            onClick={() => {
-              setFeedbackOpen(false);
-              window.history.replaceState(null, "", "/");
-            }}
-          >
-            <HiArrowSmallLeft className="size-10 fill-banana-500" />
-          </motion.button>
-          <p className="select-none">Feedback Form</p>
-          <div className="size-10"></div>
-        </div>
-        <form action={formAction} className="flex flex-col gap-12 text-xl text-neutral-300">
-          <div className="flex flex-col items-center gap-8">
-            <input
-              required
-              disabled={isPending}
-              id="formName"
-              name="name"
-              type="text"
-              placeholder="Your name"
-              className={"w-full px-2 py-1 bg-olive-700 rounded-md" + (isPending ? " opacity-50" : "")}
-            />
-            <textarea
-              required
-              disabled={isPending}
-              id="formMessage"
-              name="message"
-              placeholder="Your message"
-              className={"resize lg:min-w-92 min-w-[70vw] min-h-28 max-w-[70vw] max-h-[50vh] px-2 py-1 bg-olive-700 rounded-md" + (isPending ? " opacity-50" : "")}
-            ></textarea>
-          </div>
-          <div className="w-full flex justify-end">
-            <motion.button
-              whileHover={{ scale: isPending ? 1 : 1.1 }}
-              whileTap={{ scale: isPending ? 1 : 1.05 }}
-              type="submit"
-              disabled={isPending}
-              title="Send feedback"
-              className={"px-3 py-1 bg-slate-600 rounded-xl select-none" +
-                (isPending ? " opacity-50" : " hover:cursor-pointer")
-              }
-            >Send feedback</motion.button>
-          </div>
-        </form>
-      </motion.div>
-      <AnimatePresence>{error && <ErrorToast error={error} alwaysDark={true} />}</AnimatePresence>
-      <AnimatePresence>{confirm && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
-          className="lg:w-auto w-[80vw] absolute left-1/2 -translate-x-1/2 bottom-8 z-10 px-3 py-2 flex justify-center items-center gap-3 rounded-full bg-olive-900"
-        >
-          <p className="text-lg text-neutral-200 text-center select-none">Thank you, your feedback is greatly appreciated!</p>
-        </motion.div>
-      )}</AnimatePresence>
-    </motion.div>
   )
 }

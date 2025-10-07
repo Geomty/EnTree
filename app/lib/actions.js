@@ -36,6 +36,7 @@ export async function sendFeedback(prevState, formData) {
       },
       body: JSON.stringify({
         "Name": formData.get("name"),
+        "Email": formData.get("email"),
         "Message": formData.get("message")
       })
     });

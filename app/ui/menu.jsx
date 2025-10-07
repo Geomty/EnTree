@@ -4,12 +4,25 @@ import { useActionState, useCallback, useEffect, useRef, useState } from "react"
 import { redirect } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import { AnimatePresence, motion } from "motion/react";
+import { MdFeedback } from "react-icons/md";
 import { HiArrowLeftOnRectangle, HiOutlineTrash, HiPlus } from "react-icons/hi2";
 import ThemeToggle from "@/app/ui/theme-toggle";
+import FeedbackForm from "@/app/ui/feedback-form";
 import ErrorToast from "@/app/ui/error-toast";
 import { createTree, deleteTree } from "@/app/lib/actions";
 
-export default function Menu({ titles = [], slug, opened = false }) {
+export default function MenuContainer(props) {
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
+
+  return (
+    <>
+      <AnimatePresence>{feedbackOpen && <FeedbackForm setFeedbackOpen={setFeedbackOpen} />}</AnimatePresence>
+      <Menu {...props} setFeedbackOpen={setFeedbackOpen} />
+    </>
+  )
+}
+
+export function Menu({ titles = [], slug, opened = false, setFeedbackOpen }) {
   const session = useSession();
 
   const [titlesArr, setTitlesArr] = useState(titles);
@@ -90,17 +103,30 @@ export default function Menu({ titles = [], slug, opened = false }) {
         >
           <div className="w-full flex justify-between items-center pr-16">
             <ThemeToggle />
-            <motion.button
-              initial={{ transform: "scale(1)" }}
-              whileHover={{ transform: "scale(1.3)" }}
-              whileTap={{ transform: "scale(1.1)" }}
-              transition={{ type: "tween", duration: 0.3, ease: "backOut" }}
-              title="Sign out"
-              onClick={() => signOut({ redirectTo: "/" })}
-              className="size-8 hover:cursor-pointer"
-            >
-              <HiArrowLeftOnRectangle className="size-full fill-banana-800 dark:fill-banana-500" />
-            </motion.button>
+            <div className="flex gap-4 justify-center items-end">
+              <motion.button
+                initial={{ transform: "scale(1)" }}
+                whileHover={{ transform: "scale(1.3)" }}
+                whileTap={{ transform: "scale(1.1)" }}
+                transition={{ type: "tween", duration: 0.3, ease: "backOut" }}
+                title="Leave feedback"
+                onClick={() => setFeedbackOpen(true)}
+                className="size-7 hover:cursor-pointer"
+              >
+                <MdFeedback className="size-full fill-banana-800 dark:fill-banana-500" />
+              </motion.button>
+              <motion.button
+                initial={{ transform: "scale(1)" }}
+                whileHover={{ transform: "scale(1.3)" }}
+                whileTap={{ transform: "scale(1.1)" }}
+                transition={{ type: "tween", duration: 0.3, ease: "backOut" }}
+                title="Sign out"
+                onClick={() => signOut({ redirectTo: "/" })}
+                className="size-8 hover:cursor-pointer"
+              >
+                <HiArrowLeftOnRectangle className="size-full fill-banana-800 dark:fill-banana-500" />
+              </motion.button>
+            </div>
           </div>
           <div className="p-1 w-full max-h-48 overflow-x-hidden overflow-y-auto flex flex-col gap-4">
             {titlesArr.length ?
