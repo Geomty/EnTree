@@ -104,7 +104,7 @@ export default function FeedbackForm({ setFeedbackOpen }) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
-          className="lg:w-auto w-[80vw] absolute left-1/2 -translate-x-1/2 bottom-8 z-50 px-3 py-2 flex justify-center items-center gap-3 rounded-full bg-olive-300 dark:bg-olive-700"
+          className="lg:w-auto w-[80vw] absolute left-1/2 -translate-x-1/2 bottom-8 z-50 px-3 py-2 flex justify-center items-center gap-3 rounded-full bg-olive-800 dark:bg-olive-600"
         >
           <p className="animColor text-lg text-center !text-neutral-200 dark:!text-black select-none">Thank you, your feedback is greatly appreciated!</p>
         </motion.div>
