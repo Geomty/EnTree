@@ -23,8 +23,8 @@ export default function Node(props) {
     }
   }, [active]);
 
-  const updateFlow = useCallback(() => {
-    toggleActive(1);
+  const updateFlow = useCallback(n => {
+    if (n != 1) toggleActive(1);
     if (reset[0]) tree.current.organize();
     const result = tree.current.toFlow();
     reactFlow.setNodes(result.nodes);
@@ -40,10 +40,11 @@ export default function Node(props) {
   }, [tree, props.data.complete]);
 
   const deleteNode = useCallback(() => {
+    toggleActive(1);
     let arr = props.id.split("_");
     let i = arr.pop();
     tree.current.findChild(arr.join("_")).children.splice(i, 1);
-    updateFlow();
+    setTimeout(() => updateFlow(1), 1000);
   }, [tree, updateFlow]);
 
   const [result, formAction, isPending] = useActionState(generateChildren, null);
@@ -151,7 +152,7 @@ function Title({ children, onClick, id, complete }) {
   const titleRef = useRef(null);
   useEffect(() => {
     let i = 4;
-    while (titleRef.current.clientHeight > 144 && i > 0) {
+    while (titleRef.current.clientHeight > 143 && i > 0) {
       // its the only way :(
       switch (i) {
         // case 5:
